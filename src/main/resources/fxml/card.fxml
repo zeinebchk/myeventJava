@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="314.0" prefWidth="255.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.myevent.controllers.CardController">
+   <children>
+      <VBox layoutX="80.0" layoutY="38.0" prefHeight="302.0" prefWidth="261.0" AnchorPane.bottomAnchor="61.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <ImageView fx:id="imageOffre" fitHeight="183.0" fitWidth="260.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../images/1555513509_9886_220917414-m.jpg" />
+               </image>
+            </ImageView>
+            <HBox alignment="CENTER_LEFT" prefHeight="22.0" prefWidth="261.0">
+               <children>
+                  <Label fx:id="addresse" text="av9 skanes">
+                     <font>
+                        <Font name="Cambria" size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="37.0" prefWidth="261.0">
+               <children>
+                  <Label fx:id="titre" text="Salle Chahrazed">
+                     <font>
+                        <Font name="Cambria" size="20.0" />
+                     </font>
+                     <opaqueInsets>
+                        <Insets left="10.0" />
+                     </opaqueInsets>
+                  </Label>
+               </children>
+               <opaqueInsets>
+                  <Insets left="10.0" top="10.0" />
+               </opaqueInsets>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="18.0" prefWidth="261.0">
+               <children>
+                  <Label fx:id="prix" prefHeight="33.0" prefWidth="206.0" text="A partir de 500 DT">
+                     <padding>
+                        <Insets left="12.0" />
+                     </padding>
+                  </Label>
+                  <Label fx:id="invites" text="500" />
+                  <ImageView fx:id="group" fitHeight="27.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/group.png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                  </ImageView>
+               </children>
+            </HBox>
+            <HBox prefHeight="69.0" prefWidth="200.0" />
+         </children>
+      </VBox>
+      <HBox layoutY="244.0" prefHeight="67.0" prefWidth="261.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#verifierDispo" prefHeight="37.0" prefWidth="171.0" style="-fx-background-color: FFD0D0;" text="Verifier la disponibilite">
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+               <HBox.margin>
+                  <Insets left="10.0" right="10.0" top="10.0" />
+               </HBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#afficherDetailOffre" prefHeight="37.0" prefWidth="128.0" style="-fx-background-color: F5DAD2;" text="Voir détail">
+               <HBox.margin>
+                  <Insets right="5.0" top="10.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

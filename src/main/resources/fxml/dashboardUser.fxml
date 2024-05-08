@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="588.0" prefWidth="849.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.myevent.controllers.DashboardUserController">
+   <children>
+      <Accordion layoutX="135.0" layoutY="29.0" />
+      <Accordion layoutX="149.0" layoutY="134.0" />
+      <Pane fx:id="filtragePanel" layoutX="16.0" layoutY="134.0" prefHeight="435.0" prefWidth="258.0" style="-fx-border-color: #2D9596; -fx-background-radius: 30;">
+         <children>
+            <ComboBox fx:id="gouvs" layoutX="98.0" layoutY="66.0" prefWidth="150.0" />
+            <ChoiceBox fx:id="villes" layoutX="98.0" layoutY="107.0" prefWidth="150.0" />
+            <DatePicker fx:id="dateReservation" layoutX="84.0" layoutY="151.0" prefHeight="25.0" prefWidth="160.0" />
+            <Slider fx:id="minBudget" blockIncrement="200.0" layoutX="5.0" layoutY="261.0" max="10000.0" prefHeight="49.0" prefWidth="238.0" showTickLabels="true" style="-fx-color: #f5576c;" />
+            <Slider fx:id="maxBudget" layoutX="5.0" layoutY="330.0" max="10000.0" prefHeight="44.0" prefWidth="238.0" showTickLabels="true" style="-fx-color: #f5576c;" value="10000.0" />
+            <TextField fx:id="nbInvites" layoutX="22.0" layoutY="199.0" promptText="nombre des invités" />
+            <Label layoutX="21.0" layoutY="154.0" text="Le">
+               <font>
+                  <Font name="Cambria" size="15.0" />
+               </font></Label>
+            <Button layoutX="106.0" layoutY="387.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="103.0" style="-fx-background-color: #f5576c; -fx-background-radius: 100;" text="Filtrer" textFill="WHITE">
+               <font>
+                  <Font name="Cambria" size="15.0" />
+               </font></Button>
+            <ImageView fx:id="filter2" fitHeight="18.0" fitWidth="22.0" layoutX="565.0" layoutY="80.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/filter.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="13.0" layoutY="310.0" text="budget maximum">
+               <font>
+                  <Font name="Cambria" size="15.0" />
+               </font>
+            </Label>
+            <Label layoutX="14.0" layoutY="241.0" text="budget minimum">
+               <font>
+                  <Font name="Cambria" size="15.0" />
+               </font>
+            </Label>
+            <Button layoutX="5.0" layoutY="387.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="86.0" style="-fx-background-color: #fff; -fx-background-radius: 100;" text="Annuler" textFill="#f5576c">
+               <font>
+                  <Font name="Cambria" size="15.0" />
+               </font>
+            </Button>
+            <HBox alignment="CENTER" prefHeight="49.0" prefWidth="258.0" style="-fx-background-color: #f5576c;">
+               <children>
+                  <Label text="Filtrage">
+                     <font>
+                        <Font name="Cambria" size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <Label layoutX="16.0" layoutY="71.0" text="Gouvernerat" />
+            <Label layoutX="16.0" layoutY="112.0" text="Ville" />
+         </children>
+      </Pane>
+      <HBox alignment="CENTER" layoutX="16.0" layoutY="84.0" prefHeight="44.0" prefWidth="258.0" styleClass="search-box" stylesheets="@../css/loginDesign.css">
+         <children>
+            <ImageView fx:id="search" fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../images/search.png" />
+               </image>
+               <HBox.margin>
+                  <Insets left="7.0" />
+               </HBox.margin>
+            </ImageView>
+            <TextField prefHeight="27.0" prefWidth="141.0" promptText="recherche" styleClass="transparent" stylesheets="@../css/loginDesign.css">
+               <font>
+                  <Font name="Cambria" size="15.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="20.0" />
+               </HBox.margin>
+            </TextField>
+            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="30.0" prefWidth="78.0" styleClass="search-button" stylesheets="@../css/loginDesign.css" text="chercher" textAlignment="CENTER">
+               <padding>
+                  <Insets right="20.0" />
+               </padding>
+               <HBox.margin>
+                  <Insets right="10.0" />
+               </HBox.margin>
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Button>
+         </children>
+      </HBox>
+      <ScrollPane fx:id="scroll" layoutX="278.0" layoutY="133.0" prefHeight="455.0" prefWidth="569.0">
+         <content>
+            <GridPane fx:id="grid" prefHeight="133.0" prefWidth="107.0">
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" />
+               </rowConstraints>
+            </GridPane>
+         </content>
+      </ScrollPane>
+   </children>
+</AnchorPane>
