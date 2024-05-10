@@ -4,14 +4,18 @@ import com.example.myevent.entities.Evennement;
 import com.example.myevent.entities.SalleFete;
 import com.example.myevent.entities.UserSession;
 import com.example.myevent.tools.Connexion;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -106,5 +110,14 @@ public class PopupEventsExistantsController implements Initializable {
     }
     public void setOffre(SalleFete f){
         offre.setText(String.valueOf(f.getId()));
+    }
+    @FXML
+    void afficherFormEvent(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/eventForm.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.show();
     }
 }

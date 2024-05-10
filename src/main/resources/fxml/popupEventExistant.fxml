@@ -31,7 +31,7 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                   </GridPane>
-                  <Button layoutX="14.0" layoutY="202.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="233.0" style="-fx-background-color: #f5576c;" text="Non,c'est une nouvelle demande">
+                  <Button layoutX="14.0" layoutY="202.0" mnemonicParsing="false" onAction="#afficherFormEvent" prefHeight="35.0" prefWidth="233.0" style="-fx-background-color: #f5576c;" text="Non,c'est une nouvelle demande">
                      <font>
                         <Font name="Cambria" size="15.0" />
                      </font>
