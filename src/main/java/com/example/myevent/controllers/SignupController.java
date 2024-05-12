@@ -416,7 +416,7 @@ public class SignupController implements Initializable {
               stmt.setString(6, img);
               stmt.setString(7, encrypted);
               int result = stmt.executeUpdate();
-          if (result > 0) {
+          if (result > 0){
               ResultSet rs = stmt.getGeneratedKeys();
               if (rs.next()) {
                    userId = rs.getLong(1);}}
