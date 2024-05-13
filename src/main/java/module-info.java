@@ -8,6 +8,7 @@ module com.example.myevent {
     requires java.desktop;
     exports com.example.myevent.controllers to javafx.fxml;
     opens com.example.myevent.controllers to javafx.fxml;
+    opens com.example.myevent.entities to javafx.base;
     opens com.example.myevent to javafx.fxml;
     exports com.example.myevent;
 }

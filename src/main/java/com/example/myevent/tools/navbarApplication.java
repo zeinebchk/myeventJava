@@ -9,7 +9,7 @@ import java.io.IOException;
 public class navbarApplication extends Application{
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(navbarApplication.class.getResource("navbar.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(navbarApplication.class.getResource("/fxml/navbar.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 900, 100);
         stage.setTitle("Hello!");
         stage.setScene(scene);

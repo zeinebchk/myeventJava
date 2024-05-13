@@ -10,7 +10,7 @@ import java.io.IOException;
 public class tashbordApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(tashbordApplication.class.getResource("tashbord.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(tashbordApplication.class.getResource("/fxml/tashbord.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 200, 400);
         stage.setTitle("Hello!");
         stage.setScene(scene);

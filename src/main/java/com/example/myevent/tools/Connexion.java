@@ -4,7 +4,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Connexion {
-    private String url="jdbc:mysql://localhost:3306/events";
+    private String url="jdbc:mysql://localhost:3306/event.com";
     private String login="root";
 
     private String pwd="";
