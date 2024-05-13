@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="536.0" prefWidth="673.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.myevent.controllers.DetailOffreController">
+<AnchorPane prefHeight="536.0" prefWidth="673.0"  xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.myevent.controllers.DetailOffreController">
    <children>
       <ScrollPane prefHeight="642.0" prefWidth="679.0">
         <content>

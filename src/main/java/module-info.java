@@ -5,7 +5,6 @@ module com.example.myevent {
     requires com.dlsc.formsfx;
     requires mysql.connector.j;
     requires AnimateFX;
-    requires jBCrypt;
     requires java.desktop;
     exports com.example.myevent.controllers to javafx.fxml;
     opens com.example.myevent.controllers to javafx.fxml;

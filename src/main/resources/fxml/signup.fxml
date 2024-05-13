@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="542.0" prefWidth="719.0" style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.myevent.controllers.SignupController">
+<AnchorPane prefHeight="542.0" prefWidth="719.0" style="-fx-background-color: #fff;" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.myevent.controllers.SignupController">
    <children>
       <Label fx:id="ins" layoutX="14.0" layoutY="34.0" style="-fx-border-color: #f5576c; -fx-border-width: 0 0 0 5px; -fx-padding: 0 0 0 5px;" text="Créez votre compte">
          <font>

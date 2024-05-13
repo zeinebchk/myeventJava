@@ -17,6 +17,8 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
+import static java.sql.Time.valueOf;
+
 public class EventFormController implements Initializable {
     @FXML
     private TextField adresse;
@@ -94,7 +96,7 @@ public class EventFormController implements Initializable {
     }
     public static boolean isValidTime(String timeString) {
         try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
             LocalTime time = LocalTime.parse(timeString, formatter);
             return true;
         } catch (Exception e) {
@@ -112,7 +114,7 @@ public class EventFormController implements Initializable {
             errorHD.setText("l'heure de debut est obligatoire");
         }
         else if(!isValidTime(heureDebut.getText())){
-            errorHD.setText("l'heure doit etre sous format hh:mm");
+            errorHD.setText("l'heure doit etre sous format hh:mm:ss");
         }
         else {
             errorHD.setText(""); // Efface le message d'erreur s'il y en avait un
@@ -121,7 +123,7 @@ public class EventFormController implements Initializable {
             erreurHF.setText("l'heure de fin est obligatoire");
         }
         else if(!isValidTime(heureFin.getText())){
-            erreurHF.setText("l'heure doit etre sous format hh:mm");
+            erreurHF.setText("l'heure doit etre sous format hh:mm:ss");
         }else {
             erreurHF.setText(""); // Efface le message d'erreur s'il y en avait un
         }
@@ -141,8 +143,8 @@ public class EventFormController implements Initializable {
             PreparedStatement stmt2 = con.prepareStatement(req2);
             stmt2.setString(1, titre.getText());
             stmt2.setDate(2, Date.valueOf(date.getValue()));
-            stmt2.setTime(3, Time.valueOf(heureDebut.getText()));
-            stmt2.setTime(4,Time.valueOf(heureDebut.getText()));
+            stmt2.setTime(3, valueOf(heureDebut.getText()));
+            stmt2.setTime(4, valueOf(heureDebut.getText()));
             stmt2.setInt(5, Integer.parseInt(invites.getText()));
             stmt2.setString(6,gouvs.getValue());
             stmt2.setString(7,villes.getValue());

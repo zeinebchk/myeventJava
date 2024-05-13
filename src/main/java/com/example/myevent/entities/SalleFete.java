@@ -10,16 +10,12 @@ public class SalleFete extends Offre {
     private String gouvernerat;
     private String ville;
     private String adresseExacte;
-
-    private BigDecimal latitude;
-    private BigDecimal longitude;
+    private double latitude; // Ajoutez le champ latitude
+    private double longitude; // Ajoutez le champ longitude
     private String optionInclus;
 
-   public SalleFete(){}
-    public SalleFete(Entrepreneur entrepreneur_id, String titre, String description, Double prixInitial, Double prixRemise,
-                     Date dateFinRemise, int surface, int capacitePersonne, String gouvernerat, String ville,
-                     String adresseExacte, BigDecimal latitude, BigDecimal longitude, String optionInclus) {
-        super(entrepreneur_id, titre, description, prixInitial, prixRemise, dateFinRemise);
+    public SalleFete(int surface, int capacitePersonne, String gouvernerat, String ville, String adresseExacte, String optionInclus) {
+        super();
         this.surface = surface;
         this.capacitePersonne = capacitePersonne;
         this.gouvernerat = gouvernerat;
@@ -30,98 +26,63 @@ public class SalleFete extends Offre {
         this.optionInclus = optionInclus;
     }
 
+    public SalleFete() {
+
+    }
+
+    // Getters et setters pour les attributs
     public int getSurface() {
         return surface;
     }
-
-
-    public int getCapacitePersonne() {
-        return capacitePersonne;
-    }
-
-
-    public String getGouvernerat() {
-        return gouvernerat;
-    }
-
-
-    public String getVille() {
-        return ville;
-    }
-
-
-    public String getAdresseExacte() {
-        return adresseExacte;
-    }
-
-
-
-
-    public BigDecimal getLatitude() {
-        return latitude;
-    }
-
-
-    public BigDecimal getLongitude() {
-        return longitude;
-    }
-
-
-    public String getOptionInclus() {
-        return optionInclus;
-    }
-
 
     public void setSurface(int surface) {
         this.surface = surface;
     }
 
+    public int getCapacitePersonne() {
+        return capacitePersonne;
+    }
 
     public void setCapacitePersonne(int capacitePersonne) {
         this.capacitePersonne = capacitePersonne;
     }
 
+    public String getGouvernerat() {
+        return gouvernerat;
+    }
 
     public void setGouvernerat(String gouvernerat) {
         this.gouvernerat = gouvernerat;
     }
 
+    public String getVille() {
+        return ville;
+    }
 
     public void setVille(String ville) {
         this.ville = ville;
     }
 
+    public String getAdresseExacte() {
+        return adresseExacte;
+    }
 
     public void setAdresseExacte(String adresseExacte) {
         this.adresseExacte = adresseExacte;
     }
-
-
-    public void setLatitude(BigDecimal latitude) {
-        this.latitude = latitude;
+    public double getLatitude() {
+        return latitude;
     }
 
-
-    public void setLongitude(BigDecimal longitude) {
-        this.longitude = longitude;
+    public double getLongitude() {
+        return longitude;
     }
 
+    public String getOptionInclus() {
+        return optionInclus;
+    }
 
     public void setOptionInclus(String optionInclus) {
         this.optionInclus = optionInclus;
     }
-    @Override
-    public String toString() {
-        return "SalleFete [surface=" + surface + ", capacitePersonne=" + capacitePersonne + ", gouvernerat="
-                + gouvernerat + ", ville=" + ville + ", adresseExacte=" + adresseExacte + ", latitude=" + latitude
-                + ", longitude=" + longitude + ", optionInclus=" + optionInclus + "]";
-    }
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        SalleFete salleFete = (SalleFete) o;
-        return Objects.equals(this.getTitre(), salleFete.getTitre());
-    }
-
 }

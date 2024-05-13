@@ -22,8 +22,7 @@ public class HelloApplication extends Application {
         if (connexion.getCnx() != null) {
             System.out.println("Connexion réussie !");
         } else {
-            System.out.println("La connexion a échoué.");
-        }
+            System.out.println("La connexion a échoué.");        }
         launch();
     }
 }

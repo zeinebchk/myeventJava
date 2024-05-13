@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 
 
-<AnchorPane prefHeight="541.0" prefWidth="660.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.myevent.controllers.EventFormController">
+<AnchorPane prefHeight="541.0" prefWidth="660.0"  xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.myevent.controllers.EventFormController">
    <children>
       <Label layoutX="57.0" layoutY="35.0" text="Indiquez-nous les modalités de votre événement">
          <font>
