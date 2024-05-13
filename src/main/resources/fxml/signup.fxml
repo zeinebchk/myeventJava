@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="542.0" prefWidth="719.0" style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.myevent.controllers.SignupController">
+<AnchorPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.myevent.controllers.SignupController">
    <children>
       <Label fx:id="ins" layoutX="14.0" layoutY="34.0" style="-fx-border-color: #f5576c; -fx-border-width: 0 0 0 5px; -fx-padding: 0 0 0 5px;" text="Créez votre compte">
          <font>
@@ -50,12 +50,12 @@
          </padding></ChoiceBox>
       <Button fx:id="upload" layoutX="160.0" layoutY="264.0" mnemonicParsing="false" onAction="#onUploadButtonClick" text="importer" />
       <Label layoutX="26.0" layoutY="268.0" text="importer votre photo" />
-      <Button layoutX="473.0" layoutY="488.0" mnemonicParsing="false" onAction="#loginPage" prefHeight="39.0" prefWidth="191.0" style="-fx-background-color: #f5576c;" text="Se connecter" textFill="WHITE">
+      <Button layoutX="583.0" layoutY="536.0" mnemonicParsing="false" onAction="#loginPage" prefHeight="39.0" prefWidth="191.0" style="-fx-background-color: #f5576c;" text="Se connecter" textFill="WHITE">
          <font>
             <Font name="Arial Unicode MS" size="15.0" />
          </font>
       </Button>
-      <Label layoutX="459.0" layoutY="436.0" text="Vous avez déja un compte !">
+      <Label layoutX="562.0" layoutY="495.0" text="Vous avez déja un compte !">
          <font>
             <Font name="Bell MT" size="20.0" />
          </font>
@@ -65,7 +65,7 @@
             <Font name="Arial Unicode MS" size="15.0" />
          </font>
       </Button>
-      <ImageView fx:id="image" fitHeight="377.0" fitWidth="294.0" layoutX="434.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="image" fitHeight="449.0" fitWidth="438.0" layoutX="417.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/login.png" />
          </image>

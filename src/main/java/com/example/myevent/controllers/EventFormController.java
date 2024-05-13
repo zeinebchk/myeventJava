@@ -1,16 +1,19 @@
 package com.example.myevent.controllers;
 
-import com.example.myevent.entities.Evennement;
-import com.example.myevent.entities.OffreSession;
-import com.example.myevent.entities.UserSession;
-import com.example.myevent.entities.mail;
+import com.example.myevent.entities.*;
 import com.example.myevent.tools.Connexion;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.sql.*;
@@ -103,7 +106,7 @@ public class EventFormController implements Initializable {
         }
     }
     @FXML
-    void reserverNouvEvent(ActionEvent event) throws SQLException {
+    void reserverNouvEvent(ActionEvent event) throws SQLException, IOException {
        if(titre.getText().isEmpty()){
            erreurTitre.setText("le titre est obligatoire");
        }else {
@@ -179,8 +182,16 @@ public class EventFormController implements Initializable {
                 int result3 = stmt3.executeUpdate();
                 if (result3>0) {
                     mail m = new mail();
-                    mail.send(OffreSession.getInstance().getSalle().getEntrepreneur_id().getEmail(), "Demande de réservation", UserSession.getInstance().getUser().getNom()+" "+UserSession.getInstance().getUser().getPrenom()+"a demandé de reserver "+OffreSession.getInstance().getSalle().getTitre(),UserSession.getInstance().getUser().getEmail() , "wesa pvwm qfus fkzd");
+                    mail.send("zeinebchekir742@gmail.com", "Demande de réservation", UserSession.getInstance().getUser().getNom()+" "+UserSession.getInstance().getUser().getPrenom()+"a demandé de reserver "+OffreSession.getInstance().getSalle().getTitre(),UserSession.getInstance().getUser().getEmail() , "wesa pvwm qfus fkzd");
                     showAlert("Votre demande a été enregistré avec succés");
+                    EvennementSession.getInstance().setEvent(e);
+                   FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/detailEvennement.fxml"));
+
+                Parent root = loader.load();
+                Scene scene = new Scene(root);
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                stage.setScene(scene);
+                stage.show();
                 }
             }
         }

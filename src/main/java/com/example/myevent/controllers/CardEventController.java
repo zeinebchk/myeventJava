@@ -1,8 +1,5 @@
 package com.example.myevent.controllers;
-import com.example.myevent.entities.Evennement;
-import com.example.myevent.entities.OffreSession;
-import com.example.myevent.entities.SalleFete;
-import com.example.myevent.entities.UserSession;
+import com.example.myevent.entities.*;
 import com.example.myevent.tools.Connexion;
 import com.mysql.cj.Session;
 import javafx.event.ActionEvent;
@@ -81,19 +78,18 @@ public class CardEventController {
         int result2 = stmt2.executeUpdate();
         if (result2>0) {
             showAlert("Votre demande a éte enregistré avec succés");
+            EvennementSession.getInstance().setEvent(e);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/detailEvennement.fxml"));
+
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
         }
 
     }
-    private void sendEmail(String email){
-        Properties properties=new Properties();
-        properties.put("mail.smtp.auth","true");
-        properties.put("mail.smtp.starttls.enable","true");
-        properties.put("mail.smtp.host","smtp.gmail.com");
-        properties.put("mail.smtp.port","587");
-        String myEmail="zeinebchekir742@gmail.com";
-        String password="vxwe vwaf uqqx lkak";
 
-    }
     private void showAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, message, ButtonType.OK);
         alert.show();
