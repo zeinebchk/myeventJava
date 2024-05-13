@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="155.0" prefWidth="831.0" style="-fx-background-color: #2D9596;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Hyperlink layoutX="661.0" layoutY="11.0" prefHeight="26.0" prefWidth="64.0" text="shooter" textFill="#f5f2f2">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Hyperlink>
+      <Hyperlink layoutX="539.0" layoutY="6.0" text="serveur" textFill="#fffdfd">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+         <graphic>
+            <ImageView fitHeight="29.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@image1/serveur.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Hyperlink>
+      <Hyperlink layoutX="491.0" layoutY="11.0" text="tenue" textFill="#f8f3f3">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Hyperlink>
+      <Hyperlink layoutX="290.0" layoutY="7.0" prefHeight="34.0" prefWidth="92.0" text="traiteur" textFill="#f2eded">
+         <font>
+            <Font name="Georgia Bold" size="14.0" />
+         </font>
+      </Hyperlink>
+      <Hyperlink layoutX="145.0" layoutY="10.0" text="Salle des fettes" textFill="#f2eded">
+         <font>
+            <Font name="Georgia Bold" size="14.0" />
+         </font>
+      </Hyperlink>
+      <Hyperlink layoutX="382.0" layoutY="13.0" prefHeight="22.0" prefWidth="92.0" text="animation" textFill="#f2eded">
+         <font>
+            <Font name="Georgia Bold" size="14.0" />
+         </font>
+      </Hyperlink>
+      <ImageView fitHeight="34.0" fitWidth="29.0" layoutX="116.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@image1/salle.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="29.0" fitWidth="28.0" layoutX="262.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@image1/trait.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="24.0" fitWidth="34.0" layoutX="358.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@image1/camer.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="31.0" fitWidth="30.0" layoutX="631.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@image1/fete.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="26.0" fitWidth="31.0" layoutX="465.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@image1/robe.png" />
+         </image>
+      </ImageView>
+      <Button layoutX="773.0" layoutY="8.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="36.0" style="-fx-background-color: #2D9596; -fx-border-color: black;" textFill="#2d9596" />
+      <ImageView fitHeight="22.0" fitWidth="28.0" layoutX="780.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@image1/icon.png" />
+         </image>
+      </ImageView>
+      <Button layoutX="733.0" layoutY="7.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="36.0" style="-fx-background-color: #2D9596; -fx-border-color: black;" />
+      <ImageView fitHeight="26.0" fitWidth="30.0" layoutX="738.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@image1/interfone.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>
