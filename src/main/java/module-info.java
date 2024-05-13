@@ -1,4 +1,6 @@
 module com.example.myevent {
+
+    opens com.example.myevent.ChefProjet to javafx.fxml, javafx.base;
     requires javafx.controls;
     requires javafx.fxml;
     requires java.sql;
@@ -11,4 +13,7 @@ module com.example.myevent {
     opens com.example.myevent.entities to javafx.base;
     opens com.example.myevent to javafx.fxml;
     exports com.example.myevent;
+
+
+
 }
