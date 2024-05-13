@@ -15,7 +15,6 @@ import javafx.scene.control.*;
 import animatefx.animation.Shake;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-
 import javafx.stage.Stage;
 
 import java.io.File;
