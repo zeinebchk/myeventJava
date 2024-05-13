@@ -13,7 +13,8 @@ public class HelloApplication extends Application {
     public void start(Stage stage) {
         try {
             ClassLoader classLoader = getClass().getClassLoader();
-            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/Menu.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/fxml/offre_view.fxml"));
+
             Scene scene = new Scene(fxmlLoader.load(), 900, 600);
             stage.setTitle("Reservation Manager");
             stage.setScene(scene);
