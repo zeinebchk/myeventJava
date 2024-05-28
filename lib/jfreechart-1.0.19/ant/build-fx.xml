@@ -64,10 +64,10 @@
             <include name="org/jfree/**"/>
         </javac>
 
-        <!-- copy across .css files (chart-viewer.css) -->
+        <!-- copy across .css.css files (chart-viewer.css.css) -->
         <copy todir="${basedir}/build/org/jfree/chart/fx/">
             <fileset dir="${basedir}/source/org/jfree/chart/fx/">
-                <include name="*.css" />
+                <include name="*.css.css" />
             </fileset>
         </copy>
 

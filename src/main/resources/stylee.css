@@ -1,0 +1,60 @@
+.table-view {
+    -fx-background-color: transparent;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: transparent;
+}
+
+.table-view .filler {
+    -fx-background-color: transparent;
+}
+
+.table-view .table-row-cell {
+    -fx-background-color: transparent;
+}
+
+.table-view .table-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: white; /* Change text color if needed */
+}
+.label-style {
+    -fx-font-weight: bold;
+}
+/* TableView transparent background */
+.transparent-table {
+    -fx-background-color: transparent;
+    -fx-table-cell-border-color: transparent;
+    -fx-control-inner-background: transparent;
+}
+
+.transparent-table .column-header-background {
+    -fx-background-color: transparent;
+}
+
+.transparent-table .table-row-cell {
+    -fx-background-color: transparent;
+}
+
+.transparent-table .table-cell {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+/* Button styles */
+#addButton, #deleteButton, #updateButton {
+    -fx-background-color: #2196F3; /* Blue background */
+    -fx-text-fill: white; /* White text */
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5; /* Rounded corners */
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.3), 10, 0, 0, 5);
+}
+
+#addButton:hover, #deleteButton:hover, #updateButton:hover {
+    -fx-background-color: #1976D2; /* Darker blue on hover */
+}
+
+#addButton:pressed, #deleteButton:pressed, #updateButton:pressed {
+    -fx-background-color: #0D47A1; /* Even darker blue when pressed */
+}

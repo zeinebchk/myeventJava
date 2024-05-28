@@ -1,27 +1,67 @@
 package com.example.myevent.entities;
 
-public class Image {
-    private String url;
-    private Offre offre_id;
+import java.math.BigInteger;
 
-    public Image(String url) {
-        super();
+public class Image extends Offre  {
+    private BigInteger id;
+    private String imageFileName;
+    private BigInteger offreId;
+    private String imageURL;
+    private String url;  // Ajout de la propriété 'url'
+
+    // Constructeur avec tous les champs
+    public Image(String imageFileName, BigInteger offreId, String imageURL, String url) {
+        this.imageFileName = imageFileName;
+        this.offreId = offreId;
+        this.imageURL = imageURL;
         this.url = url;
-        this.offre_id = offre_id;
     }
 
+    // Constructeur vide (non utilisé dans cet exemple)
+    public Image() {
+    }
+
+    public Image(String imageFileName, BigInteger offreId) {
+    }
+
+    // Getters et Setters
+    public BigInteger getId() {
+        return id;
+    }
+
+    public void setId(BigInteger id) {
+        this.id = id;
+    }
+
+    public String getImageFileName() {
+        return imageFileName;
+    }
+
+    public void setImageFileName(String imageFileName) {
+        this.imageFileName = imageFileName;
+    }
+
+    public BigInteger getOffreId() {
+        return offreId;
+    }
+
+    public void setOffreId(BigInteger offreId) {
+        this.offreId = offreId;
+    }
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
+    }
 
     public String getUrl() {
         return url;
     }
-    public Offre getOffre_id() {
-        return offre_id;
-    }
+
     public void setUrl(String url) {
         this.url = url;
     }
-    public void setOffre_id(Offre offre_id) {
-        this.offre_id = offre_id;
-    }
 }
-

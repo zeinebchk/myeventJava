@@ -2,28 +2,43 @@ package com.example.myevent.entities;
 
 import java.math.BigInteger;
 import java.time.LocalDate;
-import java.util.Date;
-
 public class Offre {
-
     private BigInteger id;
     private String titre;
     private String description;
-    private Double prixInitial;
-    private Double prixRemise;
+    private double prixInitial;
+    private double prixRemise;
     private LocalDate dateFinRemise;
+    private BigInteger entrepreneurId;  // Nouvel attribut entrepreneurId
+  // Référence à la salle de fête
+     // Référence à l'image
 
-    public Offre(BigInteger id, String titre, String description, Double prixInitial, Double prixRemise, LocalDate dateFinRemise) {
+    public Offre(BigInteger id, String titre, String description, double prixInitial, double prixRemise, LocalDate dateFinRemise, BigInteger entrepreneurId) {
         this.id = id;
         this.titre = titre;
         this.description = description;
         this.prixInitial = prixInitial;
         this.prixRemise = prixRemise;
         this.dateFinRemise = dateFinRemise;
+        this.entrepreneurId = entrepreneurId;
+
     }
 
-    public Offre() {
+    public Offre(BigInteger entrepreneurId) {
+        this.entrepreneurId = entrepreneurId;
+    }
 
+    // Constructeur sans arguments avec des valeurs par défaut
+    public Offre() {
+        this.id = BigInteger.ZERO;
+        this.titre = "";
+        this.description = "";
+        this.prixInitial = 0.0;
+        this.prixRemise = 0.0;
+        this.dateFinRemise = LocalDate.now();
+        this.entrepreneurId = BigInteger.ZERO;
+    }
+    public Offre(BigInteger id, String titre, String description, double prixInitial, double prixRemise, LocalDate dateFinRemise) {
     }
 
     public BigInteger getId() {
@@ -50,22 +65,21 @@ public class Offre {
         this.description = description;
     }
 
-    public Double getPrixInitial() {
+    public double getPrixInitial() {
         return prixInitial;
     }
 
-    public void setPrixInitial(Double prixInitial) {
+    public void setPrixInitial(double prixInitial) {
         this.prixInitial = prixInitial;
     }
 
-    public Double getPrixRemise() {
+    public double getPrixRemise() {
         return prixRemise;
     }
 
-    public void setPrixRemise(Double prixRemise) {
+    public void setPrixRemise(double prixRemise) {
         this.prixRemise = prixRemise;
     }
-
 
     public LocalDate getDateFinRemise() {
         return dateFinRemise;
@@ -74,5 +88,16 @@ public class Offre {
     public void setDateFinRemise(LocalDate dateFinRemise) {
         this.dateFinRemise = dateFinRemise;
     }
-}
 
+    public BigInteger getEntrepreneurId() {
+        return entrepreneurId;
+    }
+
+    public void setEntrepreneurId(BigInteger entrepreneurId) {
+        this.entrepreneurId = entrepreneurId;
+    }
+
+
+
+
+}

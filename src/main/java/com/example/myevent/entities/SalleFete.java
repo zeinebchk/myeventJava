@@ -13,6 +13,7 @@ public class SalleFete extends Offre {
     private double latitude; // Ajoutez le champ latitude
     private double longitude; // Ajoutez le champ longitude
     private String optionInclus;
+    private Offre offre;
 
     public SalleFete(int surface, int capacitePersonne, String gouvernerat, String ville, String adresseExacte, String optionInclus) {
         super();
@@ -28,6 +29,9 @@ public class SalleFete extends Offre {
 
     public SalleFete() {
 
+    }
+    public Offre getOffre() {
+        return offre;
     }
 
     // Getters et setters pour les attributs
@@ -74,9 +78,16 @@ public class SalleFete extends Offre {
         return latitude;
     }
 
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
     public double getLongitude() {
         return longitude;
     }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;}
 
     public String getOptionInclus() {
         return optionInclus;
