@@ -9,9 +9,7 @@ public class Offre {
     private double prixInitial;
     private double prixRemise;
     private LocalDate dateFinRemise;
-    private BigInteger entrepreneurId;  // Nouvel attribut entrepreneurId
-    private SalleFete salleFete;  // Référence à la salle de fête
-    private Image image;  // Référence à l'image
+    BigInteger entrepreneurId;
 
     public Offre(BigInteger id, String titre, String description, double prixInitial, double prixRemise, LocalDate dateFinRemise, BigInteger entrepreneurId) {
         this.id = id;
@@ -20,25 +18,19 @@ public class Offre {
         this.prixInitial = prixInitial;
         this.prixRemise = prixRemise;
         this.dateFinRemise = dateFinRemise;
-        this.entrepreneurId = entrepreneurId;
+
     }
 
-    public Offre(BigInteger entrepreneurId) {
-        this.entrepreneurId = entrepreneurId;
-    }
-
-    // Constructeur sans arguments avec des valeurs par défaut
     public Offre() {
-        this.id = BigInteger.ZERO;
+        this.id = id;
         this.titre = "";
         this.description = "";
         this.prixInitial = 0.0;
         this.prixRemise = 0.0;
         this.dateFinRemise = LocalDate.now();
-        this.entrepreneurId = BigInteger.ZERO;
+
     }
-    public Offre(BigInteger id, String titre, String description, double prixInitial, double prixRemise, LocalDate dateFinRemise) {
-    }
+
 
     public BigInteger getId() {
         return id;
@@ -89,6 +81,7 @@ public class Offre {
     }
 
     public BigInteger getEntrepreneurId() {
+
         return entrepreneurId;
     }
 
@@ -96,19 +89,4 @@ public class Offre {
         this.entrepreneurId = entrepreneurId;
     }
 
-    public SalleFete getSalleFete() {
-        return salleFete;
-    }
-
-    public void setSalleFete(SalleFete salleFete) {
-        this.salleFete = salleFete;
-    }
-
-    public Image getImage() {
-        return image;
-    }
-
-    public void setImage(Image image) {
-        this.image = image;
-    }
 }

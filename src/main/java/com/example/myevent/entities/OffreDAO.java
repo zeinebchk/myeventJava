@@ -99,15 +99,7 @@ public class OffreDAO {
                 offreStatement.setDouble(3, offre.getPrixInitial());
                 offreStatement.setDouble(4, offre.getPrixRemise());
                 offreStatement.setDate(5, java.sql.Date.valueOf(offre.getDateFinRemise()));
-                BigInteger entrepreneurId = offre.getEntrepreneurId();
-                if (offre == null || entrepreneurId == null) {
-                    throw new IllegalArgumentException("L'offre ou l'ID de l'entrepreneur ne peut pas être null.");
-                }
-
-// Utiliser l'entrepreneurId pour créer le BigDecimal
-                offreStatement.setBigDecimal(6, new BigDecimal(entrepreneurId));
-
-
+                offreStatement.setBigDecimal(6, new BigDecimal(offre.getEntrepreneurId()));
 
                 offreStatement.executeUpdate();
 
