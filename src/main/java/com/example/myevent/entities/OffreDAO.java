@@ -52,14 +52,10 @@ public class OffreDAO {
             }
 
             // Mise à jour de la salle de fête, si elle existe
-            if (offre.getSalleFete() != null) {
-                // Code pour mettre à jour la salle de fête dans la base de données
-            }
+
 
             // Mise à jour de l'image, si elle existe
-            if (offre.getImage() != null) {
-                // Code pour mettre à jour l'image dans la base de données
-            }
+
 
             // Recharger les offres après la mise à jour
             loadOffresData();
@@ -92,6 +88,7 @@ public class OffreDAO {
     }
 
     public BigInteger ajouterOffre(Offre offre, SalleFete salleFete, Image image) throws SQLException {
+        BigInteger offreId;
         if (connection != null && !connection.isClosed()) {
             try (PreparedStatement offreStatement = connection.prepareStatement("INSERT INTO offre (titre, description, prixInitial, prixRemise, dateFinRemise, entrepreneur_id) VALUES (?, ?, ?, ?, ?, ?)", PreparedStatement.RETURN_GENERATED_KEYS)) {
                 offreStatement.setString(1, offre.getTitre());
@@ -99,14 +96,17 @@ public class OffreDAO {
                 offreStatement.setDouble(3, offre.getPrixInitial());
                 offreStatement.setDouble(4, offre.getPrixRemise());
                 offreStatement.setDate(5, java.sql.Date.valueOf(offre.getDateFinRemise()));
-                offreStatement.setBigDecimal(6, new BigDecimal(offre.getEntrepreneurId()));
-
+                BigInteger entrepreneurId = offre.getEntrepreneurId();
+                if (offre == null || entrepreneurId == null) {
+                    throw new IllegalArgumentException("L'offre ou l'ID de l'entrepreneur ne peut pas être null.");
+                }
+// Utiliser l'entrepreneurId pour créer le BigDecimal
+                offreStatement.setBigDecimal(6, new BigDecimal(entrepreneurId));
                 offreStatement.executeUpdate();
-
                 // Récupérer l'ID généré pour l'offre ajoutée
                 ResultSet generatedKeys = offreStatement.getGeneratedKeys();
                 if (generatedKeys.next()) {
-                    BigInteger offreId = BigInteger.valueOf(generatedKeys.getLong(1));
+                     offreId = BigInteger.valueOf(generatedKeys.getLong(1));
                     offre.setId(offreId);
                 } else {
                     throw new SQLException("Failed to retrieve generated offre ID.");
@@ -115,12 +115,36 @@ public class OffreDAO {
 
             // Ajouter la salle de fête si elle n'est pas null
             if (salleFete != null) {
-                // Code pour ajouter la salle de fête dans la base de données
+                String sql = "INSERT INTO sallefete (surface, capacitePersonne, gouvernerat, ville,latitude,longitude, adresseExacte, optionInclus, offre_id) VALUES (?,?,?,?,?, ?, ?, ?, ?)";
+                try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                    statement.setInt(1, salleFete.getSurface());
+                    statement.setInt(2, salleFete.getCapacitePersonne());
+                    statement.setString(3, salleFete.getGouvernerat());
+                    statement.setString(4, salleFete.getVille());
+                    statement.setDouble(5, 0.0);
+                    statement.setDouble(6,  0.0);
+                    statement.setString(7, salleFete.getAdresseExacte());
+                    statement.setString(8, salleFete.getOptionInclus());
+                    statement.setBigDecimal(9, new BigDecimal(offreId));
+
+                    statement.executeUpdate();}
+                catch (Exception e){
+                      System.out.println(e.getMessage());
+                }
             }
 
             // Ajouter l'image si elle n'est pas null
             if (image != null) {
                 // Code pour ajouter l'image dans la base de données
+                String sql = "INSERT INTO image (url,offre_id) VALUES (?, ?)";
+                try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                    statement.setString(1, image.getImageURL());
+                    statement.setBigDecimal(2, new BigDecimal(offreId));
+                    statement.executeUpdate();}
+                catch(Exception e){
+                    System.out.println(e.getMessage());
+                    System.out.println("image non inseréé");
+                }
             }
 
             // Ajouter l'offre, la salle de fête et l'image aux listes observables si nécessaire

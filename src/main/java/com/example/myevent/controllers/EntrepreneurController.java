@@ -1,243 +1,222 @@
 package com.example.myevent.controllers;
 
-
-
 import com.example.myevent.Models.entrepreneur;
 import com.example.myevent.tools.Connexion;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
+import javafx.scene.control.cell.PropertyValueFactory;
 
-public class EntrepreneurController {
-    @FXML
-    private TextField ID_UserField;
-    @FXML
-    private TextField ProjetField;
-    @FXML
-    private TextField CategorieField;
-    @FXML
-    private TextField VilleField;
-    @FXML
-    private TextField GouverneratField;
-    @FXML
-    private TextField Adresse_ExacteField;
-    @FXML
-    private TextField NumTelProField;
-    @FXML
-    private TableView<entrepreneur> entrepreneursTable;
+import java.net.URL;
+import java.sql.*;
+import java.util.ResourceBundle;
 
-    private ObservableList<entrepreneur> entrepreneurs = FXCollections.observableArrayList();
-    private Connexion myConnection;
+public class EntrepreneurController implements Initializable {
 
-    private void initialize() {
-        myConnection = Connexion.getInstance();
-        loadData();
-        entrepreneursTable.getSelectionModel().selectedItemProperty().addListener(
-                (observable, oldValue, newValue) -> showentrepreneurDetails(newValue));
-    }
-    private void showentrepreneurDetails(entrepreneur entrepreneur) {
-        if (entrepreneur != null) {
-            // Mettre à jour les champs de texte avec les détails de l'entrepreneur sélectionné
-            ID_UserField.setText(entrepreneur.getID_User());
-            ProjetField.setText(entrepreneur.getProjet());
-            CategorieField.setText(entrepreneur.getCategorie());
-            VilleField.setText(entrepreneur.getVille());
-            GouverneratField.setText(entrepreneur.getGouvernerat());
-            Adresse_ExacteField.setText(entrepreneur.getAdresse_Exacte());
-            NumTelProField.setText(entrepreneur.getNumTelPro());
-        } else {
-            // Effacer les champs de texte s'il n'y a pas d'entrepreneur sélectionné
-            ID_UserField.clear();
-            ProjetField.clear();
-            CategorieField.clear();
-            VilleField.clear();
-            GouverneratField.clear();
-            Adresse_ExacteField.clear();
-            NumTelProField.clear();
-        }
-    }
+    @FXML
+    private TableView<entrepreneur> tableEntrepreneurs;
 
 
-    // Charge les données à partir de la base de données MySQL
-    private void loadData() {
-        String query = "SELECT * FROM entrepreneur";
-        try (Connection connection = myConnection.getCnx();
-             PreparedStatement statement = connection.prepareStatement(query);
-             ResultSet resultSet = statement.executeQuery()) {
+    @FXML
+    private TableColumn<entrepreneur, String> colID_User;
 
-            while (resultSet.next()) {
-                int id = resultSet.getInt("ID");
-                String ID_User = resultSet.getString("ID_User");
-                String Projet = resultSet.getString("Projet");
-                String Categorie = resultSet.getString("Categorie");
-                String Gouvernerat = resultSet.getString("Gouvernorat");
-                String Ville = resultSet.getString("Ville");
-                String Adresse_Exacte = resultSet.getString("Adresse_Exacte");
-                String NumTelPro = resultSet.getString("NumTelPro");
-                entrepreneurs.add(new entrepreneur(Integer.toString(id),  Projet, Categorie, Gouvernerat, Ville, Adresse_Exacte, NumTelPro));
+    @FXML
+    private TableColumn<entrepreneur, String> colprojet;
+
+    @FXML
+    private TableColumn<entrepreneur, String> colCategorie;
+
+    @FXML
+    private TableColumn<entrepreneur, String> colGouvernerat;
+
+    @FXML
+    private TableColumn<entrepreneur, String> colVille;
+
+    @FXML
+    private TableColumn<entrepreneur, String> colAdresse_Exacte;
+
+    @FXML
+    private TableColumn<entrepreneur, String> colNumTelPro;
+
+    @FXML
+    private TextField tfID_User;
+
+    @FXML
+    private TextField tfprojet;
+
+    @FXML
+    private TextField tfCategorie;
+
+    @FXML
+    private TextField tfGouvernerat;
+
+    @FXML
+    private TextField tfVille;
+
+    @FXML
+    private TextField tfAdresse_Exacte;
+
+    @FXML
+    private TextField tfNumTelPro;
+
+    @FXML
+    private Button addEntrepreneur;
+
+    @FXML
+    private Button updateEntrepreneur;
+
+    @FXML
+    private Button deleteEntrepreneur;
+
+    private Connection connection;
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        colID_User.setCellValueFactory(new PropertyValueFactory<>("Id_User"));
+        colprojet.setCellValueFactory(new PropertyValueFactory<>("projet"));
+        colCategorie.setCellValueFactory(new PropertyValueFactory<>("Categorie"));
+        colGouvernerat.setCellValueFactory(new PropertyValueFactory<>("Gouvernerat"));
+        colVille.setCellValueFactory(new PropertyValueFactory<>("Ville"));
+        colAdresse_Exacte.setCellValueFactory(new PropertyValueFactory<>("Adresse_Exacte"));
+        colNumTelPro.setCellValueFactory(new PropertyValueFactory<>("NumTelPro"));
+
+        connection = Connexion.getInstance().getCnx();
+
+        loadEntrepreneurs();
+
+        tableEntrepreneurs.setOnMouseClicked(event -> {
+            entrepreneur selectedEntrepreneur = tableEntrepreneurs.getSelectionModel().getSelectedItem();
+            if (selectedEntrepreneur != null) {
+                tfID_User.setText(selectedEntrepreneur.getId_User());
+                tfprojet.setText(selectedEntrepreneur.getProjet());
+                tfCategorie.setText(selectedEntrepreneur.getCategorie());
+                tfGouvernerat.setText(selectedEntrepreneur.getGouvernerat());
+                tfVille.setText(selectedEntrepreneur.getVille());
+                tfAdresse_Exacte.setText(selectedEntrepreneur.getAdresse_Exacte());
+                tfNumTelPro.setText(selectedEntrepreneur.getNumTelPro());
             }
-            entrepreneursTable.setItems(entrepreneurs);
+        });
+
+        addEntrepreneur.setOnAction(this::add);
+        updateEntrepreneur.setOnAction(this::update);
+        deleteEntrepreneur.setOnAction(this::delete);
+    }
+
+    private void loadEntrepreneurs() {
+        ObservableList<entrepreneur> entrepreneurs = FXCollections.observableArrayList();
+        String query = "SELECT * FROM entrepreneur";
+        try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(query)) {
+            while (rs.next()) {
+                entrepreneurs.add(new entrepreneur(
+                        rs.getString("Id_User"),
+                        rs.getString("projet"),
+                        rs.getString("Categorie"),
+                        rs.getString("Gouvernerat"),
+                        rs.getString("Ville"),
+                        rs.getString("Adresse_Exacte"),
+                        rs.getString("NumTelPro")
+                ));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
-            showAlert(Alert.AlertType.ERROR, "Erreur de chargement", "Une erreur est survenue lors du chargement des données.");
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur lors du chargement des entrepreneurs : " + e.getMessage());
+        }
+        tableEntrepreneurs.setItems(entrepreneurs);
+    }
+
+    private void add(ActionEvent event) {
+        String Id_User = tfID_User.getText();
+        String projet = tfprojet.getText();
+        String Categorie = tfCategorie.getText();
+        String Gouvernerat = tfGouvernerat.getText();
+        String Ville = tfVille.getText();
+        String Adresse_Exacte = tfAdresse_Exacte.getText();
+        String NumTelPro = tfNumTelPro.getText();
+
+        String query = "INSERT INTO entrepreneur (Id_User, projet, Categorie, Gouvernerat, Ville, Adresse_Exacte, NumTelPro) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setString(1, Id_User);
+            pstmt.setString(2, projet);
+            pstmt.setString(3, Categorie);
+            pstmt.setString(4, Gouvernerat);
+            pstmt.setString(5, Ville);
+            pstmt.setString(6, Adresse_Exacte);
+            pstmt.setString(7, NumTelPro);
+            pstmt.executeUpdate();
+            loadEntrepreneurs();
+            clearFields();
+            showAlert(Alert.AlertType.CONFIRMATION, "Succès", "Entrepreneur ajouté avec succès.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur lors de l'ajout de l'entrepreneur : " + e.getMessage());
+
         }
     }
 
-    @FXML
-    private void AddE() {
-        // Récupérer les valeurs des champs de texte
-        String ID_User = ID_UserField.getText();
-        String Projet = ProjetField.getText();
-        String Categorie = CategorieField.getText();
-        String Ville = VilleField.getText();
-        String Gouvernerat = GouverneratField.getText();
-        String Adresse_Exacte = Adresse_ExacteField.getText();
-        String NumTelPro = NumTelProField.getText();
-
-        // Créer un nouveau entrepreneur avec les valeurs des champs de texte
-        entrepreneur newEntrepreneur = new entrepreneur(null,  Projet, Categorie, Ville, Gouvernerat, Adresse_Exacte, NumTelPro);
-        // Ajouter le nouveau entrepreneur à la liste observable
-        entrepreneurs.add(newEntrepreneur);
-
-        // Insérer les données dans la base de données
-        insertData(newEntrepreneur);
-
-        // Effacer les champs de texte après l'ajout
-        clearFields();
-
-        // Afficher une confirmation de succès
-        showAlert(Alert.AlertType.INFORMATION, "Succès", "Nouveau entrepreneur ajouté avec succès !");
-    }
-
-    private void insertData(entrepreneur newEntrepreneur) {
-        String query = "INSERT INTO entrepreneur (ID_User, Projet, Categorie, Gouvernorat, Ville, Adresse_Exacte, NumTelPro) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        try (Connection connection = myConnection.getCnx();
-             PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setString(1, newEntrepreneur.getID_User());
-            statement.setString(2, newEntrepreneur.getProjet());
-            statement.setString(3, newEntrepreneur.getCategorie());
-            statement.setString(4, newEntrepreneur.getGouvernerat());
-            statement.setString(5, newEntrepreneur.getVille());
-            statement.setString(6, newEntrepreneur.getAdresse_Exacte());
-            statement.setString(7, newEntrepreneur.getNumTelPro());
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            showAlert(Alert.AlertType.ERROR, "Erreur d'insertion", "Une erreur est survenue lors de l'insertion des données dans la base de données.");
-        }
-    }
-
-    @FXML
-
-    private void UpdateE() {
-        // Vérifier si un entrepreneur est sélectionné dans la table
-        entrepreneur selectedEntrepreneur = entrepreneursTable.getSelectionModel().getSelectedItem();
+    private void update(ActionEvent event) {
+        entrepreneur selectedEntrepreneur = tableEntrepreneurs.getSelectionModel().getSelectedItem();
         if (selectedEntrepreneur != null) {
-            // Récupérer les nouvelles valeurs des champs de texte
-            String ID_User = ID_UserField.getText();
-            String Projet = ProjetField.getText();
-            String Categorie = CategorieField.getText();
-            String Ville = VilleField.getText();
-            String Gouvernerat = GouverneratField.getText();
-            String Adresse_Exacte = Adresse_ExacteField.getText();
-            String NumTelPro = NumTelProField.getText();
-
-            // Mettre à jour les données de l'entrepreneur sélectionné
-            selectedEntrepreneur.setID_User(ID_User);
-            selectedEntrepreneur.setProjet(Projet);
-            selectedEntrepreneur.setCategorie(Categorie);
-            selectedEntrepreneur.setVille(Ville);
-            selectedEntrepreneur.setGouvernerat(Gouvernerat);
-            selectedEntrepreneur.setAdresse_Exacte(Adresse_Exacte);
-            selectedEntrepreneur.setNumTelPro(NumTelPro);
-
-            // Mettre à jour les données dans la base de données
-            updateData(selectedEntrepreneur);
-
-            // Rafraîchir la table
-            entrepreneursTable.refresh();
-
-            // Afficher une confirmation de succès
-            showAlert(Alert.AlertType.INFORMATION, "Succès", "Les informations de l'entrepreneur ont été mises à jour avec succès !");
+            String query = "UPDATE entrepreneur SET projet = ?, Categorie = ?, Gouvernerat = ?, Ville = ?, Adresse_Exacte = ?, NumTelPro = ? WHERE Id_User = ?";
+            try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+                pstmt.setString(1, tfprojet.getText());
+                pstmt.setString(2, tfCategorie.getText());
+                pstmt.setString(3, tfGouvernerat.getText());
+                pstmt.setString(4, tfVille.getText());
+                pstmt.setString(5, tfAdresse_Exacte.getText());
+                pstmt.setString(6, tfNumTelPro.getText());
+                pstmt.setString(7, selectedEntrepreneur.getId_User());
+                pstmt.executeUpdate();
+                loadEntrepreneurs();
+                clearFields();
+                showAlert(Alert.AlertType.CONFIRMATION, "Succès", "Entrepreneur mis à jour avec succès.");
+            } catch (SQLException e) {
+                e.printStackTrace();
+                showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur lors de la mise à jour de l'entrepreneur : " + e.getMessage());
+            }
         } else {
-            showAlert(Alert.AlertType.WARNING, "Aucune sélection", "Veuillez sélectionner un entrepreneur à mettre à jour.");
+            showAlert(Alert.AlertType.WARNING, "Aucun Entrepreneur sélectionné", "Veuillez sélectionner un entrepreneur à mettre à jour.");
         }
     }
 
-    @FXML
-    private void DeleteE() {
-        // Vérifier si un entrepreneur est sélectionné dans la table
-        entrepreneur selectedEntrepreneur = entrepreneursTable.getSelectionModel().getSelectedItem();
+    private void delete(ActionEvent event) {
+        entrepreneur selectedEntrepreneur = tableEntrepreneurs.getSelectionModel().getSelectedItem();
         if (selectedEntrepreneur != null) {
-            // Supprimer l'entrepreneur de la liste observable
-            entrepreneurs.remove(selectedEntrepreneur);
-
-            // Supprimer les données de la base de données
-            deleteData(selectedEntrepreneur);
-
-            // Afficher une confirmation de succès
-            showAlert(Alert.AlertType.INFORMATION, "Succès", "L'entrepreneur a été supprimé avec succès !");
+            String query = "DELETE FROM entrepreneur WHERE Id_User = ?";
+            try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+                pstmt.setString(1, selectedEntrepreneur.getId_User());
+                pstmt.executeUpdate();
+                loadEntrepreneurs();
+                clearFields();
+                showAlert(Alert.AlertType.INFORMATION, "Succès", "Entrepreneur supprimé avec succès.");
+            } catch (SQLException e) {
+                e.printStackTrace();
+                showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur lors de la suppression de l'entrepreneur : " + e.getMessage());
+            }
         } else {
-            showAlert(Alert.AlertType.WARNING, "Aucune sélection", "Veuillez sélectionner un entrepreneur à supprimer.");
+            showAlert(Alert.AlertType.WARNING, "Aucun Entrepreneur sélectionné", "Veuillez sélectionner un entrepreneur à supprimer.");
         }
     }
-
-    private void updateData(entrepreneur entrepreneur) {
-        String query = "UPDATE entrepreneur SET ID_User=?, Projet=?, Categorie=?, Gouvernorat=?, Ville=?, Adresse_Exacte=?, NumTelPro=? WHERE ID=?";
-        try (Connection connection = myConnection.getCnx();
-             PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setString(1, entrepreneur.getID_User());
-            statement.setString(2, entrepreneur.getProjet());
-            statement.setString(3, entrepreneur.getCategorie());
-            statement.setString(4, entrepreneur.getGouvernerat());
-            statement.setString(5, entrepreneur.getVille());
-            statement.setString(6, entrepreneur.getAdresse_Exacte());
-            statement.setString(7, entrepreneur.getNumTelPro());
-            statement.setInt(8, Integer.parseInt(entrepreneur.getID_User()));
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            showAlert(Alert.AlertType.ERROR, "Erreur de mise à jour", "Une erreur est survenue lors de la mise à jour des données dans la base de données.");
-        }
-    }
-
-    private void deleteData(entrepreneur entrepreneur) {
-        String query = "DELETE FROM entrepreneur WHERE ID=?";
-        try (Connection connection = myConnection.getCnx();
-             PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setInt(1, Integer.parseInt(entrepreneur.getID_User()));
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            showAlert(Alert.AlertType.ERROR, "Erreur de suppression", "Une erreur est survenue lors de la suppression des données de la base de données.");
-        }
-    }
-
 
     private void clearFields() {
-        ID_UserField.clear();
-        ProjetField.clear();
-        CategorieField.clear();
-        VilleField.clear();
-        GouverneratField.clear();
-        Adresse_ExacteField.clear();
-        NumTelProField.clear();
+        tfID_User.clear();
+        tfprojet.clear();
+        tfCategorie.clear();
+        tfGouvernerat.clear();
+        tfVille.clear();
+        tfAdresse_Exacte.clear();
+        tfNumTelPro.clear();
     }
 
-    private void showAlert(Alert.AlertType type, String title, String content) {
-        Alert alert = new Alert(type);
+    private void showAlert(Alert.AlertType alertType, String title, String content) {
+        Alert alert = new Alert(alertType);
         alert.setTitle(title);
-        alert.setHeaderText(null);
         alert.setContentText(content);
         alert.showAndWait();
     }

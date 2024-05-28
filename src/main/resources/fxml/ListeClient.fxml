@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
-
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -13,7 +11,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/21"   xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.myevent.controllers.ClientController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.myevent.controllers.ClientController">
     <children>
         <AnchorPane layoutY="-10.0" prefHeight="610.0" prefWidth="202.0" style="-fx-background-color: linear-gradient(to bottom right, #2d658c, #2ca772);">
             <children>
@@ -24,17 +22,17 @@
                     </font>
                 </Label>
                 <Line endX="57.600006103515625" layoutX="107.0" layoutY="165.0" startX="-82.09999084472656" stroke="#faf8f8" />
-                <Button layoutX="14.0" layoutY="212.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent; -fx-cursor: hand; -fx-font-size: 14px; -fx-font-family: Arial; -fx-alignment: CENTER-LEFT;" text="Dashbord" textAlignment="RIGHT" textFill="#fcf2f2">
+                <Button layoutX="14.0" layoutY="245.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent; -fx-cursor: hand; -fx-font-size: 14px; -fx-font-family: Arial; -fx-alignment: CENTER-LEFT;" text="Dashbord" textAlignment="RIGHT" textFill="#fcf2f2">
                     <graphic>
                         <FontAwesomeIconView fill="#faeded" glyphName="DASHBOARD" size="1.5em" text="" />
                     </graphic>
                 </Button>
-                <Button layoutX="11.0" layoutY="274.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent; -fx-cursor: hand; -fx-font-family: Arial; -fx-alignment: CENTER-LEFT;" text="Liste Client" textAlignment="RIGHT" textFill="#f4eeee">
+                <Button layoutX="14.0" layoutY="285.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent; -fx-cursor: hand; -fx-font-family: Arial; -fx-alignment: CENTER-LEFT;" text="Liste Client" textAlignment="RIGHT" textFill="#f4eeee">
                     <graphic>
                         <FontAwesomeIconView fill="#fcf9f9" glyphName="ADDRESS_BOOK_ALT" size="1.5em" text="" />
                     </graphic>
                 </Button>
-                <Button layoutX="14.0" layoutY="376.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: trasnparent; -fx-cursor: hand; -fx-font-family: Arial; -fx-alignment: CENTER-LEFT;" text="Profile" textAlignment="RIGHT" textFill="#f7f2f2">
+                <Button layoutX="14.0" layoutY="367.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent; -fx-cursor: hand; -fx-font-family: Arial; -fx-alignment: CENTER-LEFT;" text="Profile" textAlignment="RIGHT" textFill="#f7f2f2">
                     <graphic>
                         <FontAwesomeIconView fill="#f4f1f1" glyphName="USER" size="1.5em" text="" />
                     </graphic>
@@ -46,14 +44,13 @@
                         <Font size="17.0" />
                     </font>
                 </Label>
-                <Button layoutX="11.0" layoutY="331.0" mnemonicParsing="false" prefHeight="1.0" prefWidth="180.0" style="-fx-background-color: transparent; -fx-cursor: hand; -fx-font-family: Arial; -fx-alignment: CENTER-LEFT;" text="Liste Entrepreneurs" textAlignment="RIGHT" textFill="#f4eeee">
+                <Button layoutX="14.0" layoutY="332.0" mnemonicParsing="false" prefHeight="1.0" prefWidth="180.0" style="-fx-background-color: transparent; -fx-cursor: hand; -fx-font-family: Arial; -fx-alignment: CENTER-LEFT;" text="Liste Entrepreneurs" textAlignment="RIGHT" textFill="#f4eeee">
                     <graphic>
                         <FontAwesomeIconView fill="#fcf9f9" glyphName="ADDRESS_BOOK_ALT" size="1.5em" text="" />
                     </graphic>
                 </Button>
             </children>
         </AnchorPane>
-        <FontAwesomeIconView />
         <AnchorPane layoutX="210.0" layoutY="25.0" prefHeight="570.0" prefWidth="663.0" style="-fx-background-color: #fff; -fx-background-radius: 8px;">
             <children>
                 <Label layoutX="74.0" layoutY="313.0" text="Id: ">
@@ -61,60 +58,53 @@
                         <Font size="16.0" />
                     </font>
                 </Label>
-                <TextField layoutX="105.0" layoutY="313.0" prefHeight="26.0" prefWidth="133.0" />
+                <TextField fx:id="tfid" layoutX="105.0" layoutY="313.0" prefHeight="26.0" prefWidth="133.0" />
                 <Label layoutX="56.0" layoutY="349.0" text="Nom:">
                     <font>
                         <Font size="16.0" />
                     </font>
                 </Label>
-                <TextField layoutX="105.0" layoutY="348.0" prefHeight="26.0" prefWidth="133.0" />
+                <TextField fx:id="tfnom" layoutX="105.0" layoutY="348.0" prefHeight="26.0" prefWidth="133.0" />
                 <Label layoutX="44.0" layoutY="392.0" text="Prenom:">
                     <font>
                         <Font size="16.0" />
                     </font>
                 </Label>
-                <TextField layoutX="116.0" layoutY="392.0" prefHeight="26.0" prefWidth="133.0" />
+                <TextField fx:id="tfprenom" layoutX="113.0" layoutY="391.0" prefHeight="26.0" prefWidth="133.0" />
                 <Label layoutX="270.0" layoutY="309.0" text="Email:">
                     <font>
                         <Font size="16.0" />
                     </font>
                 </Label>
-                <TextField layoutX="319.0" layoutY="308.0" prefHeight="26.0" prefWidth="133.0" />
+                <TextField fx:id="tfemail" layoutX="319.0" layoutY="308.0" prefHeight="26.0" prefWidth="133.0" />
                 <Label layoutX="270.0" layoutY="357.0" text="Genre:">
                     <font>
                         <Font size="16.0" />
                     </font>
                 </Label>
-                <TextField layoutX="330.0" layoutY="357.0" prefHeight="26.0" prefWidth="133.0" />
-                <Label layoutX="267.0" layoutY="388.0" text="Iamge:">
-                    <font>
-                        <Font size="16.0" />
-                    </font>
-                </Label>
-                <TextField layoutX="330.0" layoutY="391.0" prefHeight="26.0" prefWidth="133.0" />
+                <TextField fx:id="tfgenre" layoutX="330.0" layoutY="357.0" prefHeight="26.0" prefWidth="133.0" />
                 <AnchorPane layoutX="503.0" layoutY="370.0" prefHeight="177.0" prefWidth="134.0" style="-fx-background-color: #fff; -fx-background-radius: 8px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 8, 0, 0, 0);">
                     <children>
-                        <ImageView fitHeight="149.0" fitWidth="120.0" layoutX="7.0" pickOnBounds="true" preserveRatio="true" />
-                        <Button layoutY="144.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="134.0" style="-fx-background-color: transparent;; -fx-text-fill: red;; -fx-font-size: 14px;; -fx-font-family: &quot;Arial&quot;;; -fx-cursor: hand;;" text="Insert" />
+                        <ImageView fx:id="imageView" fitHeight="149.0" fitWidth="120.0" layoutX="7.0" pickOnBounds="true" preserveRatio="true" />
+                        <Button layoutY="144.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="134.0" style="-fx-background-color: transparent; -fx-text-fill: red; -fx-font-size: 14px; -fx-font-family: Arial; -fx-cursor: hand;" text="Insert" />
                     </children>
                 </AnchorPane>
-                <Button layoutX="403.0" layoutY="510.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="85.0" style="-fx-background-color: #2d5278; -fx-background-radius: 8px; -fx-cursor: hand; -fx-text-fill: #fff; -fx-font-size: 14px; -fx-font-family: &quot;Arial&quot;;; -fx-background-color: #2268ae;;" text="Add" />
-                <Button layoutX="293.0" layoutY="510.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="85.0" style="-fx-background-color: #2d7755;; -fx-background-radius: 8px;; -fx-cursor: hand;; -fx-text-fill: #fff;; -fx-font-size: 14px;; -fx-font-family: &quot;Arial&quot;;; -fx-background-color: #22ad72;;" text="Update" />
-                <Button layoutX="172.0" layoutY="510.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="85.0" style="-fx-background-color: #90242f;; -fx-background-radius: 8px;; -fx-cursor: hand;; -fx-text-fill: #fff;; -fx-font-size: 14px;; -fx-font-family: &quot;Arial&quot;;; -fx-background-color: #c51f32;;" text="Delete" />
+                <Button fx:id="addClient" layoutX="403.0" layoutY="510.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="85.0" style="-fx-background-color: #2d5278; -fx-background-radius: 8px; -fx-cursor: hand; -fx-text-fill: #fff; -fx-font-size: 14px; -fx-font-family: Arial; -fx-background-color: #2268ae;" text="Add" />
+                <Button fx:id="updateClient" layoutX="293.0" layoutY="510.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="85.0" style="-fx-background-color: #2d7755; -fx-background-radius                 px; -fx-cursor: hand; -fx-text-fill: #fff; -fx-font-size: 14px; -fx-font-family: Arial; -fx-background-color: #22ad72;" text="Update" />
+                <Button fx:id="deleteClient" layoutX="172.0" layoutY="510.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="85.0" style="-fx-background-color: #90242f; -fx-background-radius: 8px; -fx-cursor: hand; -fx-text-fill: #fff; -fx-font-size: 14px; -fx-font-family: Arial; -fx-background-color: #c51f32;" text="Delete" />
             </children>
         </AnchorPane>
         <AnchorPane layoutX="216.0" layoutY="25.0" prefHeight="301.0" prefWidth="651.0" style="-fx-background-color: #fff; -fx-background-radius: 8px;">
             <children>
-                <TextField layoutX="26.0" layoutY="22.0" prefHeight="30.0" prefWidth="222.0" promptText="search" style="-fx-background-color: transparent; -fx-border-width: 8px; -fx-background-radius: 8px; -fx-font-family: Tahoma; -fx-font-size: 14px; -fx-padding: 0px 0px 0px 28px;" />
+                <TextField fx:id="searchField" layoutX="26.0" layoutY="22.0" prefHeight="30.0" prefWidth="222.0" promptText="Search" style="-fx-background-color: transparent; -fx-border-width: 8px; -fx-background-radius: 8px; -fx-font-family: Tahoma; -fx-font-size: 14px; -fx-padding: 0px 0px 0px 28px;" />
                 <FontAwesomeIconView glyphName="SEARCH" layoutX="26.0" layoutY="39.0" size="1.5em" />
-                <TableView layoutX="61.0" layoutY="83.0" prefHeight="200.0" prefWidth="506.0" style="-fx-background-color: transparent; -fx-border-color: linear-gradient(to bottom right, #2d658c, #2ca772); -fx-border-width: 2px; -fx-background-radius: 8px; -fx-padding: 0px;">
+                <TableView fx:id="clientTable" layoutX="61.0" layoutY="88.0" prefHeight="195.0" prefWidth="496.0" style="-fx-background-color: transparent; -fx-border-color: linear-gradient(to bottom right, #2d658c, #2ca772); -fx-border-width: 2px; -fx-background-radius: 8px; -fx-padding: 0px;">
                     <columns>
-                        <TableColumn prefWidth="75.0" text="ID" />
-                        <TableColumn prefWidth="75.0" text="Nom" />
-                        <TableColumn prefWidth="91.20001220703125" text="Prenom" />
-                        <TableColumn prefWidth="88.79998779296875" text="Email" />
-                        <TableColumn prefWidth="85.5999755859375" text="Genre" />
-                        <TableColumn prefWidth="86.4000244140625" text="Image" />
+                        <TableColumn fx:id="colid" prefWidth="75.0" text="ID" />
+                        <TableColumn fx:id="colnom" prefWidth="75.0" text="Nom" />
+                        <TableColumn fx:id="colprenom" prefWidth="91.2" text="Prenom" />
+                        <TableColumn fx:id="colemail" prefWidth="144.0" text="Email" />
+                        <TableColumn fx:id="colgenre" prefWidth="108.0" text="Genre" />
                     </columns>
                 </TableView>
             </children>

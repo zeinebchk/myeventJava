@@ -89,6 +89,11 @@
                         <Font size="19.0" />
                     </font>
                 </Label>
+                <JFXButton buttonType="RAISED" layoutX="69.0" layoutY="139.0" onAction="#afficherMenu" opacity="0.72" prefHeight="25.0" prefWidth="94.0" ripplerFill="#a4a4a4" style="-fx-background-color: #00ffa2;" text="Menu" textFill="#2c0000">
+                    <effect>
+                        <DropShadow />
+                    </effect>
+                </JFXButton>
             </children>
         </AnchorPane>
     </children>

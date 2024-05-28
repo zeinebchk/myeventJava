@@ -1,161 +1,138 @@
 package com.example.myevent.controllers;
 
-
-
 import com.example.myevent.Models.profile;
+import com.example.myevent.tools.Connexion;
 import javafx.fxml.FXML;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Hyperlink;
+import javafx.scene.control.Alert.AlertType;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-import java.io.IOException;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 public class ProfileController {
 
     @FXML
-    private TableView<profile> profileTable;
-
+    private TextField nomProfile;
     @FXML
-    private TableColumn<profile, String> nomColumn;
-
+    private TextField prenomProfile;
     @FXML
-    private TableColumn<profile, String> prenomColumn;
-
+    private TextField emailProfile;
     @FXML
-    private TableColumn<profile, String> emailColumn;
-
+    private TextField numTelProfile;
     @FXML
-    private TableColumn<profile, String> numeroTelephoneColumn;
-
+    private TextField nomProjetProfile;
     @FXML
-    private TableColumn<profile, String> numDeProjetColumn;
-
+    private TextField categorieProfile;
     @FXML
-    private TableColumn<profile, String> categorieColumn;
-
+    private TextField gouvernoratProfile;
     @FXML
-    private TableColumn<profile, String> gouvernoratColumn;
-
+    private TextField villeProfile;
     @FXML
-    private TableColumn<profile, String> villeColumn;
-
+    private TextField adresseExacteProfile;
     @FXML
-    private TableColumn<profile, String> adresseExacteColumn;
+    private Button updateProfileBtn;
 
-    @FXML
-    private TableColumn<profile, String> numTeleProColumn;
+    private profile currentProfile;
 
-    @FXML
-    private TextField nomField;
-
-    @FXML
-    private TextField prenomField;
-
-    @FXML
-    private TextField emailField;
-
-    @FXML
-    private TextField numeroTelephoneField;
-
-    @FXML
-    private TextField numDeProjetField;
-
-    @FXML
-    private TextField categorieField;
-
-    @FXML
-    private TextField gouvernoratField;
-
-    @FXML
-    private TextField villeField;
-
-    @FXML
-    private TextField adresseExacteField;
-
-    @FXML
-    private TextField numTeleProField;
-
-    @FXML
-    private Hyperlink linkToUpdateProfilebtn;
-
-    // Méthode d'initialisation
-    public void initialize() {
-        // Configurer les colonnes de la table
-        nomColumn.setCellValueFactory(cellData -> cellData.getValue().nomProperty());
-        prenomColumn.setCellValueFactory(cellData -> cellData.getValue().prenomProperty());
-        emailColumn.setCellValueFactory(cellData -> cellData.getValue().emailProperty());
-        numeroTelephoneColumn.setCellValueFactory(cellData -> cellData.getValue().numeroTelephoneProperty());
-        numDeProjetColumn.setCellValueFactory(cellData -> cellData.getValue().numDeProjetProperty());
-        categorieColumn.setCellValueFactory(cellData -> cellData.getValue().categorieProperty());
-        gouvernoratColumn.setCellValueFactory(cellData -> cellData.getValue().gouvernoratProperty());
-        villeColumn.setCellValueFactory(cellData -> cellData.getValue().villeProperty());
-        adresseExacteColumn.setCellValueFactory(cellData -> cellData.getValue().adresseExacteProperty());
-        numTeleProColumn.setCellValueFactory(cellData -> cellData.getValue().numTeleProProperty());
-
-        // Remplir la table avec des données fictives (vous pouvez remplacer cela avec vos données réelles)
-        profileTable.setItems(profile.getSampleProfiles());
+    public void initData(profile profile) {
+        this.currentProfile = profile;
+        fillFields();
     }
 
-    // Méthode appelée lorsque l'utilisateur clique sur le bouton de sauvegarde
-    @FXML
-    private void updateProfile() {
-        // Récupérer les données saisies par l'utilisateur depuis les champs texte
-        String nom = nomField.getText();
-        String prenom = prenomField.getText();
-        String email = emailField.getText();
-        String numeroTelephone = numeroTelephoneField.getText();
-        String numDeProjet = numDeProjetField.getText();
-        String categorie = categorieField.getText();
-        String gouvernorat = gouvernoratField.getText();
-        String ville = villeField.getText();
-        String adresseExacte = adresseExacteField.getText();
-        String numTelePro = numTeleProField.getText();
-
-        // Créer un nouvel objet Profile avec les données saisies
-        profile newProfile = new profile(nom, prenom, email, numeroTelephone, numDeProjet, categorie, gouvernorat, ville, adresseExacte, numTelePro);
-
-        // Ajouter le nouvel objet Profile à la table et à la liste des profils
-        profileTable.getItems().add(newProfile);
-
-        // Effacer les champs texte après avoir sauvegardé les données
-        clearFields();
-    }
-
-    // Méthode pour effacer les champs texte
-    private void clearFields() {
-        nomField.clear();
-        prenomField.clear();
-        emailField.clear();
-        numeroTelephoneField.clear();
-        numDeProjetField.clear();
-        categorieField.clear();
-        gouvernoratField.clear();
-        villeField.clear();
-        adresseExacteField.clear();
-        numTeleProField.clear();
-    }
-
-    @FXML
-    private void UpdateProfilebtn(ActionEvent event) {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/dashborda/profile.fxml"));
-            Parent root = fxmlLoader.load();
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.show();
-
-            // Fermer la fenêtre actuelle
-            Stage currentStage = (Stage) linkToUpdateProfilebtn.getScene().getWindow();
-            currentStage.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-            // Gérer l'exception IOException ici
+    private void fillFields() {
+        if (currentProfile != null) {
+            nomProfile.setText(currentProfile.getNom());
+            prenomProfile.setText(currentProfile.getPrenom());
+            emailProfile.setText(currentProfile.getEmail());
+            numTelProfile.setText(currentProfile.getNumTel());
+            nomProjetProfile.setText(currentProfile.getNomProjet());
+            categorieProfile.setText(currentProfile.getCategorie());
+            gouvernoratProfile.setText(currentProfile.getGouvernorat());
+            villeProfile.setText(currentProfile.getVille());
+            adresseExacteProfile.setText(currentProfile.getAdresseExacte());
         }
     }
-}
 
+
+    @FXML
+    private void handleUpdateProfile(ActionEvent event) {
+        if (validateFields()) {
+            profile updatedProfile = createProfileFromFields();
+            if (updateProfileInDatabase(updatedProfile)) {
+                currentProfile = updatedProfile;
+                showAlert(AlertType.INFORMATION, "Succès", "Profil mis à jour avec succès !");
+            } else {
+                showAlert(AlertType.ERROR, "Erreur", "Échec de la mise à jour du profil.");
+            }
+        } else {
+            showAlert(AlertType.ERROR, "Erreur de validation", "Veuillez remplir tous les champs.");
+        }
+    }
+
+
+    private boolean validateFields() {
+        return !nomProfile.getText().isEmpty() &&
+                !prenomProfile.getText().isEmpty() &&
+                !emailProfile.getText().isEmpty() &&
+                !numTelProfile.getText().isEmpty() &&
+                !nomProjetProfile.getText().isEmpty() &&
+                !categorieProfile.getText().isEmpty() &&
+                !gouvernoratProfile.getText().isEmpty() &&
+                !villeProfile.getText().isEmpty() &&
+                !adresseExacteProfile.getText().isEmpty();
+    }
+
+    private profile createProfileFromFields() {
+        return new profile(
+                nomProfile.getText(),
+                prenomProfile.getText(),
+                emailProfile.getText(),
+                numTelProfile.getText(),
+                nomProjetProfile.getText(),
+                categorieProfile.getText(),
+                gouvernoratProfile.getText(),
+                villeProfile.getText(),
+                adresseExacteProfile.getText(),
+                currentProfile != null ? currentProfile.getPassword() : null
+        );
+    }
+
+    private boolean updateProfileInDatabase(profile updatedProfile) {
+        String sql = "UPDATE user SET nom=?, prenom=?, email=?, numTel=?, nomProjet=?, categorie=?, gouvernorat=?, ville=?, adresseExacte=? WHERE email=?";
+
+        try (Connection connection = Connexion.getInstance().getCnx();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            preparedStatement.setString(1, updatedProfile.getNom());
+            preparedStatement.setString(2, updatedProfile.getPrenom());
+            preparedStatement.setString(3, updatedProfile.getEmail());
+            preparedStatement.setString(4, updatedProfile.getNumTel());
+            preparedStatement.setString(5, updatedProfile.getNomProjet());
+            preparedStatement.setString(6, updatedProfile.getCategorie());
+            preparedStatement.setString(7, updatedProfile.getGouvernorat());
+            preparedStatement.setString(8, updatedProfile.getVille());
+            preparedStatement.setString(9, updatedProfile.getAdresseExacte());
+            preparedStatement.setString(10, updatedProfile.getEmail());
+
+            int rowsAffected = preparedStatement.executeUpdate();
+            return rowsAffected > 0;
+
+        } catch (SQLException e) {
+            showAlert(AlertType.ERROR, "Erreur SQL", "Erreur lors de la mise à jour du profil : " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    private void showAlert(AlertType type, String title, String message) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+}

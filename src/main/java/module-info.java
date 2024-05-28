@@ -7,7 +7,9 @@ module com.example.myevent {
     requires AnimateFX;
     requires java.desktop;
     requires com.jfoenix;
-    requires javafx.base; // Ensure you require the javafx.base module
+    requires javafx.base;
+    requires jBCrypt;
+    requires javax.mail.api; // Ensure you require the javafx.base module
     opens com.example.myevent.entities to javafx.base; // This opens your entities package to javafx.base
 
 

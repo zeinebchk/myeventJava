@@ -8,13 +8,13 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="536.0" prefWidth="673.0"  xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.myevent.controllers.DetailOffreController">
+<AnchorPane prefHeight="536.0" prefWidth="673.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="com.example.myevent.controllers.DetailOffreController">
    <children>
       <ScrollPane prefHeight="642.0" prefWidth="679.0">
         <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="641.0" prefWidth="697.0">
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="641.0" prefWidth="697.0" stylesheets="@../css/loginDesign.css">
                <children>
-                  <Label fx:id="description" layoutX="22.0" layoutY="499.0" prefHeight="47.0" prefWidth="640.0" text="salle spacieuse ,tres jolie ,avec consommation">
+                  <Label fx:id="description" layoutX="22.0" layoutY="499.0" prefHeight="47.0" prefWidth="640.0" stylesheets="@../css/loginDesign.css" text="salle spacieuse ,tres jolie ,avec consommation">
                      <font>
                         <Font name="Cambria" size="15.0" />
                      </font>
@@ -44,7 +44,7 @@
                         <Font name="Cambria" size="25.0" />
                      </font>
                   </Label>
-                  <HBox layoutX="22.0" layoutY="287.0" prefHeight="9.0" prefWidth="245.0" style="-fx-background-color: #f5576c;" />
+                  <HBox layoutX="22.0" layoutY="287.0" prefHeight="9.0" prefWidth="245.0" style="-fx-background-color: #DAAB3A;" />
                   <Label fx:id="surface" layoutX="108.0" layoutY="354.0" text="500m">
                      <font>
                         <Font name="Cambria" size="15.0" />
@@ -101,7 +101,7 @@
                      </font>
                   </Label>
                   <ImageView fitHeight="238.0" fitWidth="666.0" layoutX="-1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true" />
-                  <Button layoutX="22.0" layoutY="555.0" mnemonicParsing="false" onAction="#retourListeOffre" prefHeight="38.0" prefWidth="87.0" style="-fx-background-color: #f5576c;" text="Retour" textFill="WHITE">
+                  <Button layoutX="22.0" layoutY="555.0" mnemonicParsing="false" onAction="#retourListeOffre" prefHeight="38.0" prefWidth="87.0" style="-fx-background-color: #DAAB3A;" text="Retour" textFill="WHITE">
                      <font>
                         <Font name="Cambria" size="15.0" />
                      </font>

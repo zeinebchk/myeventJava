@@ -6,7 +6,7 @@ import java.time.LocalDate;
 
 
 public class Transaction {
-    private final IntegerProperty id;
+    private final StringProperty id;
     private final StringProperty nom;
     private final StringProperty prenom;
     private final ObjectProperty<LocalDate> date;
@@ -14,8 +14,8 @@ public class Transaction {
     private final StringProperty reference;
     private final StringProperty statut;
 
-    public Transaction(int id, String nom, String prenom, LocalDate date, double prix, String reference, String statut) {
-        this.id = new SimpleIntegerProperty(id);
+    public Transaction(String id, String nom, String prenom, LocalDate date, double prix, String reference, String statut) {
+        this.id = new SimpleStringProperty(id);
         this.nom = new SimpleStringProperty(nom);
         this.prenom = new SimpleStringProperty(prenom);
         this.date = new SimpleObjectProperty<>(date);
@@ -24,11 +24,11 @@ public class Transaction {
         this.statut = new SimpleStringProperty(statut);
     }
 
-    public int getId() {
+    public String getId() {
         return id.get();
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id.set(id);
     }
 
@@ -80,7 +80,7 @@ public class Transaction {
         this.statut.set(statut);
     }
 
-    public IntegerProperty idProperty() {
+    public StringProperty idProperty() {
         return id;
     }
 

@@ -1,15 +1,17 @@
 package com.example.myevent.Services;
 
 
+import com.example.myevent.entities.Evennement;
 import com.example.myevent.entities.Event;
 import com.example.myevent.tools.Connexion;
 
+import java.math.BigInteger;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EventService implements iservice<Event> {
+public class EventService implements iservice<Evennement> {
 
     private static Connection connection;
 
@@ -18,8 +20,8 @@ public class EventService implements iservice<Event> {
     }
 
     // Method to add a user
-    public void ajouter(Event event) throws SQLException {
-        String sql = "INSERT INTO evennements (titre, dateEvent, heuredebutEvent, heureFinEvent, nbInvites, gouvernerat, ville, adresseExacte) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+   public void ajouter(Evennement event) throws SQLException {
+    /*     String sql = "INSERT INTO evennements (titre, dateEvent, heuredebutEvent, heureFinEvent, nbInvites, gouvernerat, ville, adresseExacte) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1, event.getTitre());
         preparedStatement.setDate(2, Date.valueOf(event.getDateEvent())); // Conversion de LocalDate en java.sql.Date
@@ -30,31 +32,31 @@ public class EventService implements iservice<Event> {
         preparedStatement.setString(7, event.getVille());
         preparedStatement.setString(8, event.getAdresseExacte());
 
-        preparedStatement.executeUpdate();
+        preparedStatement.executeUpdate();*/
     }
 
     @Override
-    public void modifier(Event event) throws SQLException {
+    public void modifier(Evennement event) throws SQLException {
 
     }
 
     @Override
-    public void supprimer(Event event) throws SQLException {
+    public void supprimer(Evennement event) throws SQLException {
 
     }
 
 
-    public List<Event> afficher() throws SQLException {
+    public List<Evennement> afficher() throws SQLException {
         String sql = "SELECT id, titre, dateEvent, heuredebutEvent, heureFinEvent, nbInvites, gouvernerat, ville, adresseExacte FROM evennements";
-        List<Event> eventsList = new ArrayList<>();
+        List<Evennement> eventsList = new ArrayList<>();
 
         try (Statement statement = connection.createStatement();
              ResultSet rs = statement.executeQuery(sql)) {
 
             while (rs.next()) {
-                long id = rs.getLong("id");
+                BigInteger id = rs.getBigDecimal("id").toBigInteger();
                 String titre = rs.getString("titre");
-                LocalDate dateEvent = rs.getDate("dateEvent").toLocalDate(); // Utilisation de getDate() pour récupérer la date
+                Date dateEvent = rs.getDate("dateEvent"); // Utilisation de getDate() pour récupérer la date
                 Time heuredebutEvent = rs.getTime("heuredebutEvent"); // Utilisation de getTime() pour récupérer l'heure
                 Time heureFinEvent = rs.getTime("heureFinEvent"); // Utilisation de getTime() pour récupérer l'heure
                 Integer nbInvites = rs.getInt("nbInvites");
@@ -62,7 +64,7 @@ public class EventService implements iservice<Event> {
                 String ville = rs.getString("ville");
                 String adresseExacte = rs.getString("adresseExacte");
 
-                Event event = new Event(id, titre, dateEvent, heuredebutEvent, heureFinEvent, nbInvites, gouvernerat, ville, adresseExacte);
+                Evennement event = new Evennement(id, titre, dateEvent, heuredebutEvent, heureFinEvent, nbInvites, gouvernerat, ville, adresseExacte);
                 eventsList.add(event);
             }
         }

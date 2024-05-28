@@ -1,5 +1,6 @@
 package com.example.myevent.controllers;
 
+import com.example.myevent.entities.*;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -10,20 +11,19 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.FileChooser;
-import com.example.myevent.entities.Image;
-import com.example.myevent.entities.Offre;
-import com.example.myevent.entities.OffreDAO;
-import com.example.myevent.entities.SalleFete;
 import com.example.myevent.tools.Connexion;
 import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
@@ -80,7 +80,9 @@ public class OffreFormController implements Initializable {
     private BigInteger BigIntegerOffreId;
     private BigInteger offreId;
     private BigInteger entrepreneur_id;
-
+    PreparedStatement st = null;
+    ResultSet rs = null;
+    Connection con = Connexion.getInstance().getCnx();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -125,7 +127,16 @@ public class OffreFormController implements Initializable {
     }
 
     @FXML
-    private void handleAjouterOffre() {
+    private void handleAjouterOffre() throws SQLException {
+        Entrepreneur ee=new Entrepreneur();
+        entrepreneur_id= UserSession.getInstance().getUser().getId();
+        st = con.prepareStatement("SELECT * FROM entrepreneurs WHERE user_id = ?");
+        st.setBigDecimal(1,new BigDecimal(entrepreneur_id));
+        rs = st.executeQuery();
+        if (rs.next()) {
+
+           ee.setId(rs.getBigDecimal("id").toBigInteger());
+        }
         try {
             connection.setAutoCommit(false);
 
@@ -139,6 +150,7 @@ public class OffreFormController implements Initializable {
             String gouvernerat = gouverneratField.getValue();
             String ville = villeField.getValue();
 
+
             if (imageFileName == null || imageFileName.isEmpty()) {
                 showAlert("Erreur", "Veuillez sélectionner une image.");
                 return;
@@ -149,22 +161,12 @@ public class OffreFormController implements Initializable {
             }
 
 
-            Offre offre = new Offre(id, titre, description, prixInitial, prixRemise, dateFinRemise, entrepreneur_id);
+            Offre offre = new Offre(id, titre, description, prixInitial, prixRemise, dateFinRemise, ee.getId());
             if (offre.getDateFinRemise() == null) {
                 throw new IllegalArgumentException("La date de fin de remise ne peut pas être null.");
             }
-
-
-
             SalleFete salleFete = new SalleFete(surface, capacitePersonne, gouvernerat, ville, adresseField.getText(), optionsInclusField.getText());
-
-
-
-
-            Image image = new Image(imageFileName, offreId);
-
-
-
+            Image image = new Image(imageFileName, offre.getId());
             image.setImageURL(imageFileName);
 
             offreDAO.ajouterOffre(offre, salleFete, image);
@@ -217,13 +219,13 @@ public class OffreFormController implements Initializable {
         if (file != null) {
             Path sourcePath = file.toPath();
             String uniqueFileName = UUID.randomUUID().toString() + "_" + file.getName();
-            Path destinationPath = Paths.get("C:", "Users", "R I B", "Images", uniqueFileName);
+            Path destinationPath = Paths.get("C:", "Users", "asus", "Desktop","pfa","myEvent","images", uniqueFileName);
 
             try {
                 // Vérifier si le fichier existe déjà, et si c'est le cas, générer un nouveau nom
                 while (Files.exists(destinationPath)) {
                     uniqueFileName = UUID.randomUUID().toString() + "_" + file.getName();
-                    destinationPath = Paths.get("C:", "Users", "R I B", "Images", uniqueFileName);
+                    destinationPath = Paths.get("C:", "Users", "asus", "Desktop","pfa","myEvent","images", uniqueFileName);
                 }
 
                 Files.copy(sourcePath, destinationPath);

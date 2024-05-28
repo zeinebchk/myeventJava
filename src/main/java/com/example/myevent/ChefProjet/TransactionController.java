@@ -15,14 +15,17 @@ public class TransactionController {
     @FXML
     private TableView<Transaction> MainTable;
 
+
     @FXML
     private TextField Text_Searchbar;
 
     public void initialize() {
         initializeTableView();
 
-        ObservableList<Transaction> transactionsDB = getAllTransactions();
-        MainTable.setItems(transactionsDB);
+
+        ObservableList<Transaction> reservationsDB = getAllReservations();
+        MainTable.setItems(reservationsDB);
+
     }
 
     public void initializeTableView() {
@@ -45,23 +48,38 @@ public class TransactionController {
         MainTable.getColumns().addAll(idColumn, nomColumn, prenomColumn, dateColumn, prixColumn, referenceColumn, statutColumn);
     }
 
-    public ObservableList<Transaction> getAllTransactions() {
+    public ObservableList<Transaction> getAllReservations() {
         ObservableList<Transaction> transactions = FXCollections.observableArrayList();
 
         try (Connection connection = connect();
-             PreparedStatement statement = connection.prepareStatement("SELECT * FROM transactions");
+             PreparedStatement statement = connection.prepareStatement("SELECT r.*, u.*, o.* FROM reservations r JOIN users u ON r.client_id = u.id JOIN offre o ON r.offre_id = o.id WHERE r.status = 'confirme'");
              ResultSet resultSet = statement.executeQuery()) {
 
             while (resultSet.next()) {
-                int id = resultSet.getInt("id");
-                String nom = resultSet.getString("nom");
-                String prenom = resultSet.getString("prenom");
-                LocalDate date = resultSet.getDate("date").toLocalDate();
-                double prix = resultSet.getDouble("prix");
-                String reference = resultSet.getString("reference");
-                String statut = resultSet.getString("statut");
+                String id = resultSet.getString("id");
+                String status = resultSet.getString("status");
+                String heureDebut = resultSet.getString("heureDebut");
+                String heureFin = resultSet.getString("heureFin");
+                LocalDate dateReservation = resultSet.getDate("dateReservation").toLocalDate();
+                double avanceClient = resultSet.getDouble("avanceClient");
+                // Récupérer les informations de l'offre
+                String offreId = resultSet.getString("offre_id");
+                String titreOffre = resultSet.getString("titre");
+                String descriptionOffre = resultSet.getString("description");
+                double prixInitial = resultSet.getDouble("prixInitial");
+                double prixRemise = resultSet.getDouble("prixRemise");
+                LocalDate dateFinRemise = resultSet.getDate("dateFinRemise").toLocalDate();
+                // Créer une instance de l'objet Offre
+                Offre offre = new Offre(offreId, titreOffre, descriptionOffre, prixInitial, prixRemise, dateFinRemise);
+                // Récupérer les informations du client
+                String clientId = resultSet.getString("client_id");
+                String nomClient = resultSet.getString("nom");
+                String prenomClient = resultSet.getString("prenom");
+                String emailClient = resultSet.getString("email");
+                Client client = new Client(clientId, nomClient, prenomClient, emailClient);
 
-                Transaction transaction = new Transaction(id, nom, prenom, date, prix, reference, statut);
+                // Créer une nouvelle transaction avec l'objet Client et l'objet Offre
+                Transaction transaction = new Transaction(id, nomClient, prenomClient, dateReservation, prixRemise, offreId, status);
                 transactions.add(transaction);
             }
         } catch (SQLException e) {
@@ -72,7 +90,7 @@ public class TransactionController {
     }
 
     public static Connection connect() throws SQLException {
-        String url = "jdbc:mysql://localhost:3306/chacha";
+        String url = "jdbc:mysql://localhost:3306/events";
         String username = "root";
         String password = "";
         return DriverManager.getConnection(url, username, password);

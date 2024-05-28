@@ -15,15 +15,23 @@ import javafx.stage.FileChooser;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.*;
+import java.util.Base64;
 import java.util.EventObject;
 import java.util.ResourceBundle;
+import java.util.UUID;
+
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import com.example.myevent.entities.AESCrypt;
+import org.mindrot.jbcrypt.BCrypt;
+
 public class SignupController implements Initializable {
     @FXML
     private Label confirmError;
@@ -58,9 +66,6 @@ public class SignupController implements Initializable {
 
     @FXML
     private TextField adresse;
-
-    @FXML
-    private ImageView image;
 
     @FXML
     private TextField nomProjet;
@@ -194,9 +199,6 @@ public class SignupController implements Initializable {
 
         });
 
-        File brandingFile = new File("images/login.png");
-        Image brandingImage = new Image(brandingFile.toURI().toString());
-        image.setImage(brandingImage);
         categories.getItems().addAll("Salle des fetes","traiteur","troupe","coiffure");
         genres.getItems().add("particulier");
         genres.getItems().add("professionnelle");
@@ -295,17 +297,30 @@ public class SignupController implements Initializable {
         // Vérifier si l'email correspond à l'expression régulière
         return email.matches(emailRegex);
     }
+    private String imageFileName;
     @FXML
     private void onUploadButtonClick(ActionEvent event) {
 
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Open Image File");
-            fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
-            File selectedFile = fileChooser.showOpenDialog(null);
-            if (selectedFile != null) {
-                //imageData = Files.readAllBytes(selectedFile.toPath());
-                imageData=selectedFile.getPath();
-                imageName.setText(imageData);
+        FileChooser fileChooser = new FileChooser();
+        File file = fileChooser.showOpenDialog(null);
+
+        if (file != null) {
+            Path sourcePath = file.toPath();
+            String uniqueFileName = UUID.randomUUID().toString() + "_" + file.getName();
+            Path destinationPath = Paths.get("C:", "Users", "asus", "Desktop","pfa","myEvent","images", uniqueFileName);
+
+            try {
+                // Vérifier si le fichier existe déjà, et si c'est le cas, générer un nouveau nom
+                while (Files.exists(destinationPath)) {
+                    uniqueFileName = UUID.randomUUID().toString() + "_" + file.getName();
+                    destinationPath = Paths.get("C:", "Users", "asus", "Desktop","pfa","myEvent","images", uniqueFileName);
+                }
+
+                Files.copy(sourcePath, destinationPath);
+                imageFileName = uniqueFileName;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
     @FXML
@@ -404,19 +419,19 @@ public class SignupController implements Initializable {
       }
 
       if(!nom.getText().isEmpty() && !prenom.getText().isEmpty() && isValidEmail(emailText) && numTelError.getText()=="" && mdpError.getText()=="" && confirmError.getText()==""){
-          String encrypted = AESCrypt.encrypt(mdp.getText(), key);
-
-              String req = "INSERT INTO users (nom,prenom,email,numTel,genre,image,password) VALUES(?,?,?,?,?,?,?)";
+          String hashedPassword = BCrypt.hashpw(password,  BCrypt.gensalt(12));
+          String newHash = hashedPassword.replaceFirst("^\\$2a\\$", "\\$2y\\$");
+          String req = "INSERT INTO users (nom,prenom,email,numTel,genre,image,password) VALUES(?,?,?,?,?,?,?)";
               PreparedStatement stmt = con.prepareStatement(req, Statement.RETURN_GENERATED_KEYS);
               stmt.setString(1,nomText);
               stmt.setString(2,prenomText);
               stmt.setString(3, emailText);
               stmt.setInt(4, Integer.parseInt(tel));
               stmt.setString(5,genre);
-              stmt.setString(6, img);
-              stmt.setString(7, encrypted);
+              stmt.setString(6, imageFileName);
+              stmt.setString(7, newHash);
               int result = stmt.executeUpdate();
-          if (result > 0) {
+          if (result > 0){
               ResultSet rs = stmt.getGeneratedKeys();
               if (rs.next()) {
                    userId = rs.getLong(1);}}
@@ -437,6 +452,13 @@ public class SignupController implements Initializable {
               int result1 = stmt2.executeUpdate();
               System.out.println(result + " enregistrement ajouté.");
               showAlert("enregistrement ajouté.");
+              FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));
+              Parent root = loader.load();
+              Scene scene = new Scene(root);
+              Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+              stage.setScene(scene);
+              stage.show();
+
           }
 
       }

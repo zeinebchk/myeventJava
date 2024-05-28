@@ -3,35 +3,42 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="625.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.myevent.controllers.PopupEventsExistantsController">
+<AnchorPane prefHeight="400.0" prefWidth="625.0" styleClass="stackEvennement" stylesheets="@../css/loginDesign.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.myevent.controllers.PopupEventsExistantsController">
    <children>
-      <Label layoutX="38.0" layoutY="36.0" text="Vous avez déja des événnements en cours ! ">
+       <ImageView fitHeight="415.0" fitWidth="596.0" layoutX="3.0" pickOnBounds="true" preserveRatio="true">
+           <image>
+               <Image url="@images/Customer_View_Event1.jpg" />
+           </image>
+       </ImageView>
+      <Label layoutX="38.0" layoutY="36.0" text="Vous avez déja des événnements en cours ! " textFill="WHITE">
          <font>
-            <Font name="Cambria" size="28.0" />
+            <Font name="Segoe Script" size="25.0" />
          </font>
       </Label>
-      <HBox layoutX="141.0" layoutY="79.0" prefHeight="13.0" prefWidth="286.0" style="-fx-background-color: #f5576c;" />
-      <Label layoutX="127.0" layoutY="108.0" text="Sélectionnez s'il s'agit pour le méme évennement">
+      <HBox layoutX="141.0" layoutY="79.0" prefHeight="13.0" prefWidth="286.0" style="-fx-background-color: #DAAB3A;" />
+      <Label layoutX="127.0" layoutY="108.0" text="Sélectionnez s'il s'agit pour le méme évennement" textFill="WHITE">
          <font>
             <Font name="Cambria" size="15.0" />
          </font>
       </Label>
-      <ScrollPane layoutY="135.0" prefHeight="265.0" prefWidth="625.0">
+      <ScrollPane layoutY="135.0" prefHeight="265.0" prefWidth="625.0" style="-fx-background-color: transparent;" styleClass="transparent-scroll-pane" stylesheets="@../css/loginDesign.css">
         <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="263.0" prefWidth="624.0">
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="263.0" prefWidth="624.0" style="-fx-background-color: transparent;">
                <children>
                   <GridPane fx:id="grid" prefHeight="118.0" prefWidth="111.0">
                     <rowConstraints>
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                   </GridPane>
-                  <Button layoutX="14.0" layoutY="202.0" mnemonicParsing="false" onAction="#afficherFormEvent" prefHeight="35.0" prefWidth="233.0" style="-fx-background-color: #f5576c;" text="Non,c'est une nouvelle demande">
+                  <Button layoutX="14.0" layoutY="202.0" mnemonicParsing="false" onAction="#afficherFormEvent" prefHeight="35.0" prefWidth="233.0" style="-fx-background-color: #DAAB3A;" text="Non,c'est une nouvelle demande">
                      <font>
                         <Font name="Cambria" size="15.0" />
                      </font>

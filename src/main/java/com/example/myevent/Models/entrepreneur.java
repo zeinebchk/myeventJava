@@ -1,82 +1,110 @@
 package com.example.myevent.Models;
 
-
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 public class entrepreneur {
-    private String ID_User;
-    private String Projet;
-    private String Categorie;
-    private String Gouvernerat;
-    private String Ville;
-    private String Adresse_Exacte;
-    private String NumTelPro;
+    private final StringProperty Id_User;
+    private final StringProperty projet;
+    private final StringProperty Categorie;
+    private final StringProperty Gouvernerat;
+    private final StringProperty Ville;
+    private final StringProperty Adresse_Exacte;
+    private final StringProperty NumTelPro;
 
     // Constructeur
-    public entrepreneur(String ID_User, String Projet, String Categorie, String Gouvernerat, String Ville, String Adresse_Exacte, String NumTelPro) {
-        this.ID_User = ID_User;
-        this.Projet = Projet;
-        this.Categorie = Categorie;
-        this.Gouvernerat = Gouvernerat;
-        this.Ville = Ville;
-        this.Adresse_Exacte = Adresse_Exacte;
-        this.NumTelPro = NumTelPro;
+    public entrepreneur(String Id_User, String projet, String Categorie, String Gouvernerat, String Ville, String Adresse_Exacte, String NumTelPro) {
+        this.Id_User = new SimpleStringProperty(Id_User);
+        this.projet = new SimpleStringProperty(projet);
+        this.Categorie = new SimpleStringProperty(Categorie);
+        this.Gouvernerat = new SimpleStringProperty(Gouvernerat);
+        this.Ville = new SimpleStringProperty(Ville);
+        this.Adresse_Exacte = new SimpleStringProperty(Adresse_Exacte);
+        this.NumTelPro = new SimpleStringProperty(NumTelPro);
     }
 
-    // Getters et Setters
-    public String getID_User() {
-        return ID_User;
+    // Getters et Setters pour les propriétés observables
+    public String getId_User() {
+        return Id_User.get();
     }
 
-    public void setID_User(String ID_User) {
-        this.ID_User = ID_User;
+    public void setId_User(String Id_User) {
+        this.Id_User.set(Id_User);
+    }
+
+    public StringProperty Id_UserProperty() {
+        return Id_User;
     }
 
     public String getProjet() {
-        return Projet;
+        return projet.get();
     }
 
-    public void setProjet(String Projet) {
-        this.Projet = Projet;
+    public void setProjet(String projet) {
+        this.projet.set(projet);
+    }
+
+    public StringProperty projetProperty() {
+        return projet;
     }
 
     public String getCategorie() {
-        return Categorie;
+        return Categorie.get();
     }
 
     public void setCategorie(String Categorie) {
-        this.Categorie = Categorie;
+        this.Categorie.set(Categorie);
+    }
+
+    public StringProperty CategorieProperty() {
+        return Categorie;
     }
 
     public String getGouvernerat() {
-        return Gouvernerat;
+        return Gouvernerat.get();
     }
 
     public void setGouvernerat(String Gouvernerat) {
-        this.Gouvernerat = Gouvernerat;
+        this.Gouvernerat.set(Gouvernerat);
+    }
+
+    public StringProperty GouverneratProperty() {
+        return Gouvernerat;
     }
 
     public String getVille() {
-        return Ville;
+        return Ville.get();
     }
 
     public void setVille(String Ville) {
-        this.Ville = Ville;
+        this.Ville.set(Ville);
+    }
+
+    public StringProperty VilleProperty() {
+        return Ville;
     }
 
     public String getAdresse_Exacte() {
-        return Adresse_Exacte;
+        return Adresse_Exacte.get();
     }
 
     public void setAdresse_Exacte(String Adresse_Exacte) {
-        this.Adresse_Exacte = Adresse_Exacte;
+        this.Adresse_Exacte.set(Adresse_Exacte);
+    }
+
+    public StringProperty Adresse_ExacteProperty() {
+        return Adresse_Exacte;
     }
 
     public String getNumTelPro() {
-        return NumTelPro;
+        return NumTelPro.get();
     }
 
     public void setNumTelPro(String NumTelPro) {
-        this.NumTelPro = NumTelPro;
+        this.NumTelPro.set(NumTelPro);
+    }
+
+    public StringProperty NumTelProProperty() {
+        return NumTelPro;
     }
 }
-

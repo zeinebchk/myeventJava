@@ -5,12 +5,15 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.sql.*;
 import java.time.LocalDate;
 
@@ -32,19 +35,19 @@ public class ReservationController {
     private void confirmerReservations(ActionEvent event) {
         String texteSaisi = Text_Searchbar.getText();
         int reservationId = Integer.parseInt(texteSaisi);
-        confirmReservation(reservationId);
+        confirmReservation(reservationId,event);
     }
     @FXML
     private void supprimerReservations(ActionEvent event) {
         String texteSaisi = Text_Searchbar.getText();
         int reservationId = Integer.parseInt(texteSaisi);
-        supprimerReservation(reservationId);
+        supprimerReservation(reservationId,event);
     }
 
-    private void supprimerReservation(int reservationId) {
+    private void supprimerReservation(int reservationId, ActionEvent event) {
         try (Connection connection = connect()) {
             // Préparer la requête SQL pour mettre à jour le statut de la réservation à "Refusé"
-            String sql = "UPDATE reservations SET status = 'Refusé' WHERE id = ?";
+            String sql = "UPDATE reservations SET status = 'Refuse' WHERE id = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, reservationId);
 
@@ -53,17 +56,27 @@ public class ReservationController {
 
             if (rowsUpdated > 0) {
                 System.out.println("Le statut de la réservation avec l'ID " + reservationId + " a été mis à jour avec succès.");
+                showAlert("L'offre a ete refusée ");
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/hello-view.fxml"));
+
+                Parent root = loader.load();
+                Scene scene = new Scene(root);
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                stage.setScene(scene);
+                stage.show();
             } else {
                 System.out.println("Aucune réservation trouvée avec l'ID " + reservationId + ". Le statut n'a pas été mis à jour.");
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
-    private void confirmReservation(int reservationId) {
+    private void confirmReservation(int reservationId, ActionEvent event) {
         try (Connection connection = connect()) {
             // Préparer la requête SQL pour mettre à jour le statut de la réservation
-            String sql = "UPDATE reservations SET status = 'en cours' WHERE id = ?";
+            String sql = "UPDATE reservations SET status = 'enCours' WHERE id = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, reservationId);
 
@@ -72,13 +85,29 @@ public class ReservationController {
 
             if (rowsUpdated > 0) {
                 System.out.println("Le statut de la réservation avec l'ID " + reservationId + " a été mis à jour avec succès.");
+                showAlert("L'offre a ete confirmée avec succées");
+               FXMLLoader loader = new FXMLLoader(getClass().getResource("/hello-view.fxml"));
+
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
             } else {
                 System.out.println("Aucune réservation trouvée avec l'ID " + reservationId + ". Le statut n'a pas été mis à jour.");
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-    }  public void initializeTableView() {
+    }
+    private void showAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, message, ButtonType.OK);
+        alert.show();
+    }
+
+    public void initializeTableView() {
 
         TableColumn<Reservation, String> idColumn = new TableColumn<>("ID");
         TableColumn<Reservation, String> nomClientColumn = new TableColumn<>("Nom");
@@ -137,6 +166,7 @@ public class ReservationController {
                 // Créer une nouvelle réservation avec l'objet Client et l'objet Offre
                 Reservation reservation = new Reservation(id, status, heureDebut, heureFin, dateReservation, avanceClient, offre, client);
                 reservations.add(reservation);
+
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -146,9 +176,20 @@ public class ReservationController {
     }
 
     public static Connection connect() throws SQLException {
-        String url = "jdbc:mysql://localhost:3306/chacha";
+        String url = "jdbc:mysql://localhost:3306/events";
         String username = "root";
         String password = "";
         return DriverManager.getConnection(url, username, password);
+    }
+    @FXML
+   public void afficherMenu(ActionEvent event) throws IOException {
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Menu.fxml"));
+
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
     }
 }

@@ -2,184 +2,198 @@ package com.example.myevent.controllers;
 
 import com.example.myevent.Models.client;
 import com.example.myevent.tools.Connexion;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
+import javafx.scene.control.cell.PropertyValueFactory;
 
-public class ClientController {
+import java.net.URL;
+import java.sql.*;
+import java.util.ResourceBundle;
+
+public class ClientController implements Initializable {
 
     @FXML
     private TableView<client> clientTable;
-    @FXML
-    private TableColumn<client, Integer> idColumn;
-    @FXML
-    private TableColumn<client, String> nomColumn;
-    @FXML
-    private TableColumn<client, String> prenomColumn;
-    @FXML
-    private TableColumn<client, String> emailColumn;
-    @FXML
-    private TableColumn<client, String> genreColumn;
-    @FXML
-    private ImageView imageView;
-    @FXML
-    private TextField idField;
-    @FXML
-    private TextField nomField;
-    @FXML
-    private TextField prenomField;
-    @FXML
-    private TextField emailField;
-    @FXML
-    private TextField genreField;
-
-    private ObservableList<client> clients = FXCollections.observableArrayList();
-
-    private Connexion myConnection;
 
     @FXML
-    private void initialize() {
-        myConnection = Connexion.getInstance();
-        loadData();
-        clientTable.getSelectionModel().selectedItemProperty().addListener(
-                (observable, oldValue, newValue) -> showClientDetails(newValue));
+    private TableColumn<client, Integer> colid;
+    @FXML
+    private TableColumn<client, String> colnom;
+    @FXML
+    private TableColumn<client, String> colprenom;
+    @FXML
+    private TableColumn<client, String> colemail;
+    @FXML
+    private TableColumn<client, String> colgenre;
+
+    @FXML
+    private TextField tfid;
+    @FXML
+    private TextField tfnom;
+    @FXML
+    private TextField tfprenom;
+    @FXML
+    private TextField tfemail;
+    @FXML
+    private TextField tfgenre;
+
+    @FXML
+    private Button addClient;
+
+    @FXML
+    private Button updateClient;
+
+    @FXML
+    private Button deleteClient;
+
+    private Connection connection;
+
+
+
+    @FXML
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        colid.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colnom.setCellValueFactory(new PropertyValueFactory<>("nom"));
+        colprenom.setCellValueFactory(new PropertyValueFactory<>("prenom"));
+        colemail.setCellValueFactory(new PropertyValueFactory<>("email"));
+        colgenre.setCellValueFactory(new PropertyValueFactory<>("genre"));
+
+
+        connection = Connexion.getInstance().getCnx();
+
+        loadClients();
+        clientTable.setOnMouseClicked(event -> {
+            client selectedclient = clientTable.getSelectionModel().getSelectedItem();
+            if (selectedclient != null) {
+                tfid.setText(selectedclient.getid());
+                tfnom.setText(selectedclient.getnom());
+                tfprenom.setText(selectedclient.getprenom());
+                tfemail.setText(selectedclient.getemail());
+                tfgenre.setText(selectedclient.getgenre());
+            }
+        });
+        addClient.setOnAction(this::add);
+        updateClient.setOnAction(this::update);
+        deleteClient.setOnAction(this::delete);
     }
 
-    // Charge les données à partir de la base de données MySQL
-    private void loadData() {
-        String query = "SELECT * FROM clients";
-        try (Connection connection = myConnection.getCnx();
-             PreparedStatement statement = connection.prepareStatement(query);
-             ResultSet resultSet = statement.executeQuery()) {
 
-            while (resultSet.next()) {
-                int id = resultSet.getInt("id");
-                String nom = resultSet.getString("nom");
-                String prenom = resultSet.getString("prenom");
-                String email = resultSet.getString("email");
-                String genre = resultSet.getString("genre");
-                String image = resultSet.getString("image");
-                clients.add(new client(Integer.toString(id), nom, prenom, email, genre, image));
+    private void loadClients() {
+        ObservableList<client> clients = FXCollections.observableArrayList();
+        String query = "SELECT * FROM client";
+        try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(query)) {
+            while (rs.next()) {
+                clients.add(new client(
+                        rs.getString("id"),
+                        rs.getString("nom"),
+                        rs.getString("prenom"),
+                        rs.getString("email"),
+                        rs.getString("genre")
+
+                ));
             }
-            clientTable.setItems(clients);
         } catch (SQLException e) {
             e.printStackTrace();
-            showAlert(AlertType.ERROR, "Erreur de chargement", "Une erreur est survenue lors du chargement des données.");
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur lors du chargement des clients : " + e.getMessage());
         }
+        clientTable.setItems(clients);
     }
 
-    // Affiche les détails du client sélectionné dans le formulaire d'édition
-    private void showClientDetails(client client) {
-        if (client != null) {
-            idField.setText(client.getId());
-            nomField.setText(client.getNom());
-            prenomField.setText(client.getPrenom());
-            emailField.setText(client.getEmail());
-            genreField.setText(client.getGenre());
-            // Charger l'image du client
-            // Assurez-vous que votre ImageView est correctement configuré pour afficher l'image
-            // Vous pouvez utiliser une bibliothèque comme JavaFX ImageLoader pour charger l'image à partir d'URL ou de fichier
-            // imageView.setImage(new Image(client.getImage()));
-        } else {
-            // Le client est null, effacer tous les champs
-            idField.clear();
-            nomField.clear();
-            prenomField.clear();
-            emailField.clear();
-            genreField.clear();
-            imageView.setImage(null);
-        }
-    }
 
-    @FXML
-    private void AddC() {
-        // Récupérer les valeurs des champs de texte
-        String nom = nomField.getText();
-        String prenom = prenomField.getText();
-        String email = emailField.getText();
-        String genre = genreField.getText();
-        // Vous pouvez ajouter une validation des données ici
+    private void add(ActionEvent event) {
+        String id = tfid.getText();
+        String nom = tfnom.getText();
+        String prenom = tfprenom.getText();
+        String email = tfemail.getText();
+        String genre = tfgenre.getText();
 
-        // Créer un nouveau client avec les valeurs des champs de texte
-        client newClient = new client(null, nom, prenom, email, genre, null);
-        // Ajouter le nouveau client à la liste observable
-        clients.add(newClient);
-        // Insérer les données dans la base de données (optionnel, en fonction de votre implémentation)
 
-        // Effacer les champs de texte après l'ajout
-        clearFields();
-
-        // Afficher une confirmation de succès
-        showAlert(AlertType.INFORMATION, "Succès", "Nouveau client ajouté avec succès !");
-    }
-
-    @FXML
-    private void UpdateC() {
-        // Récupérer le client sélectionné dans le TableView
-        client selectedClient = clientTable.getSelectionModel().getSelectedItem();
-        if (selectedClient != null) {
-            // Mettre à jour les propriétés du client avec les valeurs des champs de texte
-            selectedClient.setNom(nomField.getText());
-            selectedClient.setPrenom(prenomField.getText());
-            selectedClient.setEmail(emailField.getText());
-            selectedClient.setGenre(genreField.getText());
-            // Vous pouvez également mettre à jour les données dans la base de données (optionnel)
-
-            // Effacer les champs de texte après la mise à jour
+        String query = "INSERT INTO client (id, nom, prenom, email, genre) VALUES (?, ?, ?, ?, ?)";
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setString(1, id);
+            pstmt.setString(2, nom);
+            pstmt.setString(3, prenom);
+            pstmt.setString(4, email);
+            pstmt.setString(5, genre);
+            pstmt.executeUpdate();
+            loadClients();
             clearFields();
+            showAlert(Alert.AlertType.CONFIRMATION, "Succès", "client ajouté avec succès.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur lors de l'ajout de client : " + e.getMessage());
 
-            // Afficher une confirmation de succès
-            showAlert(AlertType.INFORMATION, "Succès", "Client mis à jour avec succès !");
-        } else {
-            // Afficher une erreur si aucun client n'est sélectionné
-            showAlert(AlertType.ERROR, "Erreur", "Veuillez sélectionner un client à mettre à jour.");
         }
     }
 
-    @FXML
-    private void DeleteC() {
-        // Récupérer le client sélectionné dans le TableView
+    private void update(ActionEvent event) {
+        client  selectedClient = clientTable.getSelectionModel().getSelectedItem();
+        if (selectedClient != null) {
+            String query = "UPDATE client SET nom = ?, prenom = ?, email = ?,  genre = ?, WHERE id = ?";
+            try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+                pstmt.setString(1, tfnom.getText());
+                pstmt.setString(2, tfprenom.getText());
+                pstmt.setString(3, tfemail.getText());
+                pstmt.setString(4, tfgenre.getText());
+
+                pstmt.executeUpdate();
+                loadClients();
+                clearFields();
+                showAlert(Alert.AlertType.CONFIRMATION, "Succès", "client mis à jour avec succès.");
+            } catch (SQLException e) {
+                e.printStackTrace();
+                showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur lors de la mise à jour de client : " + e.getMessage());
+            }
+        } else {
+            showAlert(Alert.AlertType.WARNING, "Aucun Entrepreneur sélectionné", "Veuillez sélectionner un client à mettre à jour.");
+        }
+    }
+
+    private void delete(ActionEvent event) {
         client selectedClient = clientTable.getSelectionModel().getSelectedItem();
         if (selectedClient != null) {
-            // Supprimer le client de la liste observable
-            clients.remove(selectedClient);
-            // Vous pouvez également supprimer les données de la base de données (optionnel)
-
-            // Afficher une confirmation de succès
-            showAlert(AlertType.INFORMATION, "Succès", "Client supprimé avec succès !");
+            String query = "DELETE FROM client WHERE id = ?";
+            try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+                pstmt.setString(1, selectedClient.getid());
+                pstmt.executeUpdate();
+                loadClients();
+                clearFields();
+                showAlert(Alert.AlertType.INFORMATION, "Succès", "client supprimé avec succès.");
+            } catch (SQLException e) {
+                e.printStackTrace();
+                showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur lors de la suppression de client : " + e.getMessage());
+            }
         } else {
-            // Afficher une erreur si aucun client n'est sélectionné
-            showAlert(AlertType.ERROR, "Erreur", "Veuillez sélectionner un client à supprimer.");
+            showAlert(Alert.AlertType.WARNING, "Aucunclient sélectionné", "Veuillez sélectionner un client à supprimer.");
         }
     }
 
-    // Méthode pour effacer les champs de texte
     private void clearFields() {
-        nomField.clear();
-        prenomField.clear();
-        emailField.clear();
-        genreField.clear();
+        tfid.clear();
+        tfnom.clear();
+        tfprenom.clear();
+        tfemail.clear();
+        tfgenre.clear();
+
     }
 
-    // Méthode pour afficher une alerte
-    private void showAlert(AlertType type, String title, String message) {
-        Alert alert = new Alert(type);
+    private void showAlert(Alert.AlertType alertType, String title, String content) {
+        Alert alert = new Alert(alertType);
         alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
+        alert.setContentText(content);
         alert.showAndWait();
     }
 }
+
 
 
 

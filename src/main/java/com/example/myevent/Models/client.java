@@ -1,71 +1,85 @@
 package com.example.myevent.Models;
 
-
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 public class client {
-    private String id;
-    private String nom;
-    private String prenom;
-    private String email;
-    private String genre;
-    private String image;
+    private final StringProperty id;
+    private final StringProperty nom;
+    private final StringProperty prenom;
+    private final StringProperty email;
+    private final StringProperty genre;
+
 
     // Constructeur
-    public client(String id, String nom, String prenom, String email, String genre, String image) {
-        this.id = id;
-        this.nom = nom;
-        this.prenom = prenom;
-        this.email = email;
-        this.genre = genre;
-        this.image = image;
+    public client(String id, String nom, String prenom, String email, String genre) {
+        this.id = new SimpleStringProperty(id);
+        this.nom = new SimpleStringProperty(nom);
+        this.prenom = new SimpleStringProperty(prenom);
+        this.email = new SimpleStringProperty(email);
+        this.genre = new SimpleStringProperty(genre);
+
     }
 
-    // Getters et Setters
-    public String getId() {
+    // Getters et Setters pour les propriétés observables
+    public String getid() {
+        return id.get();
+    }
+
+    public void setid(String id) {
+        this.id.set(id);
+    }
+
+    public StringProperty idProperty() {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public String getnom() {
+        return nom.get();
     }
 
-    public String getNom() {
+    public void setnom(String nom) {
+        this.nom.set(nom);
+    }
+
+    public StringProperty nomProperty() {
         return nom;
     }
 
-    public void setNom(String nom) {
-        this.nom = nom;
+    public String getprenom() {
+        return prenom.get();
     }
 
-    public String getPrenom() {
+    public void setprenom(String prenom) {
+        this.prenom.set(prenom);
+    }
+
+    public StringProperty prenomProperty() {
         return prenom;
     }
 
-    public void setPrenom(String prenom) {
-        this.prenom = prenom;
+    public String getemail() {
+        return email.get();
     }
 
-    public String getEmail() {
+    public void setemail(String email) {
+        this.email.set(email);
+    }
+
+    public StringProperty emailProperty() {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public String getgenre() {
+        return genre.get();
     }
 
-    public String getGenre() {
+    public void setgenre(String genre) {
+        this.genre.set(genre);
+    }
+
+    public StringProperty genreProperty() {
         return genre;
     }
-
-    public void setGenre(String genre) {
-        this.genre = genre;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
 }
+

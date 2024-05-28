@@ -1,12 +1,10 @@
 package com.example.myevent.controllers;
 
-
-import com.example.myevent.Models.User;
 import com.example.myevent.tools.Connexion;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -24,7 +22,7 @@ import java.sql.SQLException;
 public class UserController {
 
     @FXML
-    private TextField usernameField;
+    private TextField emailField;
 
     @FXML
     private PasswordField passwordField;
@@ -32,55 +30,39 @@ public class UserController {
     @FXML
     private Button loginBtn;
 
-    @FXML
-    private Button close;
+    private Connection connection;
 
-    private Connexion database = Connexion.getInstance();
-
+    public void initialize() {
+        // Récupérer la connexion depuis MyConnection
+        connection = Connexion.getInstance().getCnx();
+    }
 
     @FXML
     void handleLogin(ActionEvent event) {
-        String sql = "SELECT * FROM admin WHERE username = ? and password = ?";
-        Connection connect = database.getCnx();
-        PreparedStatement prepare = null;
-        ResultSet result = null;
-        try {
-            prepare = connect.prepareStatement(sql);
-            prepare.setString(1, usernameField.getText());
+        if (emailField.getText().isEmpty() || passwordField.getText().isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Error Message", "Please fill in all fields.");
+            return;
+        }
+
+        String sql = "SELECT * FROM user WHERE email = ? AND password = ?";
+        try (PreparedStatement prepare = connection.prepareStatement(sql)) {
+            prepare.setString(1, emailField.getText());
             prepare.setString(2, passwordField.getText());
-            result = prepare.executeQuery();
 
-            if (usernameField.getText().isEmpty() || passwordField.getText().isEmpty()) {
-                showAlert(Alert.AlertType.ERROR, "Error Message", "Please fill all blank fields");
-            } else {
+            try (ResultSet result = prepare.executeQuery()) {
                 if (result.next()) {
-                    // Authentification réussie
-                    showAlert(Alert.AlertType.INFORMATION, "Information Message", "Successfully Login!");
-
-                    // Fermer la fenêtre de connexion
-                    loginBtn.getScene().getWindow().hide();
-
-                    // Charger le tableau de bord
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("dashboard.fxml"));
+                    // Authentification réussie, charger la nouvelle scène
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/dashborda/dashbord.fxml"));
                     Parent root = loader.load();
-                    Stage stage = new Stage();
+                    Stage stage = (Stage) loginBtn.getScene().getWindow();
                     stage.setScene(new Scene(root));
-                    stage.show();
                 } else {
-                    showAlert(Alert.AlertType.ERROR, "Error Message", "Invalid username or password");
+                    showAlert(Alert.AlertType.ERROR, "Error Message", "Invalid username or password.");
                 }
             }
         } catch (SQLException | IOException e) {
             e.printStackTrace();
-            showAlert(Alert.AlertType.ERROR, "Error Message", "An error occurred while logging in");
-        } finally {
-            try {
-                if (prepare != null) prepare.close();
-                if (result != null) result.close();
-                if (connect != null) connect.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            showAlert(Alert.AlertType.ERROR, "Error Message", "An error occurred while logging in.");
         }
     }
 
@@ -91,5 +73,13 @@ public class UserController {
         alert.setContentText(content);
         alert.showAndWait();
     }
+    @FXML
+    void loginPage(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/signupA.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+    }
 }
-

@@ -82,7 +82,7 @@
             </children>
         </AnchorPane>
         <FontAwesomeIconView />
-        <AnchorPane layoutX="253.0" layoutY="27.0" prefHeight="558.0" prefWidth="594.0" style="-fx-background-color: #fff; -fx-background-radius: 8px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 8, 0, 0, 0);">
+        <AnchorPane layoutX="243.0" layoutY="21.0" prefHeight="558.0" prefWidth="594.0" style="-fx-background-color: #fff; -fx-background-radius: 8px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 8, 0, 0, 0);">
             <children>
                 <AnchorPane layoutX="16.0" layoutY="19.0" prefHeight="66.0" prefWidth="577.0" style="-fx-background-color: #fff; -fx-background-radius: 8px;">
                     <children>
@@ -96,61 +96,65 @@
                         </Label>
                     </children>
                 </AnchorPane>
-                <Label layoutX="54.0" layoutY="132.0" prefHeight="18.0" prefWidth="38.0" text="Nom">
+                <Label layoutX="35.0" layoutY="165.0" prefHeight="18.0" prefWidth="38.0" text="Nom">
                     <font>
                         <Font size="15.0" />
                     </font>
                 </Label>
-                <Label layoutX="313.0" layoutY="132.0" text="Prenom">
+                <Label layoutX="301.0" layoutY="165.0" text="Prenom">
                     <font>
                         <Font size="15.0" />
                     </font>
                 </Label>
-                <Label layoutX="55.0" layoutY="210.0" text="Email">
+                <Label layoutX="36.0" layoutY="221.0" text="Email">
                     <font>
                         <Font size="15.0" />
                     </font>
                 </Label>
-                <Label layoutX="313.0" layoutY="210.0" text="NumTel">
+                <Label layoutX="299.0" layoutY="221.0" text="NumTel">
                     <font>
                         <Font size="15.0" />
                     </font>
                 </Label>
-                <Label layoutX="37.0" layoutY="292.0" text="NomProjet">
+                <Label layoutX="18.0" layoutY="292.0" text="NomProjet">
                     <font>
                         <Font size="15.0" />
                     </font>
                 </Label>
-                <Label layoutX="313.0" layoutY="281.0" text="Categorie">
+                <Label layoutX="293.0" layoutY="289.0" text="Categorie">
                     <font>
                         <Font size="15.0" />
                     </font>
                 </Label>
-                <Label layoutX="39.0" layoutY="360.0" text="Gouvernorat">
+                <Label layoutX="16.0" layoutY="362.0" text="Gouvernorat">
                     <font>
                         <Font size="15.0" />
                     </font>
                 </Label>
-                <Label layoutX="327.0" layoutY="351.0" text="Ville">
+                <Label layoutX="311.0" layoutY="354.0" text="Ville">
                     <font>
                         <Font size="15.0" />
                     </font>
                 </Label>
-                <Label layoutX="38.0" layoutY="433.0" text="Adresse Exacte">
+                <Label layoutX="16.0" layoutY="433.0" text="Adresse Exacte">
                     <font>
                         <Font size="15.0" />
                     </font>
                 </Label>
-                <TextField fx:id="nomProfile" layoutX="122.0" layoutY="128.0" />
-                <TextField fx:id="emailProfile" layoutX="123.0" layoutY="206.0" />
-                <TextField fx:id="PrenomProfile" layoutX="379.0" layoutY="128.0" />
-                <TextField fx:id="NumTelProfile" layoutX="379.0" layoutY="206.0" />
-                <TextField fx:id="NomProjetProfile" layoutX="123.0" layoutY="286.0" />
-                <TextField fx:id="gouvernoratProfile" layoutX="124.0" layoutY="356.0" />
-                <TextField fx:id="AdresseExacteProfile" layoutX="138.0" layoutY="429.0" />
-                <TextField fx:id="categorieProfile" layoutX="386.0" layoutY="274.0" />
-                <TextField fx:id="VilleProfile" layoutX="387.0" layoutY="339.0" />
-                <Button fx:id="UpdateProfilebtn" layoutX="387.0" layoutY="467.0" mnemonicParsing="false" onAction="#updateProfile" prefHeight="40.0" prefWidth="142.0" style="-fx-background-color: linear-gradient(to bottom, #2968a7, #14405d); -fx-text-fill: #fff;" text="Update">
+                <TextField fx:id="nomProfile" layoutX="108.0" layoutY="163.0" />
+                <TextField fx:id="emailProfile" layoutX="108.0" layoutY="219.0" />
+                <TextField fx:id="prenomProfile" layoutX="378.0" layoutY="163.0" />
+                <TextField fx:id="numTelProfile" layoutX="378.0" layoutY="219.0" />
+                <TextField fx:id="nomProjetProfile" layoutX="108.0" layoutY="290.0" />
+                <TextField fx:id="gouvernoratProfile" layoutX="108.0" layoutY="360.0" />
+                <TextField fx:id="adresseExacteProfile" layoutX="138.0" layoutY="429.0" />
+                <TextField fx:id="categorieProfile" layoutX="378.0" layoutY="287.0" />
+                <TextField fx:id="villeProfile" layoutX="374.0" layoutY="352.0" />
+
+
+                <Label layoutX="305.0" layoutY="432.0" prefHeight="18.0" prefWidth="56.0" text="Password" />
+                <TextField fx:id="passwordProfile" layoutX="375.0" layoutY="429.0" />
+                <Button fx:id="updateProfileBtn" layoutX="382.0" layoutY="486.0" mnemonicParsing="false" onAction="#handleUpdateProfile" prefHeight="40.0" prefWidth="142.0" style="-fx-background-color: linear-gradient(to bottom, #2968a7, #14405d); -fx-text-fill: #fff;" text="Mettre à jour">
                     <font>
                         <Font size="16.0" />
                     </font>

@@ -15,3 +15,40 @@
     -fx-background-color: #828282;
     -fx-background-radius: 30;
 }
+.stack{
+-fx-background-image: url("../../../../images/img_signin.jpg");
+-fx-background-size: cover;
+-fx-background-position: center center;
+}
+.stackdash{
+-fx-background-image: url("../../../../images/Customer_Book_Event3.jpg");
+-fx-background-size: cover;
+-fx-background-position: center center;
+}
+.custom-text-field {
+    -fx-background-color: transparent;
+    -fx-border-width: 0 0 2 0; /* Border only at the bottom */
+    -fx-border-color: white; /* Color of the bottom border */
+    -fx-padding: 0 0 2 0;
+    -fx-font-size:20px;/* Padding to position the text correctly */
+    -fx-text-fill: white;
+}
+.custom-text-fieldPaiment {
+    -fx-background-color: transparent;
+    -fx-border-width: 0 0 2 0; /* Border only at the bottom */
+    -fx-border-color: black; /* Color of the bottom border */
+    -fx-padding: 0 0 2 0;
+    -fx-font-size:20px;/* Padding to position the text correctly */
+}
+.stackEvennement{
+-fx-background-image: url("../../../../images/Customer_View_Event1.jpg");
+-fx-background-size: cover;
+-fx-background-position: center center;
+}
+.transparent-scroll-pane {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+}
+.dark-transparent-scroll-pane .track {
+    -fx-background-color: rgba(255, 255, 255, 0.2); /* Semi-transparent track */
+}

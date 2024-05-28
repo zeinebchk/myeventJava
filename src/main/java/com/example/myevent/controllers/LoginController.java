@@ -16,6 +16,7 @@ import animatefx.animation.Shake;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,8 +29,8 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
-    @FXML
-    private ImageView image;
+    /*@FXML
+    private ImageView image;*/
     @FXML
     private TextField email;
 
@@ -51,9 +52,9 @@ public class LoginController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        File brandingFile = new File("images/login.png");
+       /* File brandingFile = new File("images/login.png");
         Image brandingImage = new Image(brandingFile.toURI().toString());
-        image.setImage(brandingImage);
+        image.setImage(brandingImage);*/
         email.textProperty().addListener((observable, oldValue, newValue) -> {
             // Vérifier si l'adresse e-mail est valide
             boolean isValidEmail = isValidEmail(newValue);
@@ -151,8 +152,9 @@ public class LoginController implements Initializable {
             st.setString(1, email.getText());
             rs = st.executeQuery();
             if (rs.next()) {
-                String decryptedPassword = AESCrypt.decrypt(rs.getString("password"), key);
-                if (decryptedPassword.equals(mdp.getText())) {
+                   String newHash = rs.getString("password").replaceFirst("^\\$2y\\$", "\\$2a\\$");
+                   System.out.println(newHash);
+                   if(BCrypt.checkpw(mdp.getText(),newHash)){
                     System.out.println("Password Matched!");
                     // Add your code here for successful password verification
                     UserConnected = new User();
@@ -169,7 +171,7 @@ public class LoginController implements Initializable {
                         System.out.println("aaaaaaaa");
                        loader = new FXMLLoader(getClass().getResource("/Fxml/dashboardUser.fxml"));
                     } else {
-                        loader = new FXMLLoader(getClass().getResource("/Fxml/dashboardChefProjet.fxml"));
+                        loader = new FXMLLoader(getClass().getResource("/Menu.fxml"));
                     }
                     Parent root = loader.load();
                     Scene scene = new Scene(root);
@@ -177,10 +179,11 @@ public class LoginController implements Initializable {
                     stage.setScene(scene);
                     stage.show();
                 } else {
-                    showAlert("Incorrect password");
+                    showAlert("Mot de passe incorrecte");
                 }
-            } else {
-                showAlert("User not found");
+            }
+        else {
+                showAlert("Utilisateur non trouvé");
             }
         }
 

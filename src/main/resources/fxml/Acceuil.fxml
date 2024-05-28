@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<GridPane alignment="center" hgap="10" prefHeight="600.0" prefWidth="900.0" vgap="10" xmlns="http://javafx.com/javafx/20.0.2" xmlns:fx="http://javafx.com/fxml/1"  fx:controller="com.example.myevent.ChefProjet.LoginController">
+    <columnConstraints>
+        <ColumnConstraints />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints />
+    </rowConstraints>
+    <children>
+        <AnchorPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: black;">
+            <children>
+                <ImageView fitHeight="600.0" fitWidth="900.0" layoutX="-1.0" opacity="0.56" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <image>
+                        <Image url="@../images/Employee_Sign_In.jpg" />
+                    </image></ImageView>
+                <Label layoutX="320.0" layoutY="332.0" style="-fx-font-size: 60;" styleClass="Honey" stylesheets="@../csschf/Text_Style.css" text="Bienvenue !" textFill="WHITE">
+                    <effect>
+                        <DropShadow />
+                    </effect>
+                </Label>
+
+                <Label layoutX="303.0" layoutY="274.0" style="-fx-font-size: 40;" styleClass="Julius" stylesheets="@../csschf/Text_Style.css" text="MY EVENTS" textFill="WHITE">
+                    <font>
+                        <Font name="Yu Gothic Light" size="58.0" />
+                    </font>
+                    <effect>
+                        <DropShadow />
+                    </effect>
+                </Label>
+                <Label alignment="CENTER" layoutX="335.0" layoutY="315.0" style="-fx-font-size: 24;" styleClass="Archivo" stylesheets="@../csschf/Text_Style.css" text="Organisez votre évènnement" textFill="WHITE">
+                    <effect>
+                        <DropShadow />
+                    </effect></Label>
+                <Label layoutX="580.0" layoutY="555.0" text="© 2020 All Rights Reserved By Esprim" textFill="WHITE" AnchorPane.bottomAnchor="27.0">
+                    <font>
+                        <Font size="19.0" />
+                    </font>
+                    <effect>
+                        <DropShadow />
+                    </effect>
+                </Label>
+                <JFXButton fx:id="nextPageButton" buttonType="RAISED" layoutX="280.0" layoutY="420.0" opacity="0.79" prefHeight="26.0" prefWidth="300.0" style="-fx-background-color: B19565;" text="Connexion" textFill="WHITE" onAction="#handleConnexionButtonAction">
+                    <font>
+                        <Font size="15.0" />
+                    </font>
+                    <effect>
+                        <DropShadow radius="15.93" width="44.72" />
+                    </effect>
+                </JFXButton>
+                <JFXButton fx:id="nextPageButtonn" buttonType="RAISED" layoutX="280.0" layoutY="470.0" opacity="0.79" prefHeight="26.0" prefWidth="300.0" style="-fx-background-color: A17B3F;" text="inscription" textFill="WHITE" onAction="#handleConnexionButtonActionn">
+                    <font>
+                        <Font size="15.0" />
+                    </font>
+                    <effect>
+                        <DropShadow />
+                    </effect>
+                </JFXButton>
+            </children>
+        </AnchorPane>
+    </children>
+</GridPane>

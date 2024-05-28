@@ -8,14 +8,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+
+import java.awt.event.MouseEvent;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.sql.*;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
-
-import static java.sql.Time.valueOf;
 
 public class EventFormController implements Initializable {
     @FXML
@@ -94,7 +94,7 @@ public class EventFormController implements Initializable {
     }
     public static boolean isValidTime(String timeString) {
         try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
             LocalTime time = LocalTime.parse(timeString, formatter);
             return true;
         } catch (Exception e) {
@@ -103,6 +103,9 @@ public class EventFormController implements Initializable {
     }
     @FXML
     void reserverNouvEvent(ActionEvent event) throws SQLException {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+        LocalTime time1 = LocalTime.parse(heureDebut.getText(), formatter);
+        LocalTime time2 = LocalTime.parse(heureFin.getText(), formatter);
        if(titre.getText().isEmpty()){
            erreurTitre.setText("le titre est obligatoire");
        }else {
@@ -112,7 +115,7 @@ public class EventFormController implements Initializable {
             errorHD.setText("l'heure de debut est obligatoire");
         }
         else if(!isValidTime(heureDebut.getText())){
-            errorHD.setText("l'heure doit etre sous format hh:mm:ss");
+            errorHD.setText("l'heure doit etre sous format hh:mm");
         }
         else {
             errorHD.setText(""); // Efface le message d'erreur s'il y en avait un
@@ -121,8 +124,11 @@ public class EventFormController implements Initializable {
             erreurHF.setText("l'heure de fin est obligatoire");
         }
         else if(!isValidTime(heureFin.getText())){
-            erreurHF.setText("l'heure doit etre sous format hh:mm:ss");
-        }else {
+            erreurHF.setText("l'heure doit etre sous format hh:mm");
+        }else if(time2.isBefore(time1) || time2.equals(time1)){
+            erreurHF.setText("l'heure du fin de l'evennement doit etre superieur a l'heure debut");
+        }
+        else {
             erreurHF.setText(""); // Efface le message d'erreur s'il y en avait un
         }
         if(date.getValue()==null){
@@ -141,8 +147,8 @@ public class EventFormController implements Initializable {
             PreparedStatement stmt2 = con.prepareStatement(req2);
             stmt2.setString(1, titre.getText());
             stmt2.setDate(2, Date.valueOf(date.getValue()));
-            stmt2.setTime(3, valueOf(heureDebut.getText()));
-            stmt2.setTime(4, valueOf(heureDebut.getText()));
+            stmt2.setTime(3, Time.valueOf(heureDebut.getText()));
+            stmt2.setTime(4,Time.valueOf(heureDebut.getText()));
             stmt2.setInt(5, Integer.parseInt(invites.getText()));
             stmt2.setString(6,gouvs.getValue());
             stmt2.setString(7,villes.getValue());
