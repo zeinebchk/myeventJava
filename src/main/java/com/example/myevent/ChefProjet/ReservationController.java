@@ -47,7 +47,7 @@ public class ReservationController {
     private void supprimerReservation(int reservationId, ActionEvent event) {
         try (Connection connection = connect()) {
             // Préparer la requête SQL pour mettre à jour le statut de la réservation à "Refusé"
-            String sql = "UPDATE reservations SET status = 'Refusé' WHERE id = ?";
+            String sql = "UPDATE reservations SET status = 'Refuse' WHERE id = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, reservationId);
 
@@ -76,7 +76,7 @@ public class ReservationController {
     private void confirmReservation(int reservationId, ActionEvent event) {
         try (Connection connection = connect()) {
             // Préparer la requête SQL pour mettre à jour le statut de la réservation
-            String sql = "UPDATE reservations SET status = 'en cours' WHERE id = ?";
+            String sql = "UPDATE reservations SET status = 'enCours' WHERE id = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, reservationId);
 

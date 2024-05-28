@@ -1,19 +1,15 @@
 package com.example.myevent.controllers;
 
-import com.example.myevent.entities.*;
+import com.example.myevent.entities.Evennement;
+import com.example.myevent.entities.OffreSession;
+import com.example.myevent.entities.UserSession;
 import com.example.myevent.tools.Connexion;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
 
 import java.awt.event.MouseEvent;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.sql.*;
@@ -98,7 +94,7 @@ public class EventFormController implements Initializable {
     }
     public static boolean isValidTime(String timeString) {
         try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
             LocalTime time = LocalTime.parse(timeString, formatter);
             return true;
         } catch (Exception e) {
@@ -106,7 +102,10 @@ public class EventFormController implements Initializable {
         }
     }
     @FXML
-    void reserverNouvEvent(ActionEvent event) throws SQLException, IOException {
+    void reserverNouvEvent(ActionEvent event) throws SQLException {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+        LocalTime time1 = LocalTime.parse(heureDebut.getText(), formatter);
+        LocalTime time2 = LocalTime.parse(heureFin.getText(), formatter);
        if(titre.getText().isEmpty()){
            erreurTitre.setText("le titre est obligatoire");
        }else {
@@ -126,7 +125,10 @@ public class EventFormController implements Initializable {
         }
         else if(!isValidTime(heureFin.getText())){
             erreurHF.setText("l'heure doit etre sous format hh:mm");
-        }else {
+        }else if(time2.isBefore(time1) || time2.equals(time1)){
+            erreurHF.setText("l'heure du fin de l'evennement doit etre superieur a l'heure debut");
+        }
+        else {
             erreurHF.setText(""); // Efface le message d'erreur s'il y en avait un
         }
         if(date.getValue()==null){
@@ -142,11 +144,11 @@ public class EventFormController implements Initializable {
         if(!titre.getText().isEmpty() && !invites.getText().isEmpty() && date.getValue()!=null && isValidTime(heureDebut.getText()) && isValidTime(heureFin.getText())){
             Evennement e=new Evennement();
             String req2 = "insert into evennements(titre,dateEvent,heureDebutEvent,heureFinEvent,nbInvites,gouvernerat,ville,adresseExacte,client_id)values(?,?,?,?,?,?,?,?,?)";
-            PreparedStatement stmt2 = con.prepareStatement(req2, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement stmt2 = con.prepareStatement(req2);
             stmt2.setString(1, titre.getText());
             stmt2.setDate(2, Date.valueOf(date.getValue()));
             stmt2.setTime(3, Time.valueOf(heureDebut.getText()));
-            stmt2.setTime(4,Time.valueOf(heureFin.getText()));
+            stmt2.setTime(4,Time.valueOf(heureDebut.getText()));
             stmt2.setInt(5, Integer.parseInt(invites.getText()));
             stmt2.setString(6,gouvs.getValue());
             stmt2.setString(7,villes.getValue());
@@ -154,13 +156,7 @@ public class EventFormController implements Initializable {
             stmt2.setBigDecimal(9,new BigDecimal(UserSession.getInstance().getUser().getId()));
             int result2 = stmt2.executeUpdate();
             if (result2>0) {
-                ResultSet generatedKeys = stmt2.getGeneratedKeys();
-                if (generatedKeys.next()) {
-                    e.setId(generatedKeys.getBigDecimal(1).toBigInteger());
-                    e.setDateEvent(Date.valueOf(date.getValue()));
-                    e.setHeuredebutEvent(Time.valueOf(heureDebut.getText()));
-                    e.setHeureFinEvent(Time.valueOf(heureFin.getText()));
-                }
+                e.setId(rs.getBigDecimal("id").toBigInteger());
 
                 String req = "insert into offre_event(event_id,offre_id)values(?,?)";
                 PreparedStatement stmt = con.prepareStatement(req);
@@ -171,7 +167,7 @@ public class EventFormController implements Initializable {
                     System.out.println("ajouter au offreEvent avec succées");
                 }
                 String req3 = "insert into reservations(status,heureDebut,heureFin,dateReservation,avanceClient,offre_id,client_id)values(?,?,?,?,?,?,?)";
-                PreparedStatement stmt3 = con.prepareStatement(req3);
+                PreparedStatement stmt3 = con.prepareStatement(req2);
                 stmt3.setString(1, "enAttente");
                 stmt3.setTime(2,e.getHeuredebutEvent());
                 stmt3.setTime(3,e.getHeureFinEvent());
@@ -181,17 +177,7 @@ public class EventFormController implements Initializable {
                 stmt3.setBigDecimal(7,new BigDecimal(UserSession.getInstance().getUser().getId()));
                 int result3 = stmt3.executeUpdate();
                 if (result3>0) {
-                    mail m = new mail();
-                    mail.send("zeinebchekir742@gmail.com", "Demande de réservation", UserSession.getInstance().getUser().getNom()+" "+UserSession.getInstance().getUser().getPrenom()+"a demandé de reserver "+OffreSession.getInstance().getSalle().getTitre(),UserSession.getInstance().getUser().getEmail() , "wesa pvwm qfus fkzd");
-                    showAlert("Votre demande a été enregistré avec succés");
-                    EvennementSession.getInstance().setEvent(e);
-                   FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/detailEvennement.fxml"));
-
-                Parent root = loader.load();
-                Scene scene = new Scene(root);
-                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                stage.setScene(scene);
-                stage.show();
+                    showAlert("Votre demande a éte enregistré avec succés");
                 }
             }
         }

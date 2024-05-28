@@ -4,10 +4,14 @@ import com.example.myevent.entities.Entrepreneur;
 import com.example.myevent.entities.Offre;
 import com.example.myevent.entities.SalleFete;
 import com.example.myevent.tools.Connexion;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -15,6 +19,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
+import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
@@ -169,7 +174,7 @@ public class DashboardUserController implements Initializable {
          System.out.println(gouvs.getValue());
         st = con.prepareStatement("SELECT * from offre o " +
                   "JOIN sallefete f ON o.id = f.offre_id " +
-                "JOIN image i ON o.id = i.offre_id " +
+                "JOIN (SELECT MIN(id) as id, offre_id, url FROM image GROUP BY offre_id) i ON o.id = i.offre_id " +
                  "WHERE f.gouvernerat = ? " +
                 "AND f.ville = ? " +
                 "AND f.capacitePersonne >= ? " +
@@ -210,6 +215,7 @@ public class DashboardUserController implements Initializable {
              s.setVille(rs.getString("ville"));
              s.setDescription(rs.getString("description"));
              s.setAdresseExacte(rs.getString("adresseExacte"));
+
              /* Entrepreneur entrepreneur = getEntrepreneurFromResultSet(rs.getBigDecimal("entrepreneur_id"));
               s.setEntrepreneur_id(entrepreneur);*/
               if (!salles.contains(s)) {
@@ -252,5 +258,14 @@ public class DashboardUserController implements Initializable {
         }
 
         return entrepreneur;
+    }
+    @FXML
+    void affichMenu(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/MenuUser.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
     }
 }

@@ -3,6 +3,7 @@ package com.example.myevent.entities;
 import java.math.BigInteger;
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDate;
 
 public class Evennement {
     private BigInteger id;
@@ -18,6 +19,17 @@ public class Evennement {
 
     public Evennement() {
         super();
+    }
+    public Evennement(BigInteger id, String titre, Date dateEvent, Time heuredebutEvent, Time heureFinEvent, Integer nbInvites, String gouvernerat, String ville, String adresseExacte) {
+        this.id = id;
+        this.titre = titre;
+        this.dateEvent = dateEvent;
+        this.heuredebutEvent = heuredebutEvent;
+        this.heureFinEvent = heureFinEvent;
+        this.nbInvites = nbInvites;
+        this.gouvernerat = gouvernerat;
+        this.ville = ville;
+        this.adresseExacte = adresseExacte;
     }
     public void setId(BigInteger id) {
         this.id = id;

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  Copyright (c) 2015, 2019, Gluon and/or its affiliates.
+  All rights reserved. Use is subject to license terms.
+
+  This file is available and licensed under the following license:
+
+  Redistribution and use in source and binary forms, with or without
+  modification, are permitted provided that the following conditions
+  are met:
+
+  - Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+  - Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer in
+    the documentation and/or other materials provided with the distribution.
+  - Neither the name of Oracle Corporation nor the names of its
+    contributors may be used to endorse or promote products derived
+    from this software without specific prior written permission.
+
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="623.0" prefWidth="938.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.myevent.controllers.EntrepreneurController">
+    <children>
+        <AnchorPane prefHeight="623.0" prefWidth="201.0" style="-fx-background-color: linear-gradient(to bottom right, #2d658c, #2ca772);">
+            <children>
+                <FontAwesomeIconView fill="#f7f0f0" glyphName="USER" layoutX="67.0" layoutY="99.0" size="7em" text="" wrappingWidth="56.0" />
+                <Label layoutX="54.0" layoutY="126.0" text="Welcome Back" textFill="#efecec">
+                    <font>
+                        <Font name="Arial" size="15.0" />
+                    </font>
+                </Label>
+                <Line endX="57.600006103515625" layoutX="107.0" layoutY="165.0" startX="-82.09999084472656" stroke="#faf8f8" />
+                <Button layoutX="14.0" layoutY="212.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent; -fx-cursor: hand; -fx-font-size: 14px; -fx-font-family: Arial; -fx-alignment: CENTER-LEFT;" text="Dashbord" textAlignment="RIGHT" textFill="#fcf2f2">
+                    <graphic>
+                        <FontAwesomeIconView fill="#faeded" glyphName="DASHBOARD" size="1.5em" text="" />
+                    </graphic>
+                </Button>
+                <Button layoutX="11.0" layoutY="274.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent; -fx-cursor: hand; -fx-font-family: Arial; -fx-alignment: CENTER-LEFT;" text="Liste Client" textAlignment="RIGHT" textFill="#f4eeee">
+                    <graphic>
+                        <FontAwesomeIconView fill="#fcf9f9" glyphName="ADDRESS_BOOK_ALT" size="1.5em" text="" />
+                    </graphic>
+                </Button>
+                <Button layoutX="14.0" layoutY="376.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: trasnparent; -fx-cursor: hand; -fx-font-family: Arial; -fx-alignment: CENTER-LEFT;" text="Profile" textAlignment="RIGHT" textFill="#f7f2f2">
+                    <graphic>
+                        <FontAwesomeIconView fill="#f4f1f1" glyphName="USER" size="1.5em" text="" />
+                    </graphic>
+                </Button>
+                <Button layoutX="7.0" layoutY="555.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="38.0" style="-fx-background-radius: 10px; -fx-cursor: hand; -fx-background-color: #2c84bf; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 8, 0, 0, 0);" />
+                <FontAwesomeIconView fill="#efeded" glyphName="SIGN_OUT" layoutX="18.0" layoutY="583.0" size="2em" text="" wrappingWidth="11.999999999999943" />
+                <Label layoutX="54.0" layoutY="561.0" text="Sing OUT" textFill="#eae4e4">
+                    <font>
+                        <Font size="17.0" />
+                    </font>
+                </Label>
+                <Button layoutX="11.0" layoutY="331.0" mnemonicParsing="false" prefHeight="1.0" prefWidth="180.0" style="-fx-background-color: transparent; -fx-cursor: hand; -fx-font-family: Arial; -fx-alignment: CENTER-LEFT;" text="Liste Entrepreneurs" textAlignment="RIGHT" textFill="#f4eeee">
+                    <graphic>
+                        <FontAwesomeIconView fill="#fcf9f9" glyphName="ADDRESS_BOOK_ALT" size="1.5em" text="" />
+                    </graphic>
+                </Button>
+            </children>
+        </AnchorPane>
+        <FontAwesomeIconView />
+        <AnchorPane layoutX="202.0" layoutY="30.0" prefHeight="564.0" prefWidth="705.0" style="-fx-background-color: #fff; -fx-background-radius: 8px;">
+            <children>
+                <Label layoutX="39.0" layoutY="349.0" prefHeight="26.0" prefWidth="71.0" text="ID_User">
+                    <font>
+                        <Font size="16.0" />
+                    </font>
+                </Label>
+                <TextField fx:id="tfID_User" layoutX="105.0" layoutY="348.0" prefHeight="26.0" prefWidth="133.0" />
+                <Label layoutX="33.0" layoutY="392.0" text="Projet">
+                    <font>
+                        <Font size="16.0" />
+                    </font>
+                </Label>
+                <TextField fx:id="tfprojet" layoutX="105.0" layoutY="391.0" prefHeight="26.0" prefWidth="133.0" />
+                <Label layoutX="270.0" layoutY="309.0" text="Gouvernerat">
+                    <font>
+                        <Font size="16.0" />
+                    </font>
+                </Label>
+                <TextField fx:id="tfGouvernerat" layoutX="369.0" layoutY="312.0" prefHeight="26.0" prefWidth="133.0" />
+                <Label layoutX="250.0" layoutY="348.0" text="Adresse_Exacte">
+                    <font>
+                        <Font size="16.0" />
+                    </font>
+                </Label>
+                <TextField fx:id="tfAdresse_Exacte" layoutX="369.0" layoutY="347.0" prefHeight="26.0" prefWidth="133.0" />
+                <Label layoutX="298.0" layoutY="392.0" text="Ville">
+                    <font>
+                        <Font size="16.0" />
+                    </font>
+                </Label>
+                <TextField fx:id="tfVille" layoutX="369.0" layoutY="392.0" prefHeight="26.0" prefWidth="133.0" />
+                <AnchorPane layoutX="564.0" layoutY="373.0" prefHeight="180.0" prefWidth="134.0" style="-fx-background-color: #fff; -fx-background-radius: 8px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 8, 0, 0, 0);">
+                    <children>
+                        <ImageView fitHeight="149.0" fitWidth="120.0" layoutX="7.0" pickOnBounds="true" preserveRatio="true" />
+                        <Button layoutY="144.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="134.0" style="-fx-background-color: transparent;; -fx-text-fill: red;; -fx-font-size: 14px;; -fx-font-family: &quot;Arial&quot;;; -fx-cursor: hand;;" text="Insert" />
+                    </children>
+                </AnchorPane>
+                <Button fx:id="addEntrepreneur" layoutX="403.0" layoutY="510.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="85.0" style="-fx-background-color: #2d5278; -fx-background-radius: 8px; -fx-cursor: hand; -fx-text-fill: #fff; -fx-font-size: 14px; -fx-font-family: &quot;Arial&quot;;; -fx-background-color: #2268ae;;" text="Add" />
+                <Button fx:id="updateEntrepreneur" layoutX="293.0" layoutY="510.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="85.0" style="-fx-background-color: #2d7755;; -fx-background-radius: 8px;; -fx-cursor: hand;; -fx-text-fill: #fff;; -fx-font-size: 14px;; -fx-font-family: &quot;Arial&quot;;; -fx-background-color: #22ad72;;" text="Update" />
+                <Button fx:id="deleteEntrepreneur" layoutX="172.0" layoutY="510.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="85.0" style="-fx-background-color: #90242f;; -fx-background-radius: 8px;; -fx-cursor: hand;; -fx-text-fill: #fff;; -fx-font-size: 14px;; -fx-font-family: &quot;Arial&quot;;; -fx-background-color: #c51f32;;" text="Delete" />
+                <Label layoutX="20.0" layoutY="427.0" text="Categorie">
+                    <font>
+                        <Font size="16.0" />
+                    </font>
+                </Label>
+                <TextField fx:id="tfCategorie" layoutX="105.0" layoutY="426.0" prefHeight="26.0" prefWidth="133.0" />
+                <Label layoutX="278.0" layoutY="427.0" text="NumTelPro">
+                    <font>
+                        <Font size="16.0" />
+                    </font>
+                </Label>
+                <TextField fx:id="tfNumTelPro" layoutX="369.0" layoutY="426.0" prefHeight="26.0" prefWidth="133.0" />
+            </children>
+        </AnchorPane>
+        <AnchorPane layoutX="216.0" layoutY="28.0" prefHeight="299.0" prefWidth="718.0" style="-fx-background-color: #fff; -fx-background-radius: 8px;">
+            <children>
+                <TextField layoutX="26.0" layoutY="22.0" prefHeight="30.0" prefWidth="222.0" promptText="search" style="-fx-background-color: transparent; -fx-border-width: 8px; -fx-background-radius: 8px; -fx-font-family: Tahoma; -fx-font-size: 14px; -fx-padding: 0px 0px 0px 28px;" />
+                <FontAwesomeIconView glyphName="SEARCH" layoutX="26.0" layoutY="39.0" size="1.5em" />
+                <TableView fx:id="tableEntrepreneurs" layoutX="-1.0" layoutY="92.0" prefHeight="206.0" prefWidth="635.0" style="-fx-background-color: transparent; -fx-border-color: linear-gradient(to bottom right, #2d658c, #2ca772); -fx-border-width: 2px; -fx-background-radius: 8px; -fx-padding: 0px;">
+                    <columns>
+                        <TableColumn fx:id="colID_User" prefWidth="72.00006103515625" text="ID_User" />
+                        <TableColumn fx:id="colprojet" prefWidth="72.79998779296875" text="Projet" />
+                        <TableColumn fx:id="colCategorie" prefWidth="88.79998779296875" text="Categorie" />
+                        <TableColumn fx:id="colGouvernerat" prefWidth="94.39996337890625" text="Gouvernerat" />
+                        <TableColumn fx:id="colVille" prefWidth="76.79998779296875" text="Ville" />
+                        <TableColumn fx:id="colAdresse_Exacte" prefWidth="105.59991455078125" text="Adresse_Exacte" />
+                        <TableColumn fx:id="colNumTelPro" prefWidth="134.39990234375" text="NumTelPro" />
+                        <TableColumn prefWidth="0.0" />
+                        <TableColumn prefWidth="0.0" />
+                        <TableColumn prefWidth="0.0" />
+                    </columns>
+                </TableView>
+            </children>
+        </AnchorPane>
+    </children>
+</AnchorPane>

@@ -109,6 +109,7 @@ public class PopupEventsExistantsController implements Initializable {
         return events;
     }
     public void setOffre(SalleFete f){
+
         offre.setText(String.valueOf(f.getId()));
     }
     @FXML

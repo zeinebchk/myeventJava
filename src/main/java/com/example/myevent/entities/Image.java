@@ -1,15 +1,16 @@
 package com.example.myevent.entities;
 
 public class Image {
-             private String url;
-             private Offre offre_id;
+    private String url;
+    private Offre offre_id;
 
-    public Image() {}
-    public Image(String url, Offre offre_id) {
+    public Image(String url) {
         super();
         this.url = url;
         this.offre_id = offre_id;
     }
+
+
     public String getUrl() {
         return url;
     }
@@ -23,3 +24,4 @@ public class Image {
         this.offre_id = offre_id;
     }
 }
+

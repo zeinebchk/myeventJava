@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  Copyright (c) 2015, 2019, Gluon and/or its affiliates.
+  All rights reserved. Use is subject to license terms.
+
+  This file is available and licensed under the following license:
+
+  Redistribution and use in source and binary forms, with or without
+  modification, are permitted provided that the following conditions
+  are met:
+
+  - Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+  - Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer in
+    the documentation and/or other materials provided with the distribution.
+  - Neither the name of Oracle Corporation nor the names of its
+    contributors may be used to endorse or promote products derived
+    from this software without specific prior written permission.
+
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.myevent.controllers.ProfileController">
+    <children>
+        <AnchorPane layoutY="-10.0" prefHeight="610.0" prefWidth="202.0" style="-fx-background-color: linear-gradient(to bottom right, #2d658c, #2ca772);">
+            <children>
+                <FontAwesomeIconView fill="#f7f0f0" glyphName="USER" layoutX="67.0" layoutY="99.0" size="7em" text="" wrappingWidth="56.0" />
+                <Label layoutX="54.0" layoutY="126.0" text="Welcome Back" textFill="#efecec">
+                    <font>
+                        <Font name="Arial" size="15.0" />
+                    </font>
+                </Label>
+                <Line endX="57.600006103515625" layoutX="107.0" layoutY="165.0" startX="-82.09999084472656" stroke="#faf8f8" />
+                <Button fx:id="dashbord" layoutX="14.0" layoutY="245.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent; -fx-cursor: hand; -fx-font-size: 14px; -fx-font-family: Arial; -fx-alignment: CENTER-LEFT;" text="Dashbord" textAlignment="RIGHT" textFill="#fcf2f2">
+                    <graphic>
+                        <FontAwesomeIconView fill="#faeded" glyphName="DASHBOARD" size="1.5em" text="" />
+                    </graphic>
+                </Button>
+                <Button fx:id="listeClient" layoutX="14.0" layoutY="285.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent; -fx-cursor: hand; -fx-font-family: Arial; -fx-alignment: CENTER-LEFT;" text="Liste Client" textAlignment="RIGHT" textFill="#f4eeee">
+                    <graphic>
+                        <FontAwesomeIconView fill="#fcf9f9" glyphName="ADDRESS_BOOK_ALT" size="1.5em" text="" />
+                    </graphic>
+                </Button>
+                <Button fx:id="profile" layoutX="14.0" layoutY="387.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: trasnparent; -fx-cursor: hand; -fx-font-family: Arial; -fx-alignment: CENTER-LEFT;" text="Profile" textAlignment="RIGHT" textFill="#f7f2f2">
+                    <graphic>
+                        <FontAwesomeIconView fill="#f4f1f1" glyphName="USER" size="1.5em" text="" />
+                    </graphic>
+                </Button>
+                <Button layoutX="7.0" layoutY="555.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="38.0" style="-fx-background-radius: 10px; -fx-cursor: hand; -fx-background-color: #2c84bf; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 8, 0, 0, 0);" />
+                <FontAwesomeIconView fill="#efeded" glyphName="SIGN_OUT" layoutX="18.0" layoutY="583.0" size="2em" text="" wrappingWidth="11.999999999999943" />
+                <Label layoutX="54.0" layoutY="561.0" text="Sing OUT" textFill="#eae4e4">
+                    <font>
+                        <Font size="17.0" />
+                    </font>
+                </Label>
+                <Button fx:id="listeEntrepreneurs" layoutX="14.0" layoutY="334.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent; -fx-cursor: hand; -fx-font-family: Arial; -fx-alignment: CENTER-LEFT;" text="Liste Entrepreneurs" textAlignment="RIGHT" textFill="#f4eeee">
+                    <graphic>
+                        <FontAwesomeIconView fill="#fcf9f9" glyphName="ADDRESS_BOOK_ALT" size="1.5em" text="" />
+                    </graphic>
+                </Button>
+
+            </children>
+        </AnchorPane>
+        <FontAwesomeIconView />
+        <AnchorPane layoutX="243.0" layoutY="21.0" prefHeight="558.0" prefWidth="594.0" style="-fx-background-color: #fff; -fx-background-radius: 8px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 8, 0, 0, 0);">
+            <children>
+                <AnchorPane layoutX="16.0" layoutY="19.0" prefHeight="66.0" prefWidth="577.0" style="-fx-background-color: #fff; -fx-background-radius: 8px;">
+                    <children>
+                        <Label layoutX="29.0" layoutY="14.0" text="Edit Profile">
+                            <font>
+                                <Font size="20.0" />
+                            </font>
+                            <graphic>
+                                <FontAwesomeIconView glyphName="EDIT" size="2em" />
+                            </graphic>
+                        </Label>
+                    </children>
+                </AnchorPane>
+                <Label layoutX="35.0" layoutY="165.0" prefHeight="18.0" prefWidth="38.0" text="Nom">
+                    <font>
+                        <Font size="15.0" />
+                    </font>
+                </Label>
+                <Label layoutX="301.0" layoutY="165.0" text="Prenom">
+                    <font>
+                        <Font size="15.0" />
+                    </font>
+                </Label>
+                <Label layoutX="36.0" layoutY="221.0" text="Email">
+                    <font>
+                        <Font size="15.0" />
+                    </font>
+                </Label>
+                <Label layoutX="299.0" layoutY="221.0" text="NumTel">
+                    <font>
+                        <Font size="15.0" />
+                    </font>
+                </Label>
+                <Label layoutX="18.0" layoutY="292.0" text="NomProjet">
+                    <font>
+                        <Font size="15.0" />
+                    </font>
+                </Label>
+                <Label layoutX="293.0" layoutY="289.0" text="Categorie">
+                    <font>
+                        <Font size="15.0" />
+                    </font>
+                </Label>
+                <Label layoutX="16.0" layoutY="362.0" text="Gouvernorat">
+                    <font>
+                        <Font size="15.0" />
+                    </font>
+                </Label>
+                <Label layoutX="311.0" layoutY="354.0" text="Ville">
+                    <font>
+                        <Font size="15.0" />
+                    </font>
+                </Label>
+                <Label layoutX="16.0" layoutY="433.0" text="Adresse Exacte">
+                    <font>
+                        <Font size="15.0" />
+                    </font>
+                </Label>
+                <TextField fx:id="nomProfile" layoutX="108.0" layoutY="163.0" />
+                <TextField fx:id="emailProfile" layoutX="108.0" layoutY="219.0" />
+                <TextField fx:id="prenomProfile" layoutX="378.0" layoutY="163.0" />
+                <TextField fx:id="numTelProfile" layoutX="378.0" layoutY="219.0" />
+                <TextField fx:id="nomProjetProfile" layoutX="108.0" layoutY="290.0" />
+                <TextField fx:id="gouvernoratProfile" layoutX="108.0" layoutY="360.0" />
+                <TextField fx:id="adresseExacteProfile" layoutX="138.0" layoutY="429.0" />
+                <TextField fx:id="categorieProfile" layoutX="378.0" layoutY="287.0" />
+                <TextField fx:id="villeProfile" layoutX="374.0" layoutY="352.0" />
+
+
+                <Label layoutX="305.0" layoutY="432.0" prefHeight="18.0" prefWidth="56.0" text="Password" />
+                <TextField fx:id="passwordProfile" layoutX="375.0" layoutY="429.0" />
+                <Button fx:id="updateProfileBtn" layoutX="382.0" layoutY="486.0" mnemonicParsing="false" onAction="#handleUpdateProfile" prefHeight="40.0" prefWidth="142.0" style="-fx-background-color: linear-gradient(to bottom, #2968a7, #14405d); -fx-text-fill: #fff;" text="Mettre à jour">
+                    <font>
+                        <Font size="16.0" />
+                    </font>
+                </Button>
+            </children>
+        </AnchorPane>
+    </children>
+</AnchorPane>

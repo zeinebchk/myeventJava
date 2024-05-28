@@ -1,8 +1,5 @@
 package com.example.myevent.ChefProjet;
 
-import com.example.myevent.ChefProjet.Client;
-import com.example.myevent.ChefProjet.Offre;
-import com.example.myevent.ChefProjet.Transaction;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -55,7 +52,7 @@ public class TransactionController {
         ObservableList<Transaction> transactions = FXCollections.observableArrayList();
 
         try (Connection connection = connect();
-             PreparedStatement statement = connection.prepareStatement("SELECT r.*, u.*, o.* FROM reservations r JOIN users u ON r.client_id = u.id JOIN offre o ON r.offre_id = o.id");
+             PreparedStatement statement = connection.prepareStatement("SELECT r.*, u.*, o.* FROM reservations r JOIN users u ON r.client_id = u.id JOIN offre o ON r.offre_id = o.id WHERE r.status = 'confirme'");
              ResultSet resultSet = statement.executeQuery()) {
 
             while (resultSet.next()) {
@@ -93,7 +90,7 @@ public class TransactionController {
     }
 
     public static Connection connect() throws SQLException {
-        String url = "jdbc:mysql://localhost:3306/chacha";
+        String url = "jdbc:mysql://localhost:3306/events";
         String username = "root";
         String password = "";
         return DriverManager.getConnection(url, username, password);

@@ -6,74 +6,80 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="541.0" prefWidth="660.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.myevent.controllers.EventFormController">
+<AnchorPane prefHeight="541.0" prefWidth="660.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="com.example.myevent.controllers.EventFormController">
    <children>
-      <Label layoutX="57.0" layoutY="35.0" text="Indiquez-nous les modalités de votre événement">
+      <ImageView fitHeight="547.0" fitWidth="681.0" layoutX="-5.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/Manager_View_Event2.jpg" />
+         </image>
+      </ImageView>
+      <Label layoutX="32.0" layoutY="30.0" text="Indiquez-nous les modalités de votre événement" textFill="WHITE">
          <font>
-            <Font name="Cambria" size="25.0" />
+            <Font name="Segoe Script" size="23.0" />
          </font>
       </Label>
-      <Label layoutX="27.0" layoutY="74.0" prefHeight="22.0" prefWidth="577.0" text="Afin de valider la disponibilité et le prix nous avons besoin d’en savoir plus">
+      <Label layoutX="44.0" layoutY="73.0" prefHeight="22.0" prefWidth="577.0" text="Afin de valider la disponibilité et le prix nous avons besoin d’en savoir plus" textFill="WHITE">
          <font>
             <Font name="Cambria" size="18.0" />
          </font>
       </Label>
-      <HBox layoutX="109.0" layoutY="103.0" prefHeight="11.0" prefWidth="374.0" style="-fx-background-color: #f5576c;" />
-      <Label layoutX="25.0" layoutY="134.0" prefHeight="31.0" prefWidth="103.0" text="GENERAL">
+      <HBox layoutX="109.0" layoutY="103.0" prefHeight="11.0" prefWidth="374.0" style="-fx-background-color: #DAAB3A;" />
+      <Label layoutX="25.0" layoutY="134.0" prefHeight="31.0" prefWidth="103.0" text="GENERAL" textFill="WHITE">
          <font>
             <Font name="Cambria" size="18.0" />
          </font>
       </Label>
-      <ScrollPane layoutY="165.0" prefHeight="376.0" prefWidth="660.0">
+      <ScrollPane layoutY="165.0" prefHeight="376.0" prefWidth="660.0" styleClass="transparent-scroll-pane" stylesheets="@../css/loginDesign.css">
         <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="375.0" prefWidth="659.0">
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="405.0" prefWidth="714.0" stylesheets="@../css/loginDesign.css">
                <children>
-                  <Label layoutX="21.0" layoutY="5.0" text="Donnez un titre à votre événement *">
+                  <Label layoutX="21.0" layoutY="5.0" text="Donnez un titre à votre événement *" textFill="WHITE">
                      <font>
-                        <Font name="Cambria" size="14.0" />
+                        <Font name="Cambria" size="15.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="titre" layoutX="22.0" layoutY="32.0" prefHeight="25.0" prefWidth="213.0" />
-                  <Label layoutX="23.0" layoutY="81.0" text="Dans quelle région se deroulera votre événement?">
+                  <TextField fx:id="titre" layoutX="22.0" layoutY="32.0" prefHeight="25.0" prefWidth="213.0" styleClass="custom-text-field" stylesheets="@../css/loginDesign.css" />
+                  <Label layoutX="14.0" layoutY="81.0" text="Dans quelle région se deroulera votre événement?">
                      <font>
-                        <Font name="Cambria" size="14.0" />
+                        <Font name="Cambria" size="15.0" />
                      </font>
                   </Label>
-                  <ComboBox fx:id="gouvs" layoutX="23.0" layoutY="109.0" prefWidth="150.0" />
-                  <Label layoutX="348.0" layoutY="81.0" text="Dans quelle ville se deroulera votre événement ?">
+                  <ComboBox fx:id="gouvs" layoutX="24.0" layoutY="103.0" prefHeight="43.0" prefWidth="217.0" styleClass="custom-text-field" stylesheets="@../css/loginDesign.css" />
+                  <Label layoutX="338.0" layoutY="81.0" text="Dans quelle ville se deroulera votre événement ?">
                      <font>
-                        <Font name="Cambria" size="14.0" />
+                        <Font name="Cambria" size="15.0" />
                      </font>
                   </Label>
-                  <ComboBox fx:id="villes" layoutX="348.0" layoutY="109.0" prefWidth="150.0" />
-                  <Label layoutX="24.0" layoutY="146.0" text="Dans quelle adresse se deroulera votre événement ?">
+                  <ComboBox fx:id="villes" layoutX="364.0" layoutY="99.0" prefHeight="47.0" prefWidth="232.0" styleClass="custom-text-field" stylesheets="@../css/loginDesign.css" />
+                  <Label layoutX="24.0" layoutY="158.0" text="Dans quelle adresse se deroulera votre événement ?">
                      <font>
-                        <Font name="Cambria" size="14.0" />
+                        <Font name="Cambria" size="15.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="adresse" layoutX="23.0" layoutY="175.0" prefHeight="25.0" prefWidth="213.0" />
-                  <Label layoutX="24.0" layoutY="209.0" text="A quelle date aura lieu votre événement ? *">
+                  <TextField fx:id="adresse" layoutX="22.0" layoutY="184.0" prefHeight="25.0" prefWidth="213.0" styleClass="custom-text-field" stylesheets="@../css/loginDesign.css" />
+                  <Label layoutX="18.0" layoutY="218.0" text="A quelle date aura lieu votre événement ? *">
                      <font>
-                        <Font name="Cambria" size="14.0" />
+                        <Font name="Cambria" size="15.0" />
                      </font>
                   </Label>
-                  <DatePicker fx:id="date" layoutX="24.0" layoutY="237.0" />
-                  <TextField fx:id="heureDebut" layoutX="226.0" layoutY="237.0" promptText="20:00:00" />
-                  <TextField fx:id="heureFin" layoutX="418.0" layoutY="237.0" promptText="22:00:00" />
-                  <Label layoutX="24.0" layoutY="279.0" text="Combien de participants attendez vous ? *">
+                  <DatePicker fx:id="date" layoutX="23.0" layoutY="249.0" stylesheets="@../css/loginDesign.css" />
+                  <TextField fx:id="heureDebut" layoutX="225.0" layoutY="249.0" prefHeight="34.0" prefWidth="173.0" promptText="20:00:00" styleClass="custom-text-field" stylesheets="@../css/loginDesign.css" />
+                  <TextField fx:id="heureFin" layoutX="418.0" layoutY="249.0" prefHeight="34.0" prefWidth="200.0" promptText="22:00:00" styleClass="custom-text-field" stylesheets="@../css/loginDesign.css" />
+                  <Label layoutX="21.0" layoutY="288.0" text="Combien de participants attendez vous ? *">
                      <font>
-                        <Font name="Cambria" size="14.0" />
+                        <Font name="Cambria" size="15.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="invites" layoutX="24.0" layoutY="307.0" prefHeight="25.0" prefWidth="39.0" />
-                  <Label layoutX="70.0" layoutY="311.0" text="invités">
+                  <TextField fx:id="invites" layoutX="24.0" layoutY="319.0" prefHeight="25.0" prefWidth="39.0" />
+                  <Label layoutX="70.0" layoutY="323.0" text="invités">
                      <font>
-                        <Font name="Cambria" size="14.0" />
+                        <Font name="Cambria" size="15.0" />
                      </font>
                   </Label>
                   <Label fx:id="errorHD" layoutX="225.0" layoutY="262.0" textFill="#d20909" />
@@ -81,7 +87,7 @@
                   <Label fx:id="erreurTitre" layoutX="23.0" layoutY="63.0" textFill="#d20909" />
                   <Label fx:id="erreurInvites" layoutX="23.0" layoutY="332.0" textFill="#d20909" />
                   <Label fx:id="erreurDate" layoutX="22.0" layoutY="262.0" textFill="#d20909" />
-                  <Button layoutX="514.0" layoutY="314.0" mnemonicParsing="false" onAction="#reserverNouvEvent" prefHeight="31.0" prefWidth="114.0" style="-fx-background-color: #f5576c;" text="C'EST PARTI !" textFill="WHITE">
+                  <Button layoutX="514.0" layoutY="314.0" mnemonicParsing="false" onAction="#reserverNouvEvent" prefHeight="31.0" prefWidth="114.0" style="-fx-background-color: #DAAB3A;" text="C'EST PARTI !" textFill="WHITE">
                      <font>
                         <Font name="Cambria" size="14.0" />
                      </font>

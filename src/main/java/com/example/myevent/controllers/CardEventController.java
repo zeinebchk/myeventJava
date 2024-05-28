@@ -53,9 +53,11 @@ public class CardEventController {
         rs = st.executeQuery();
         if (rs.next()) {
             e.setId(rs.getBigDecimal("id").toBigInteger());
+            e.setTitre(rs.getString("titre"));
             e.setHeuredebutEvent(rs.getTime("heureDebutEvent"));
             e.setHeureFinEvent(rs.getTime("heureFinEvent"));
             e.setDateEvent(rs.getDate("dateEvent"));
+            e.setNbInvites(rs.getInt("nbInvites"));
             }
 
         String req = "insert into offre_event(event_id,offre_id)values(?,?)";
@@ -94,4 +96,6 @@ public class CardEventController {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, message, ButtonType.OK);
         alert.show();
     }
+
+
 }
