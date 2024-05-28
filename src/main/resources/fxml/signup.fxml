@@ -18,20 +18,20 @@
             <Font name="Bell MT" size="24.0" />
          </font>
       </Label>
-      <TextField fx:id="nom" layoutX="25.0" layoutY="94.0" prefHeight="39.0" prefWidth="179.0" promptText="Nom" styleClass="textField" stylesheets="@../css/loginDesign.css" />
-      <TextField fx:id="prenom" layoutX="223.0" layoutY="94.0" prefHeight="39.0" prefWidth="179.0" promptText="Prénom" styleClass="textField" stylesheets="@../css/loginDesign.css" />
-      <TextField fx:id="email" layoutX="25.0" layoutY="151.0" prefHeight="39.0" prefWidth="179.0" promptText="Email" styleClass="textField" stylesheets="@../css/loginDesign.css" />
-      <TextField fx:id="numTel" layoutX="223.0" layoutY="151.0" prefHeight="39.0" prefWidth="179.0" promptText="Numéro de telephone" styleClass="textField" stylesheets="@../css/loginDesign.css" />
-      <TextField fx:id="mdp" layoutX="25.0" layoutY="206.0" prefHeight="39.0" prefWidth="179.0" promptText="mot de passe" styleClass="textField" stylesheets="@../css/loginDesign.css" />
-      <TextField fx:id="confirmMdp" layoutX="223.0" layoutY="206.0" prefHeight="39.0" prefWidth="179.0" promptText="confirmer mot de passe" styleClass="textField" stylesheets="@../css/loginDesign.css" />
+      <TextField fx:id="nom" layoutX="25.0" layoutY="94.0" prefHeight="39.0" prefWidth="179.0" promptText="Nom" styleClass="textField" stylesheets="@../../java/css/loginDesign.css" />
+      <TextField fx:id="prenom" layoutX="223.0" layoutY="94.0" prefHeight="39.0" prefWidth="179.0" promptText="Prénom" styleClass="textField" stylesheets="@../../java/css/loginDesign.css" />
+      <TextField fx:id="email" layoutX="25.0" layoutY="151.0" prefHeight="39.0" prefWidth="179.0" promptText="Email" styleClass="textField" stylesheets="@../../java/css/loginDesign.css" />
+      <TextField fx:id="numTel" layoutX="223.0" layoutY="151.0" prefHeight="39.0" prefWidth="179.0" promptText="Numéro de telephone" styleClass="textField" stylesheets="@../../java/css/loginDesign.css" />
+      <TextField fx:id="mdp" layoutX="25.0" layoutY="206.0" prefHeight="39.0" prefWidth="179.0" promptText="mot de passe" styleClass="textField" stylesheets="@../../java/css/loginDesign.css" />
+      <TextField fx:id="confirmMdp" layoutX="223.0" layoutY="206.0" prefHeight="39.0" prefWidth="179.0" promptText="confirmer mot de passe" styleClass="textField" stylesheets="@../../java/css/loginDesign.css" />
       <ChoiceBox fx:id="genres" layoutX="148.0" layoutY="296.0" prefHeight="36.0" prefWidth="137.0">
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding></ChoiceBox>
       <Label layoutX="28.0" layoutY="300.0" text="Sinscrire en tant que" />
       <Pane layoutX="25.0" layoutY="294.0" prefHeight="143.0" prefWidth="374.0" visible="false" />
-      <TextField fx:id="nomProjet" layoutX="25.0" layoutY="339.0" prefHeight="39.0" prefWidth="179.0" promptText=" Nom du projet" styleClass="textField" stylesheets="@../css/loginDesign.css" visible="false" />
-      <TextField fx:id="numTelPro" layoutX="223.0" layoutY="339.0" prefHeight="39.0" prefWidth="179.0" promptText="Numero de tel professionnel" styleClass="textField" stylesheets="@../css/loginDesign.css" visible="false" />
+      <TextField fx:id="nomProjet" layoutX="25.0" layoutY="339.0" prefHeight="39.0" prefWidth="179.0" promptText=" Nom du projet" styleClass="textField" stylesheets="@../../java/css/loginDesign.css" visible="false" />
+      <TextField fx:id="numTelPro" layoutX="223.0" layoutY="339.0" prefHeight="39.0" prefWidth="179.0" promptText="Numero de tel professionnel" styleClass="textField" stylesheets="@../../java/css/loginDesign.css" visible="false" />
       <ChoiceBox fx:id="categories" layoutX="69.0" layoutY="391.0" prefHeight="36.0" prefWidth="137.0" visible="false">
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -42,7 +42,7 @@
          </padding></ChoiceBox>
       <Label fx:id="labelCategories" layoutX="14.0" layoutY="400.0" text="Categorie" visible="false" />
       <Label fx:id="labelGouv" layoutX="219.0" layoutY="400.0" text="Gouvernerat" visible="false" />
-      <TextField fx:id="adresse" layoutX="28.0" layoutY="437.0" prefHeight="39.0" prefWidth="173.0" promptText="Adresse Exacte" styleClass="textField" stylesheets="@../css/loginDesign.css" visible="false" />
+      <TextField fx:id="adresse" layoutX="28.0" layoutY="437.0" prefHeight="39.0" prefWidth="173.0" promptText="Adresse Exacte" styleClass="textField" stylesheets="@../../java/css/loginDesign.css" visible="false" />
       <Label fx:id="labelVille" layoutX="241.0" layoutY="440.0" text="Ville" visible="false" />
       <ChoiceBox fx:id="villes" layoutX="274.0" layoutY="436.0" prefHeight="36.0" prefWidth="137.0" visible="false">
          <padding>

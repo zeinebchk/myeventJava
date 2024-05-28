@@ -72,7 +72,7 @@
             <Label layoutX="16.0" layoutY="112.0" text="Ville" />
          </children>
       </Pane>
-      <HBox alignment="CENTER" layoutX="16.0" layoutY="84.0" prefHeight="44.0" prefWidth="258.0" styleClass="search-box" stylesheets="@../css/loginDesign.css">
+      <HBox alignment="CENTER" layoutX="16.0" layoutY="84.0" prefHeight="44.0" prefWidth="258.0" styleClass="search-box" stylesheets="@../../java/css/loginDesign.css">
          <children>
             <ImageView fx:id="search" fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -82,7 +82,7 @@
                   <Insets left="7.0" />
                </HBox.margin>
             </ImageView>
-            <TextField prefHeight="27.0" prefWidth="141.0" promptText="recherche" styleClass="transparent" stylesheets="@../css/loginDesign.css">
+            <TextField prefHeight="27.0" prefWidth="141.0" promptText="recherche" styleClass="transparent" stylesheets="@../../java/css/loginDesign.css">
                <font>
                   <Font name="Cambria" size="15.0" />
                </font>
@@ -90,7 +90,7 @@
                   <Insets left="20.0" />
                </HBox.margin>
             </TextField>
-            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="30.0" prefWidth="78.0" styleClass="search-button" stylesheets="@../css/loginDesign.css" text="chercher" textAlignment="CENTER">
+            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="30.0" prefWidth="78.0" styleClass="search-button" stylesheets="@../../java/css/loginDesign.css" text="chercher" textAlignment="CENTER">
                <padding>
                   <Insets right="20.0" />
                </padding>

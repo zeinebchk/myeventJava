@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="600.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.myevent.controllers.HelloController" stylesheets="@/stylee.css">
+  <!-- Background Image -->
+  <ImageView fitHeight="764.0" fitWidth="1345.0" layoutX="-23.0" layoutY="-164.0" pickOnBounds="true" preserveRatio="true">
+    <image>
+      <Image url="@images/Manager_View_All_Employees.jpg" />
+    </image>
+  </ImageView>
+
+
+  <!-- TableView Content -->
+  <TableView fx:id="TableViewOffres" layoutX="88.0" layoutY="195.0" prefHeight="366.0" prefWidth="857.0" styleClass="transparent-table">
+    <columns>
+      <TableColumn fx:id="C_ID" text="ID" />
+      <TableColumn fx:id="C_FN" text="Titre" />
+      <TableColumn fx:id="C_LN" prefWidth="149.59999084472656" text="Prix Initial" />
+      <TableColumn fx:id="C_CNIC" prefWidth="186.39996337890625" text="Prix Remise" />
+      <TableColumn fx:id="C_DOB" prefWidth="166.40008544921875" text="Date Fin Remise" />
+      <TableColumn fx:id="C_ACTIONS" prefWidth="191.20000000000005" text="Actions" />
+    </columns>
+  </TableView>
+</AnchorPane>

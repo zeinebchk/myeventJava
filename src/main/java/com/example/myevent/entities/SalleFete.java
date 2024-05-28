@@ -30,6 +30,7 @@ public class SalleFete extends Offre {
 
     }
 
+
     // Getters et setters pour les attributs
     public int getSurface() {
         return surface;
@@ -74,9 +75,16 @@ public class SalleFete extends Offre {
         return latitude;
     }
 
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
     public double getLongitude() {
         return longitude;
     }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;}
 
     public String getOptionInclus() {
         return optionInclus;

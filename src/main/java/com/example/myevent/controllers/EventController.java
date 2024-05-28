@@ -9,6 +9,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
+import javafx.util.Callback;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -28,7 +30,7 @@ public class EventController implements Initializable {
     @FXML
     private TableColumn<Event, Time> heuredebutEvent;
     @FXML
-    private TableColumn<Event, Time>heureFinEvent;
+    private TableColumn<Event, Time> heureFinEvent;
     @FXML
     private TableColumn<Event, Integer> nbInvites;
     @FXML
@@ -37,6 +39,8 @@ public class EventController implements Initializable {
     private TableColumn<Event, String> ville;
     @FXML
     private TableColumn<Event, String> adresse;
+    @FXML
+    private TableColumn<Event, Void> detailsColumn;
 
     @FXML
     private TextField tf_titre;
@@ -81,13 +85,8 @@ public class EventController implements Initializable {
         ville.setCellValueFactory(new PropertyValueFactory<>("ville"));
         adresse.setCellValueFactory(new PropertyValueFactory<>("adresseExacte"));
 
-        // Création des objets Time à partir des champs de texte
-        Time heureDebut = convertirEnTime(ft_hd);
-        Time heureFin = convertirEnTime(ft_hf);
-
+        addButtonToTable();
         loadUserData();
-
-        table_event.setOnMouseClicked(event -> selectEvent(event));
     }
 
     private void loadUserData() {
@@ -105,6 +104,53 @@ public class EventController implements Initializable {
             e.printStackTrace();
         }
         table_event.setItems(events);
+    }
+
+    private void addButtonToTable() {
+        Callback<TableColumn<Event, Void>, TableCell<Event, Void>> cellFactory = new Callback<>() {
+            @Override
+            public TableCell<Event, Void> call(final TableColumn<Event, Void> param) {
+                final TableCell<Event, Void> cell = new TableCell<>() {
+
+                    private final Button btn = new Button("Details");
+
+                    {
+                        btn.setOnAction((ActionEvent event) -> {
+                            Event data = getTableView().getItems().get(getIndex());
+                            showEventDetails(data);
+                        });
+                    }
+
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            setGraphic(btn);
+                        }
+                    }
+                };
+                return cell;
+            }
+        };
+
+        detailsColumn.setCellFactory(cellFactory);
+    }
+
+    private void showEventDetails(Event event) {
+        // Remplacer ce code par l'ouverture d'une nouvelle fenêtre pour afficher les détails de l'événement
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Event Details");
+        alert.setHeaderText("Details de l'événement");
+        alert.setContentText("Titre: " + event.getTitre() + "\nDate: " + event.getDateEvent() +
+                "\nHeure de début: " + event.getHeureDebutEvent() +
+                "\nHeure de fin: " + event.getHeureFinEvent() +
+                "\nNombre d'invités: " + event.getNbInvites() +
+                "\nGouvernerat: " + event.getGouvernerat() +
+                "\nVille: " + event.getVille() +
+                "\nAdresse: " + event.getAdresseExacte());
+        alert.showAndWait();
     }
 
     @FXML
@@ -127,20 +173,17 @@ public class EventController implements Initializable {
             Event events = new Event(0, titre, dateEvent, heuredebutEvent, heureFinEvent, nbInvites, gouvernerat, ville, adresseExacte);
             eventService.ajouter(events);
             showAlert(Alert.AlertType.CONFIRMATION, "Succès", "Événement ajouté avec succès.");
+            loadUserData(); // Rafraîchir la table après l'ajout
         } catch (SQLException e) {
             showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur lors de l'ajout de l'événement : " + e.getMessage());
         }
     }
 
-    private void selectEvent(javafx.scene.input.MouseEvent mouseEvent) {
-        // Logique de sélection d'un événement
-    }
-
-    private void showAlert(Alert.AlertType type, String title, String content) {
-        Alert alert = new Alert(type);
+    private void showAlert(Alert.AlertType alertType, String title, String message) {
+        Alert alert = new Alert(alertType);
         alert.setTitle(title);
         alert.setHeaderText(null);
-        alert.setContentText(content);
+        alert.setContentText(message);
         alert.showAndWait();
     }
 }

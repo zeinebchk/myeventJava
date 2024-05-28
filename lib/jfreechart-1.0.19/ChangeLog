@@ -122,7 +122,7 @@
     * org/jfree/chart/fx/ChartViewer.java: Likewise,
     * org/jfree/chart/fx/ChartViewerSkin.java: Likewise,
     * org/jfree/chart/fx/FXGraphics2D.java: Likewise,
-    * org/jfree/chart/fx/chart-viewer.css: Likewise,
+    * org/jfree/chart/fx/chart-viewer.css.css: Likewise,
     * org/jfree/chart/fx/demo/BarChartFXDemo1.java: Likewise,
     * org/jfree/chart/fx/demo/PieChartFXDemo1.java: Likewise,
     * org/jfree/chart/fx/demo/TimeSeriesChartFXDemo1.java: Likewise,

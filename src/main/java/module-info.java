@@ -6,8 +6,15 @@ module com.example.myevent {
     requires mysql.connector.j;
     requires AnimateFX;
     requires java.desktop;
+    requires com.jfoenix;
+    requires javafx.base; // Ensure you require the javafx.base module
+    opens com.example.myevent.entities to javafx.base; // This opens your entities package to javafx.base
+
+
+    opens com.example.myevent.ChefProjet to javafx.fxml;
     exports com.example.myevent.controllers to javafx.fxml;
     opens com.example.myevent.controllers to javafx.fxml;
     opens com.example.myevent to javafx.fxml;
+
     exports com.example.myevent;
 }
