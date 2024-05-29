@@ -307,13 +307,13 @@ public class SignupController implements Initializable {
         if (file != null) {
             Path sourcePath = file.toPath();
             String uniqueFileName = UUID.randomUUID().toString() + "_" + file.getName();
-            Path destinationPath = Paths.get("C:", "Users", "asus", "Desktop","pfa","myEvent","images", uniqueFileName);
+            Path destinationPath = Paths.get("C:","Users", "R I B", "images", uniqueFileName);
 
             try {
                 // Vérifier si le fichier existe déjà, et si c'est le cas, générer un nouveau nom
                 while (Files.exists(destinationPath)) {
                     uniqueFileName = UUID.randomUUID().toString() + "_" + file.getName();
-                    destinationPath = Paths.get("C:", "Users", "asus", "Desktop","pfa","myEvent","images", uniqueFileName);
+                    destinationPath = Paths.get("C:","Users", "R I B", "images", uniqueFileName);
                 }
 
                 Files.copy(sourcePath, destinationPath);

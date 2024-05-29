@@ -1,6 +1,7 @@
 package com.example.myevent.entities;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Date;
 import java.util.Objects;
 
@@ -13,9 +14,9 @@ public class SalleFete extends Offre {
     private double latitude; // Ajoutez le champ latitude
     private double longitude; // Ajoutez le champ longitude
     private String optionInclus;
-    private Offre offre;
+    private BigInteger id;
 
-    public SalleFete(int surface, int capacitePersonne, String gouvernerat, String ville, String adresseExacte, String optionInclus) {
+    public SalleFete(int surface, int capacitePersonne, String gouvernerat, String ville, String adresseExacte, String optionInclus,BigInteger offreId) {
         super();
         this.surface = surface;
         this.capacitePersonne = capacitePersonne;
@@ -25,14 +26,16 @@ public class SalleFete extends Offre {
         this.latitude = latitude;
         this.longitude = longitude;
         this.optionInclus = optionInclus;
+        this.id = offreId;
     }
 
     public SalleFete() {
 
     }
-    public Offre getOffre() {
-        return offre;
-    }
+
+
+
+
 
     // Getters et setters pour les attributs
     public int getSurface() {
@@ -95,5 +98,12 @@ public class SalleFete extends Offre {
 
     public void setOptionInclus(String optionInclus) {
         this.optionInclus = optionInclus;
+    }
+    public BigInteger getId() {
+        return id;
+    }
+
+    public void setId(BigInteger id) {
+        this.id = id;
     }
 }

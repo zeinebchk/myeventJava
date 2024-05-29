@@ -7,11 +7,12 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
+<?import com.jfoenix.controls.JFXButton?>
 <AnchorPane prefHeight="600.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.myevent.controllers.HelloController" stylesheets="@/stylee.css">
   <!-- Background Image -->
   <ImageView fitHeight="764.0" fitWidth="1345.0" layoutX="-23.0" layoutY="-164.0" pickOnBounds="true" preserveRatio="true">
     <image>
-      <Image url="@images/Manager_View_All_Employees.jpg" />
+      <Image url="@images/Manager_View_All_Events.jpg" />
     </image>
   </ImageView>
 
@@ -27,4 +28,6 @@
       <TableColumn fx:id="C_ACTIONS" prefWidth="191.20000000000005" text="Actions" />
     </columns>
   </TableView>
+  <JFXButton fx:id="retour" buttonType="RAISED" onAction="#handleRetourButtonAction" prefHeight="33.0" prefWidth="114.0" style="-fx-background-color: #FFB6C1; -fx-text-fill: white;" text="Retour"/>
+
 </AnchorPane>

@@ -93,7 +93,7 @@ public class LoginController {
     }
 
     @FXML
-    private void handleViewProductButtonAction(ActionEvent event) {
+    private void handleViewProductButtonAction(ActionEvent event) throws IOException{
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/offre.fxml"));
             Parent root = loader.load();

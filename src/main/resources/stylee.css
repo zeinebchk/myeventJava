@@ -42,19 +42,63 @@
 }
 
 /* Button styles */
-#addButton, #deleteButton, #updateButton {
-    -fx-background-color: #2196F3; /* Blue background */
-    -fx-text-fill: white; /* White text */
-    -fx-font-size: 14px;
+/* styles.css */
+.button {
+    -fx-background-color: #FFB6C1; /* Pink pastel */
+    -fx-text-fill: white; /* Text color */
+    -fx-font-weight: bold; /* Bold text */
+    -fx-border-radius: 5px; /* Rounded corners */
+    -fx-background-radius: 5px; /* Rounded background */
+    -fx-padding: 10px 20px; /* Padding */
+}
+
+.button:hover {
+    -fx-background-color: #FF69B4; /* Darker pink on hover */
+}
+
+.button:pressed {
+    -fx-background-color: #FF1493; /* Even darker pink on press */
+}
+/* stylee.css */
+
+.dialog-pane {
+    -fx-background-color: #f9f9f9;
+    -fx-padding: 20;
+    -fx-border-color: #cfcfcf;
+    -fx-border-width: 2;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
+
+.dialog-title {
+    -fx-font-size: 18px;
     -fx-font-weight: bold;
-    -fx-background-radius: 5; /* Rounded corners */
-    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.3), 10, 0, 0, 5);
+    -fx-text-fill: #333333;
+    -fx-padding: 0 0 10 0;
 }
 
-#addButton:hover, #deleteButton:hover, #updateButton:hover {
-    -fx-background-color: #1976D2; /* Darker blue on hover */
+.dialog-label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #555555;
 }
 
-#addButton:pressed, #deleteButton:pressed, #updateButton:pressed {
-    -fx-background-color: #0D47A1; /* Even darker blue when pressed */
+.dialog-textfield {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cccccc;
+    -fx-border-radius: 3;
+    -fx-padding: 5;
+    -fx-pref-width: 200;
+}
+
+.dialog-button {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 8 15;
+    -fx-border-radius: 3;
+    -fx-background-radius: 3;
+}
+
+.dialog-button:hover {
+    -fx-background-color: #45a049;
 }

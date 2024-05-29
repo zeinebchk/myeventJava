@@ -3,7 +3,7 @@ package com.example.myevent.entities;
 import java.math.BigInteger;
 import java.time.LocalDate;
 public class Offre {
-    private BigInteger id;
+    public BigInteger id;
     private String titre;
     private String description;
     private double prixInitial;
@@ -96,7 +96,6 @@ public class Offre {
     public void setEntrepreneurId(BigInteger entrepreneurId) {
         this.entrepreneurId = entrepreneurId;
     }
-
 
 
 

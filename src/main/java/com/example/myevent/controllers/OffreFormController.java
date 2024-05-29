@@ -149,7 +149,8 @@ public class OffreFormController implements Initializable {
             int capacitePersonne = Integer.parseInt(capaciteField.getText());
             String gouvernerat = gouverneratField.getValue();
             String ville = villeField.getValue();
-
+            String adresseExacte =adresseField.getText();
+            String optionInclus =optionsInclusField.getText();
 
             if (imageFileName == null || imageFileName.isEmpty()) {
                 showAlert("Erreur", "Veuillez sélectionner une image.");
@@ -165,7 +166,7 @@ public class OffreFormController implements Initializable {
             if (offre.getDateFinRemise() == null) {
                 throw new IllegalArgumentException("La date de fin de remise ne peut pas être null.");
             }
-            SalleFete salleFete = new SalleFete(surface, capacitePersonne, gouvernerat, ville, adresseField.getText(), optionsInclusField.getText());
+            SalleFete salleFete = new SalleFete(surface, capacitePersonne, gouvernerat, ville, adresseExacte, optionInclus ,offre.getId());
             Image image = new Image(imageFileName, offre.getId());
             image.setImageURL(imageFileName);
 
@@ -219,13 +220,13 @@ public class OffreFormController implements Initializable {
         if (file != null) {
             Path sourcePath = file.toPath();
             String uniqueFileName = UUID.randomUUID().toString() + "_" + file.getName();
-            Path destinationPath = Paths.get("C:", "Users", "asus", "Desktop","pfa","myEvent","images", uniqueFileName);
+            Path destinationPath = Paths.get("C:","Users", "R I B", "images", uniqueFileName);
 
             try {
                 // Vérifier si le fichier existe déjà, et si c'est le cas, générer un nouveau nom
                 while (Files.exists(destinationPath)) {
                     uniqueFileName = UUID.randomUUID().toString() + "_" + file.getName();
-                    destinationPath = Paths.get("C:", "Users", "asus", "Desktop","pfa","myEvent","images", uniqueFileName);
+                    destinationPath = Paths.get("C:","Users", "R I B", "images", uniqueFileName);
                 }
 
                 Files.copy(sourcePath, destinationPath);
