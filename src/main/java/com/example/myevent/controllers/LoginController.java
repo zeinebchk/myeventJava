@@ -1,6 +1,5 @@
 package com.example.myevent.controllers;
 
-import com.example.myevent.entities.AESCrypt;
 import com.example.myevent.entities.User;
 import com.example.myevent.entities.UserSession;
 import com.example.myevent.tools.Connexion;
@@ -12,13 +11,9 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import animatefx.animation.Shake;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import org.mindrot.jbcrypt.BCrypt;
 
-import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.net.URL;
@@ -171,7 +166,7 @@ public class LoginController implements Initializable {
                         System.out.println("aaaaaaaa");
                        loader = new FXMLLoader(getClass().getResource("/Fxml/dashboardUser.fxml"));
                     } else {
-                        loader = new FXMLLoader(getClass().getResource("/Menu.fxml"));
+                        loader = new FXMLLoader(getClass().getResource("/fxml/Menu.fxml"));
                     }
                     Parent root = loader.load();
                     Scene scene = new Scene(root);

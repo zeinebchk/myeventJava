@@ -1,5 +1,5 @@
 package com.example.myevent.entities;
-import javafx.scene.control.Alert;
+/*import javafx.scene.control.Alert;
 import java.util.Properties;
 import javax.mail.Session;
 import javax.mail.Message;
@@ -51,4 +51,4 @@ public class mail {
             e.printStackTrace();
         }
     }
-}
+}*/

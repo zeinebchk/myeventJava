@@ -1,5 +1,7 @@
 package com.example.myevent.ChefProjet;
 
+import com.example.myevent.entities.Offre;
+import com.example.myevent.entities.Reservation;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -19,7 +21,7 @@ import java.time.LocalDate;
 
 
 public class ReservationController {
-    @FXML
+   /* @FXML
     private TableView<Reservation> MainTable;
     private Button confirmerButton;
     @FXML
@@ -57,7 +59,7 @@ public class ReservationController {
             if (rowsUpdated > 0) {
                 System.out.println("Le statut de la réservation avec l'ID " + reservationId + " a été mis à jour avec succès.");
                 showAlert("L'offre a ete refusée ");
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/hello-view.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/hello-view.fxml"));
 
                 Parent root = loader.load();
                 Scene scene = new Scene(root);
@@ -86,7 +88,7 @@ public class ReservationController {
             if (rowsUpdated > 0) {
                 System.out.println("Le statut de la réservation avec l'ID " + reservationId + " a été mis à jour avec succès.");
                 showAlert("L'offre a ete confirmée avec succées");
-               FXMLLoader loader = new FXMLLoader(getClass().getResource("/hello-view.fxml"));
+               FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/hello-view.fxml"));
 
             Parent root = loader.load();
             Scene scene = new Scene(root);
@@ -184,12 +186,12 @@ public class ReservationController {
     @FXML
    public void afficherMenu(ActionEvent event) throws IOException {
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Menu.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Menu.fxml"));
 
         Parent root = loader.load();
         Scene scene = new Scene(root);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
         stage.show();
-    }
+    }*/
 }

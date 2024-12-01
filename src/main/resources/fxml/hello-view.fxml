@@ -22,22 +22,22 @@
         <RowConstraints />
     </rowConstraints>
     <children>
-        <AnchorPane prefHeight="556.0" prefWidth="901.0" style="-fx-background-color: black;" stylesheets="@csschf/Table_Style.css">
+        <AnchorPane prefHeight="556.0" prefWidth="901.0" style="-fx-background-color: black;" stylesheets="@../csschf/Table_Style.css">
             <children>
                 <ImageView fitHeight="600.0" fitWidth="900.0" layoutX="14.0" opacity="0.63" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@images/Manager_View_All_Events.jpg" />
+                        <Image url="@../images/Manager_View_All_Events.jpg" />
                     </image>
                 </ImageView>
                 <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" layoutX="-5.0" layoutY="43.0" opacity="0.4" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: black;" width="900.0" AnchorPane.leftAnchor="-5.0" AnchorPane.topAnchor="43.0" />
 
-                <Label layoutX="220.0" style="-fx-font-size: 100; -fx-effect: DropShadow;" styleClass="Honey" stylesheets="@csschf/Text_Style.css" text="Liste Clients" textFill="WHITE" AnchorPane.topAnchor="0.0">
+                <Label layoutX="220.0" style="-fx-font-size: 100; -fx-effect: DropShadow;" styleClass="Honey" stylesheets="@../csschf/Text_Style.css" text="Liste Clients" textFill="WHITE" AnchorPane.topAnchor="0.0">
                     <effect>
                         <DropShadow />
                     </effect>
                 </Label>
 
-                <TableView fx:id="MainTable" editable="true" layoutX="69.0" layoutY="186.0" prefHeight="320.0" prefWidth="800.0" styleClass="virtual-flow" stylesheets="@csschf/Text_Style.css" AnchorPane.leftAnchor="69.0" AnchorPane.rightAnchor="31.0">
+                <TableView fx:id="MainTable" editable="true" layoutX="69.0" layoutY="186.0" prefHeight="320.0" prefWidth="800.0" styleClass="virtual-flow" stylesheets="@../csschf/Text_Style.css" AnchorPane.leftAnchor="69.0" AnchorPane.rightAnchor="31.0">
                     <effect>
                         <DropShadow />
                     </effect>

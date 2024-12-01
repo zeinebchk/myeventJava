@@ -38,7 +38,7 @@ import java.util.ResourceBundle;
 
 
 
-public class HelloController implements Initializable {
+public class ListeOffresController implements Initializable {
     @FXML
     private TableView<Offre> TableViewOffres;
 

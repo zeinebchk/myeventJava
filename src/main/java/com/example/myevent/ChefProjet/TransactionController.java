@@ -1,13 +1,21 @@
 package com.example.myevent.ChefProjet;
 
+import com.example.myevent.entities.Offre;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.sql.*;
 import java.time.LocalDate;
 
@@ -70,13 +78,13 @@ public class TransactionController {
                 double prixRemise = resultSet.getDouble("prixRemise");
                 LocalDate dateFinRemise = resultSet.getDate("dateFinRemise").toLocalDate();
                 // Créer une instance de l'objet Offre
-                Offre offre = new Offre(offreId, titreOffre, descriptionOffre, prixInitial, prixRemise, dateFinRemise);
+               // Offre offre = new Offre(offreId, titreOffre, descriptionOffre, prixInitial, prixRemise, dateFinRemise);
                 // Récupérer les informations du client
                 String clientId = resultSet.getString("client_id");
                 String nomClient = resultSet.getString("nom");
                 String prenomClient = resultSet.getString("prenom");
                 String emailClient = resultSet.getString("email");
-                Client client = new Client(clientId, nomClient, prenomClient, emailClient);
+               // Client client = new Client(clientId, nomClient, prenomClient, emailClient);
 
                 // Créer une nouvelle transaction avec l'objet Client et l'objet Offre
                 Transaction transaction = new Transaction(id, nomClient, prenomClient, dateReservation, prixRemise, offreId, status);
@@ -95,4 +103,14 @@ public class TransactionController {
         String password = "";
         return DriverManager.getConnection(url, username, password);
     }
+
+    public void afficherMenu(ActionEvent actionEvent) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Menu.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+    }
+
 }

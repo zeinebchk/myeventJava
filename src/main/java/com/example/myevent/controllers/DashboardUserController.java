@@ -1,7 +1,6 @@
 package com.example.myevent.controllers;
 
 import com.example.myevent.entities.Entrepreneur;
-import com.example.myevent.entities.Offre;
 import com.example.myevent.entities.SalleFete;
 import com.example.myevent.tools.Connexion;
 import javafx.event.ActionEvent;
@@ -261,7 +260,7 @@ public class DashboardUserController implements Initializable {
     }
     @FXML
     void affichMenu(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/MenuUser.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MenuUser.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

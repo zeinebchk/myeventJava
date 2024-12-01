@@ -210,7 +210,12 @@ public class EventController implements Initializable {
         alert.showAndWait();
     }
     @FXML
-    void afficherMenu(ActionEvent event) {
-
+    void afficherMenu(ActionEvent event) throws IOException {
+        FXMLLoader  loader = new FXMLLoader(getClass().getResource("/fxml/MenuUser.fxml"));
+    Parent root = loader.load();
+    Scene scene = new Scene(root);
+    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                    stage.setScene(scene);
+                    stage.show();
     }
 }

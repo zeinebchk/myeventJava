@@ -28,6 +28,6 @@
       <TableColumn fx:id="C_ACTIONS" prefWidth="191.20000000000005" text="Actions" />
     </columns>
   </TableView>
-  <JFXButton fx:id="retour" buttonType="RAISED" onAction="#handleRetourButtonAction" prefHeight="33.0" prefWidth="114.0" style="-fx-background-color: #FFB6C1; -fx-text-fill: white;" text="Retour"/>
+  <Button fx:id="retour"  onAction="#handleRetourButtonAction" prefHeight="33.0" prefWidth="114.0" style="-fx-background-color: #FFB6C1; -fx-text-fill: white;" text="Retour"/>
 
 </AnchorPane>
