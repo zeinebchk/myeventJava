@@ -168,7 +168,7 @@ public class OffreFormController implements Initializable {
             }
             SalleFete salleFete = new SalleFete(surface, capacitePersonne, gouvernerat, ville, adresseExacte, optionInclus ,offre.getId());
             Image image = new Image(imageFileName, offre.getId());
-            image.setImageURL(imageFileName);
+            image.setUrl(imageFileName);
 
             offreDAO.ajouterOffre(offre, salleFete, image);
             clearFormFields();

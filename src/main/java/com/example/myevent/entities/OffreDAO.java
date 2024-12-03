@@ -129,7 +129,7 @@ public class OffreDAO {
             if (image != null) {
                 String updateImageQuery = "UPDATE image SET url = ? WHERE offre_id = ?";
                 try (PreparedStatement imageStatement = connection.prepareStatement(updateImageQuery)) {
-                    imageStatement.setString(1, image.getImageURL());
+                    imageStatement.setString(1, image.getUrl());
                     imageStatement.setBigDecimal(2, new BigDecimal(offre.getId()));
                     imageStatement.executeUpdate();
                 }
@@ -221,7 +221,7 @@ public class OffreDAO {
                 // Code pour ajouter l'image dans la base de données
                 String sql = "INSERT INTO image (url,offre_id) VALUES (?, ?)";
                 try (PreparedStatement statement = connection.prepareStatement(sql)) {
-                    statement.setString(1, image.getImageURL());
+                    statement.setString(1, image.getUrl());
                     statement.setBigDecimal(2, new BigDecimal(offreId));
                     statement.executeUpdate();}
                 catch(Exception e){

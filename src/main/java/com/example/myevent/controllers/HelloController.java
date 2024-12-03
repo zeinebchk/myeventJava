@@ -170,7 +170,7 @@ public class HelloController implements Initializable {
         TextField adresseField = new TextField(salleFete != null ? salleFete.getAdresseExacte() : "");
 
         Image image = getImageByOffreId(offre.getId());
-        TextField imageURLField = new TextField(image != null ? image.getImageURL() : "");
+        TextField imageURLField = new TextField(image != null ? image.getUrl() : "");
 // Apply styles to form elements
         titreField.getStyleClass().add("dialog-textfield");
         descriptionField.getStyleClass().add("dialog-textfield");
@@ -216,7 +216,7 @@ public class HelloController implements Initializable {
 
                 // Update Image if it exists
                 if (image != null) {
-                    image.setImageURL(imageURLField.getText());
+                    image.setUrl(imageURLField.getText());
                 }
 
                 // Call the update method of your DAO to update the offer in the database
@@ -278,7 +278,7 @@ public class HelloController implements Initializable {
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     Image image = new Image();
-                    image.setImageURL(resultSet.getString("url"));
+                    image.setUrl(resultSet.getString("url"));
                     return image;
                 }
             }

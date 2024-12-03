@@ -30,6 +30,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class DashboardUserController implements Initializable {
     @FXML
@@ -71,44 +72,52 @@ public class DashboardUserController implements Initializable {
     Connection con = Connexion.getInstance().getCnx();
 
     private List<SalleFete> salles=new ArrayList<>();
+    public void initialiseGridPane(List<SalleFete> salles) {
 
+        int column = 0;
+        int row = 1;
+        try {
+            for (int i = 0; i < salles.size(); i++) {
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                fxmlLoader.setLocation(getClass().getResource("/fxml/card.fxml"));
+                AnchorPane anchorPane = fxmlLoader.load();
+
+                CardController itemController = fxmlLoader.getController();
+                itemController.setData(salles.get(i));
+
+                if (column == 2) {
+                    column = 0;
+                    row++;
+                }
+
+                grid.add(anchorPane, column++, row); //(child,column,row)
+                //set grid width
+                grid.setMinWidth(Region.USE_COMPUTED_SIZE);
+                grid.setPrefWidth(Region.USE_COMPUTED_SIZE);
+                grid.setMaxWidth(Region.USE_PREF_SIZE);
+
+                //set grid height
+                grid.setMinHeight(Region.USE_COMPUTED_SIZE);
+                grid.setPrefHeight(Region.USE_COMPUTED_SIZE);
+                grid.setMaxHeight(Region.USE_PREF_SIZE);
+
+                GridPane.setMargin(anchorPane, new Insets(10));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
-            salles.addAll(getData());
-            int column = 0;
-            int row = 1;
-            try {
-                for (int i = 0; i < salles.size(); i++) {
-                    FXMLLoader fxmlLoader = new FXMLLoader();
-                    fxmlLoader.setLocation(getClass().getResource("/fxml/card.fxml"));
-                    AnchorPane anchorPane = fxmlLoader.load();
 
-                    CardController itemController = fxmlLoader.getController();
-                    itemController.setData(salles.get(i));
-
-                    if (column == 2) {
-                        column = 0;
-                        row++;
-                    }
-
-                    grid.add(anchorPane, column++, row); //(child,column,row)
-                    //set grid width
-                    grid.setMinWidth(Region.USE_COMPUTED_SIZE);
-                    grid.setPrefWidth(Region.USE_COMPUTED_SIZE);
-                    grid.setMaxWidth(Region.USE_PREF_SIZE);
-
-                    //set grid height
-                    grid.setMinHeight(Region.USE_COMPUTED_SIZE);
-                    grid.setPrefHeight(Region.USE_COMPUTED_SIZE);
-                    grid.setMaxHeight(Region.USE_PREF_SIZE);
-
-                    GridPane.setMargin(anchorPane, new Insets(10));
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            Date today = Date.valueOf(LocalDate.now().plusDays(1));
+            dateReservation.setValue(today.toLocalDate());
+            nbInvites.setText("20");
+            getAllRooomsAvailable(today);
+            System.out.println(salles.size());
+            initialiseGridPane(salles);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -152,81 +161,78 @@ public class DashboardUserController implements Initializable {
         filter2.setImage(brandingImage3);
 
     }
-
-    public List<SalleFete> getData() throws SQLException {
-        System.out.println("hhhhhh");
-         if(nbInvites.getText().isEmpty()){
-             nbInvites.setText("20");
-         }
-         if(dateReservation.getValue()==null){
-             dateReservation.setValue(LocalDate.now());
-         }
-         if(gouvs.getValue()==null){
-             gouvs.setValue("Monastir");
-         }
-        if(villes.getValue()==null){
-            villes.setValue("Monastir");
-        }
-         List<SalleFete> salles=new ArrayList<>();
-         SalleFete salle;
-
-         System.out.println(gouvs.getValue());
+    public List<SalleFete> getAllRooomsAvailable(Date t) throws SQLException {
         st = con.prepareStatement("SELECT * from offre o " +
-                  "JOIN sallefete f ON o.id = f.offre_id " +
+                "JOIN sallefete f ON o.id = f.offre_id " +
                 "JOIN (SELECT MIN(id) as id, offre_id, url FROM image GROUP BY offre_id) i ON o.id = i.offre_id " +
-                 "WHERE f.gouvernerat = ? " +
-                "AND f.ville = ? " +
-                "AND f.capacitePersonne >= ? " +
-                "AND o.prixInitial BETWEEN ? AND ? " +
-             "AND o.id NOT IN (SELECT o.id FROM offre o " +
+                "AND o.id NOT IN (SELECT o.id FROM offre o " +
                 "JOIN sallefete f ON o.id = f.offre_id " +
                 "JOIN reservations r ON o.id = r.offre_id " +
                 "JOIN image i ON o.id = i.offre_id " +
-                "WHERE f.gouvernerat = ? " +
-                "AND f.ville = ? " +
-                "AND f.capacitePersonne >= ? " +
-                "AND o.prixInitial BETWEEN ? AND ? " +
                 "AND r.status = 'confirme' " +
                 "AND r.dateReservation = ?) " );
-           st.setString(1, gouvs.getValue());
-            st.setString(2, villes.getValue());
-             st.setInt(3, Integer.parseInt(nbInvites.getText()));
-            st.setDouble(4, minBudget.getValue());
-            st.setDouble(5, maxBudget.getValue());
-           st.setString(6, gouvs.getValue());
-            st.setString(7, villes.getValue());
-            st.setInt(8, Integer.parseInt(nbInvites.getText()));
-            st.setDouble(9, minBudget.getValue());
-            st.setDouble(10, maxBudget.getValue());
-            st.setDate(11,java.sql.Date.valueOf(dateReservation.getValue()));
-            rs = st.executeQuery();
+        st.setDate(1,t);
+        rs = st.executeQuery();
         int rowCount = 0;
-          while (rs.next()) {
-              rowCount++;
-              SalleFete s=new SalleFete();
-             s.setTitre(rs.getString("titre"));
-             s.setAdresseExacte(rs.getString("adresseExacte"));
-             s.setDescription(rs.getString("description"));
-             s.setPrixInitial(rs.getDouble("prixInitial"));
-             s.setCapacitePersonne(rs.getInt("capacitePersonne"));
-             s.setSurface(rs.getInt("surface"));
-             s.setGouvernerat(rs.getString("gouvernerat"));
-             s.setVille(rs.getString("ville"));
-             s.setDescription(rs.getString("description"));
-             s.setAdresseExacte(rs.getString("adresseExacte"));
+        while (rs.next()) {
+            rowCount++;
+            SalleFete s=new SalleFete();
+            String imageFileName = rs.getString("url");
+            String imagePath = "file:./images/" + imageFileName;
+            Image image = new Image(imagePath);
+            s.setTitre(rs.getString("titre"));
+            s.setAdresseExacte(rs.getString("adresseExacte"));
+            s.setDescription(rs.getString("description"));
+            s.setPrixInitial(rs.getDouble("prixInitial"));
+            s.setCapacitePersonne(rs.getInt("capacitePersonne"));
+            s.setSurface(rs.getInt("surface"));
+            s.setGouvernerat(rs.getString("gouvernerat"));
+            s.setVille(rs.getString("ville"));
+            s.setDescription(rs.getString("description"));
+            s.setAdresseExacte(rs.getString("adresseExacte"));
+            s.setImage(image);
 
              /* Entrepreneur entrepreneur = getEntrepreneurFromResultSet(rs.getBigDecimal("entrepreneur_id"));
               s.setEntrepreneur_id(entrepreneur);*/
-              if (!salles.contains(s)) {
-                  salles.add(s);
-              }
-              System.out.println("hhhhhh");
-           }
-        System.out.println("Nombre de lignes retournées : " + rowCount);
-          for(int i=0;i<salles.size();i++){
-              System.out.println(salles.get(i).toString());
-          }
+            if (!salles.contains(s)) {
+                salles.add(s);
+            }
+
+
+    }
         return salles;
+    }
+
+   public List<SalleFete> filtrerBYcriteria(String gouvernerat,String ville,Date t,int nbInvites,int minBudget,int maxBudget) throws SQLException {
+        salles.clear();
+       getAllRooomsAvailable(t);
+       System.out.println(salles.size());
+       if (salles != null && !salles.isEmpty()) {
+           System.out.println("dddddddddddddddd");
+
+       for (SalleFete s : salles) {
+           System.out.println(s.toString());
+       }
+           System.out.println("size salles dans filtre "+salles.size());
+   }
+   else {
+        System.out.println("La liste des salles est vide ou nulle.");
+    }
+   System.out.println(gouvernerat);
+       System.out.println(ville);
+           salles=salles.stream().filter(
+               s->s.getGouvernerat().equals(gouvernerat)
+               && s.getVille().equals(ville)
+               && s.getCapacitePersonne()>=nbInvites
+               && s.getPrixInitial()>=minBudget && s.getSurface()<=maxBudget).collect(Collectors.toList());
+       for(SalleFete s:salles){
+
+           System.out.println(s.toString());
+       }
+       return salles;
+
+
+
     }
 
     private Entrepreneur getEntrepreneurFromResultSet(BigDecimal id) throws SQLException {
@@ -266,5 +272,17 @@ public class DashboardUserController implements Initializable {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
         stage.show();
+    }
+
+    public void filtrer(ActionEvent actionEvent) throws SQLException {
+        String gouv=gouvs.getValue();
+        String ville=villes.getValue();
+        int nbinvites=Integer.parseInt(nbInvites.getText());
+        int minbudget=(int) Math.round(minBudget.getValue()); ;
+        int maxbudget=(int) Math.round(maxBudget.getValue()); ;
+        Date dateRes= Date.valueOf(dateReservation.getValue());
+        List<SalleFete> ss=filtrerBYcriteria(gouv,ville,dateRes,nbinvites,minbudget,maxbudget);
+        grid.getChildren().clear();
+        initialiseGridPane(ss);
     }
 }

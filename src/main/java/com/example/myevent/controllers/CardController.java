@@ -55,6 +55,7 @@ public class CardController implements Initializable {
         titre.setText(s.getTitre());
         prix.setText("A partir de "+s.getPrixInitial()+ "DT");
         invites.setText(""+s.getCapacitePersonne());
+        imageOffre.setImage(s.getImage());
 
     }
 

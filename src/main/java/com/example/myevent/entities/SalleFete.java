@@ -16,6 +16,7 @@ public class SalleFete extends Offre {
     private String optionInclus;
     private BigInteger id;
 
+
     public SalleFete(int surface, int capacitePersonne, String gouvernerat, String ville, String adresseExacte, String optionInclus,BigInteger offreId) {
         super();
         this.surface = surface;
@@ -30,13 +31,8 @@ public class SalleFete extends Offre {
     }
 
     public SalleFete() {
-
+        super();
     }
-
-
-
-
-
     // Getters et setters pour les attributs
     public int getSurface() {
         return surface;
@@ -105,5 +101,20 @@ public class SalleFete extends Offre {
 
     public void setId(BigInteger id) {
         this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "SalleFete{" +
+                "surface=" + surface +
+                ", capacitePersonne=" + capacitePersonne +
+                ", gouvernerat='" + gouvernerat + '\'' +
+                ", ville='" + ville + '\'' +
+                ", adresseExacte='" + adresseExacte + '\'' +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
+                ", optionInclus='" + optionInclus + '\'' +
+                ", id=" + id +
+                '}';
     }
 }

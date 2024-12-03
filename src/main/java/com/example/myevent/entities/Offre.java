@@ -1,7 +1,11 @@
 package com.example.myevent.entities;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
 import java.math.BigInteger;
 import java.time.LocalDate;
+
 public class Offre {
     public BigInteger id;
     private String titre;
@@ -9,9 +13,9 @@ public class Offre {
     private double prixInitial;
     private double prixRemise;
     private LocalDate dateFinRemise;
-    private BigInteger entrepreneurId;  // Nouvel attribut entrepreneurId
-  // Référence à la salle de fête
-     // Référence à l'image
+    private BigInteger entrepreneurId;
+    private Image image;
+
 
     public Offre(BigInteger id, String titre, String description, double prixInitial, double prixRemise, LocalDate dateFinRemise, BigInteger entrepreneurId) {
         this.id = id;
@@ -38,6 +42,15 @@ public class Offre {
         this.dateFinRemise = LocalDate.now();
         this.entrepreneurId = BigInteger.ZERO;
     }
+
+    public void setImage(Image image) {
+        this.image = image;
+    }
+
+    public Image getImage() {
+        return image;
+    }
+
     public Offre(BigInteger id, String titre, String description, double prixInitial, double prixRemise, LocalDate dateFinRemise) {
     }
 

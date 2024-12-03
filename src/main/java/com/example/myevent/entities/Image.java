@@ -4,16 +4,14 @@ import java.math.BigInteger;
 
 public class Image extends Offre  {
     private BigInteger id;
-    private String imageFileName;
     private BigInteger offreId;
-    private String imageURL;
     private String url;  // Ajout de la propriété 'url'
 
     // Constructeur avec tous les champs
-    public Image(String imageFileName, BigInteger offreId, String imageURL, String url) {
-        this.imageFileName = imageFileName;
+    public Image(BigInteger offreId, String url) {
+
         this.offreId = offreId;
-        this.imageURL = imageURL;
+
         this.url = url;
     }
 
@@ -33,13 +31,7 @@ public class Image extends Offre  {
         this.id = id;
     }
 
-    public String getImageFileName() {
-        return imageFileName;
-    }
 
-    public void setImageFileName(String imageFileName) {
-        this.imageFileName = imageFileName;
-    }
 
     public BigInteger getOffreId() {
         return offreId;
@@ -49,13 +41,6 @@ public class Image extends Offre  {
         this.offreId = offreId;
     }
 
-    public String getImageURL() {
-        return imageURL;
-    }
-
-    public void setImageURL(String imageURL) {
-        this.imageURL = imageURL;
-    }
 
     public String getUrl() {
         return url;
