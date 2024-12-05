@@ -1,8 +1,5 @@
 package com.example.myevent.controllers;
 
-import com.example.myevent.entities.Entrepreneur;
-import com.example.myevent.entities.Offre;
-import com.example.myevent.entities.SalleFete;
 import com.example.myevent.tools.Connexion;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,32 +12,23 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.net.URL;
 import java.sql.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class DashboardUserController implements Initializable {
+
     @FXML
     private DatePicker dateReservation;
 
     @FXML
     private ImageView filter2;
-
-    @FXML
-    private Pane filtragePanel;
 
     @FXML
     private ComboBox<String> gouvs;
@@ -58,211 +46,140 @@ public class DashboardUserController implements Initializable {
     private TextField nbInvites;
 
     @FXML
-    private ScrollPane scroll;
-
-    @FXML
-    private ImageView search;
-
-    @FXML
     private ChoiceBox<String> villes;
 
-
-    PreparedStatement st = null;
-    ResultSet rs = null;
-    Connection con = Connexion.getInstance().getCnx();
-
-    private List<SalleFete> salles=new ArrayList<>();
-
+    private final Connection con = Connexion.getInstance().getCnx();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        try {
-            salles.addAll(getData());
-            int column = 0;
-            int row = 1;
-            try {
-                for (int i = 0; i < salles.size(); i++) {
-                    FXMLLoader fxmlLoader = new FXMLLoader();
-                    fxmlLoader.setLocation(getClass().getResource("/fxml/card.fxml"));
-                    AnchorPane anchorPane = fxmlLoader.load();
+        initializeFilters();
+    }
 
-                    CardController itemController = fxmlLoader.getController();
-                    itemController.setData(salles.get(i));
-
-                    if (column == 2) {
-                        column = 0;
-                        row++;
-                    }
-
-                    grid.add(anchorPane, column++, row); //(child,column,row)
-                    //set grid width
-                    grid.setMinWidth(Region.USE_COMPUTED_SIZE);
-                    grid.setPrefWidth(Region.USE_COMPUTED_SIZE);
-                    grid.setMaxWidth(Region.USE_PREF_SIZE);
-
-                    //set grid height
-                    grid.setMinHeight(Region.USE_COMPUTED_SIZE);
-                    grid.setPrefHeight(Region.USE_COMPUTED_SIZE);
-                    grid.setMaxHeight(Region.USE_PREF_SIZE);
-
-                    GridPane.setMargin(anchorPane, new Insets(10));
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        gouvs.getItems().add("Sfax");
-        gouvs.getItems().add("Tunis");
-        gouvs.getItems().add("Monastir");
-        gouvs.getItems().add("Sousse");
+    private void initializeFilters() {
+        // Initialiser les gouvernorats et les villes
+        gouvs.getItems().addAll("Sfax", "Tunis", "Monastir", "Sousse");
         gouvs.setValue("Monastir");
+
         villes.getItems().addAll("Monastir", "Moknine", "Sahline");
         villes.setValue("Monastir");
-        gouvs.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            // Effacer les anciennes villes
-            villes.getItems().clear();
-            // Ajouter les nouvelles villes en fonction du gouvernorat sélectionné
-            switch (newValue) {
-                case "Sfax":
-                    villes.getItems().addAll("Sfax Ville", "Sakiet Eddaier", "Sakiet Ezzit");
-                    break;
-                case "Tunis":
-                    villes.getItems().addAll("Tunis", "Ariana", "Ben Arous");
-                    break;
-                case "Monastir":
-                    villes.getItems().addAll("Monastir", "Moknine", "Sahline");
-                    break;
-                case "Sousse":
-                    villes.getItems().addAll("Sousse", "Hammam Sousse", "Kalaa Kebira");
-                    break;
-                default:
-                    // Par défaut, ne rien faire
-                    break;
-            }
-        });
+
+        // Écouteur pour mise à jour des villes en fonction du gouvernorat
+        gouvs.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> updateVilles(newValue));
+
+        loadImages();
+    }
+
+    private void updateVilles(String gouvernorat) {
+        // Mise à jour des villes en fonction du gouvernorat sélectionné
+        villes.getItems().clear();
+        switch (gouvernorat) {
+            case "Sfax":
+                villes.getItems().addAll("Sfax Ville", "Sakiet Eddaier", "Sakiet Ezzit");
+                break;
+            case "Tunis":
+                villes.getItems().addAll("Tunis", "Ariana", "Ben Arous");
+                break;
+            case "Monastir":
+                villes.getItems().addAll("Monastir", "Moknine", "Sahline");
+                break;
+            case "Sousse":
+                villes.getItems().addAll("Sousse", "Hammam Sousse", "Kalaa Kebira");
+                break;
+            default:
+                break;
+        }
+        villes.setValue(villes.getItems().get(0));
+    }
+
+    private void loadImages() {
+        // Charger l'image du filtre
         File brandingFile = new File("images/search.png");
-        Image brandingImage = new Image(brandingFile.toURI().toString());
-        search.setImage(brandingImage);
-
-
-
-        File brandingFile3 = new File("images/filter.png");
-        Image brandingImage3 = new Image(brandingFile3.toURI().toString());
-        filter2.setImage(brandingImage3);
-
+        filter2.setImage(new Image(brandingFile.toURI().toString()));
     }
 
-    public List<SalleFete> getData() throws SQLException {
-        System.out.println("hhhhhh");
-         if(nbInvites.getText().isEmpty()){
-             nbInvites.setText("20");
-         }
-         if(dateReservation.getValue()==null){
-             dateReservation.setValue(LocalDate.now());
-         }
-         if(gouvs.getValue()==null){
-             gouvs.setValue("Monastir");
-         }
-        if(villes.getValue()==null){
-            villes.setValue("Monastir");
-        }
-         List<SalleFete> salles=new ArrayList<>();
-         SalleFete salle;
-
-         System.out.println(gouvs.getValue());
-        st = con.prepareStatement("SELECT * from offre o " +
-                  "JOIN sallefete f ON o.id = f.offre_id " +
-                "JOIN (SELECT MIN(id) as id, offre_id, url FROM image GROUP BY offre_id) i ON o.id = i.offre_id " +
-                 "WHERE f.gouvernerat = ? " +
-                "AND f.ville = ? " +
-                "AND f.capacitePersonne >= ? " +
-                "AND o.prixInitial BETWEEN ? AND ? " +
-             "AND o.id NOT IN (SELECT o.id FROM offre o " +
-                "JOIN sallefete f ON o.id = f.offre_id " +
-                "JOIN reservations r ON o.id = r.offre_id " +
-                "JOIN image i ON o.id = i.offre_id " +
-                "WHERE f.gouvernerat = ? " +
-                "AND f.ville = ? " +
-                "AND f.capacitePersonne >= ? " +
-                "AND o.prixInitial BETWEEN ? AND ? " +
-                "AND r.status = 'confirme' " +
-                "AND r.dateReservation = ?) " );
-           st.setString(1, gouvs.getValue());
-            st.setString(2, villes.getValue());
-             st.setInt(3, Integer.parseInt(nbInvites.getText()));
-            st.setDouble(4, minBudget.getValue());
-            st.setDouble(5, maxBudget.getValue());
-           st.setString(6, gouvs.getValue());
-            st.setString(7, villes.getValue());
-            st.setInt(8, Integer.parseInt(nbInvites.getText()));
-            st.setDouble(9, minBudget.getValue());
-            st.setDouble(10, maxBudget.getValue());
-            st.setDate(11,java.sql.Date.valueOf(dateReservation.getValue()));
-            rs = st.executeQuery();
-        int rowCount = 0;
-          while (rs.next()) {
-              rowCount++;
-              SalleFete s=new SalleFete();
-             s.setTitre(rs.getString("titre"));
-             s.setAdresseExacte(rs.getString("adresseExacte"));
-             s.setDescription(rs.getString("description"));
-             s.setPrixInitial(rs.getDouble("prixInitial"));
-             s.setCapacitePersonne(rs.getInt("capacitePersonne"));
-             s.setSurface(rs.getInt("surface"));
-             s.setGouvernerat(rs.getString("gouvernerat"));
-             s.setVille(rs.getString("ville"));
-             s.setDescription(rs.getString("description"));
-             s.setAdresseExacte(rs.getString("adresseExacte"));
-
-             /* Entrepreneur entrepreneur = getEntrepreneurFromResultSet(rs.getBigDecimal("entrepreneur_id"));
-              s.setEntrepreneur_id(entrepreneur);*/
-              if (!salles.contains(s)) {
-                  salles.add(s);
-              }
-              System.out.println("hhhhhh");
-           }
-        System.out.println("Nombre de lignes retournées : " + rowCount);
-          for(int i=0;i<salles.size();i++){
-              System.out.println(salles.get(i).toString());
-          }
-        return salles;
-    }
-
-    private Entrepreneur getEntrepreneurFromResultSet(BigDecimal id) throws SQLException {
-        System.out.println("gggg");
-        // Assuming Entrepreneur has an empty constructor and setter methods for each property
-        Entrepreneur entrepreneur = new Entrepreneur();
-        st = con.prepareStatement("SELECT * FROM entrepreneurs join users on entrepreneurs.user_id=users.id where entrepreneurs.id=?" );
-        st.setBigDecimal(1, id);
-        rs = st.executeQuery();
-        if(rs.next()){
-            System.out.println(rs.getString("nom"));
-            entrepreneur.setId(new BigInteger(rs.getString("id")));
-            entrepreneur.setNomProjet(rs.getString("nomProjet"));
-            entrepreneur.setCategorie(rs.getString("categorie"));
-            entrepreneur.setGouvernerat(rs.getString("gouvernerat"));
-            entrepreneur.setVille(rs.getString("ville"));
-            entrepreneur.setAdresseExacte(rs.getString("adresseExacte"));
-            entrepreneur.setNumTelPro(rs.getInt("numTelPro"));
-            entrepreneur.setLatitude(rs.getDouble("latitude"));
-            entrepreneur.setLatitude(rs.getDouble("longitude"));
-            entrepreneur.setNom(rs.getString("nom"));
-            entrepreneur.setPrenom(rs.getString("prenom"));
-            entrepreneur.setEmail(rs.getString("email"));
-            entrepreneur.setNumTel(rs.getInt("numTel"));
-            entrepreneur.setImage(rs.getString("image"));
-            entrepreneur.setGenre(rs.getString("genre"));
-            entrepreneur.setPassword(rs.getString(("password")));
-        }
-
-        return entrepreneur;
-    }
     @FXML
-    void affichMenu(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/MenuUser.fxml"));
-        Parent root = loader.load();
+    private void applyFilter(ActionEvent event) {
+        // Récupérer les valeurs des champs de filtre
+        String gouvernorat = gouvs.getValue();
+        String ville = villes.getValue();
+        LocalDate date = dateReservation.getValue();
+        int nbGuests;
+        try {
+            nbGuests = Integer.parseInt(nbInvites.getText());
+        } catch (NumberFormatException e) {
+            showError("Veuillez entrer un nombre valide d'invités.");
+            return;
+        }
+        double minPrice = minBudget.getValue();
+        double maxPrice = maxBudget.getValue();
+
+        // Valider les champs avant de filtrer
+        if (gouvernorat != null && ville != null && date != null && nbGuests > 0) {
+            // Construire la requête SQL dynamique
+            String sql = "SELECT sf.id, sf.nom, sf.capacite, o.prix, r.date_disponibilite " +
+                    "FROM sallefete sf " +
+                    "JOIN reservations r ON sf.id = r.salle_id " +
+                    "JOIN offre o ON sf.id = o.sallefete_id " +
+                    "WHERE sf.gouvernorat = ? " +
+                    "AND sf.ville = ? " +
+                    "AND sf.capacite >= ? " +
+                    "AND o.prix BETWEEN ? AND ? " +
+                    "AND r.date_disponibilite >= ? " +
+                    "AND r.date_disponibilite NOT IN (SELECT date_disponibilite FROM reservations WHERE salle_id = sf.id)";
+
+            try (PreparedStatement stmt = con.prepareStatement(sql)) {
+                // Ajouter les paramètres de la requête
+                stmt.setString(1, gouvernorat);
+                stmt.setString(2, ville);
+                stmt.setInt(3, nbGuests);
+                stmt.setDouble(4, minPrice);
+                stmt.setDouble(5, maxPrice);
+                stmt.setDate(6, Date.valueOf(date)); // Date de réservation minimum
+
+                // Exécuter la requête et récupérer les résultats
+                ResultSet rs = stmt.executeQuery();
+
+                // Effacer la GridPane avant d'ajouter de nouveaux résultats
+                grid.getChildren().clear();
+
+                // Afficher les résultats dans la vue (mettre à jour la GridPane)
+                int row = 0;
+                while (rs.next()) {
+                    String salleNom = rs.getString("sf.nom");
+                    double prix = rs.getDouble("o.prix");
+                    Date dateDisponibilite = rs.getDate("r.date_disponibilite");
+                    int capacite = rs.getInt("sf.capacite");
+
+                    // Créer un label pour chaque résultat et l'ajouter à la GridPane
+                    Label label = new Label("Salle: " + salleNom + ", Prix: " + prix + " TND, Capacité: " + capacite + " personnes, Date: " + dateDisponibilite);
+                    label.setStyle("-fx-text-fill: white; -fx-font-size: 14px; -fx-background-color: #2D9596; -fx-padding: 10px;");
+
+                    // Placer chaque label dans la GridPane
+                    grid.add(label, 0, row++);
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+                showError("Erreur lors de l'exécution de la requête.");
+            }
+        } else {
+            showError("Veuillez remplir tous les critères.");
+        }
+    }
+
+    // Méthode pour afficher un message d'erreur
+    private void showError(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Erreur");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    @FXML
+    private void affichMenu(ActionEvent event) throws IOException {
+        // Navigation vers le menu utilisateur
+        Parent root = FXMLLoader.load(getClass().getResource("/MenuUser.fxml"));
         Scene scene = new Scene(root);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);

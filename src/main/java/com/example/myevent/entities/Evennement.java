@@ -65,8 +65,8 @@ public class Evennement {
         return titre;
     }
 
-    public Date getDateEvent() {
-        return dateEvent;
+    public LocalDate getDateEvent() {
+        return dateEvent.toLocalDate();
     }
     public Time getHeuredebutEvent() {
         return heuredebutEvent;

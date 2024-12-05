@@ -1,23 +1,35 @@
 package com.example.myevent.ChefProjet;
 
+import com.jfoenix.controls.JFXButton;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
+import java.io.IOException;
+
+import java.math.BigInteger;
 import java.sql.*;
 import java.time.LocalDate;
 
 public class TransactionController {
     @FXML
     private TableView<Transaction> MainTable;
-
+    BigInteger BigInteger;
 
     @FXML
     private TextField Text_Searchbar;
+    @FXML
+    private JFXButton Menu;
+
 
     public void initialize() {
         initializeTableView();
@@ -70,13 +82,14 @@ public class TransactionController {
                 double prixRemise = resultSet.getDouble("prixRemise");
                 LocalDate dateFinRemise = resultSet.getDate("dateFinRemise").toLocalDate();
                 // Créer une instance de l'objet Offre
-                Offre offre = new Offre(offreId, titreOffre, descriptionOffre, prixInitial, prixRemise, dateFinRemise);
+
+                Offre offre = new Offre();
                 // Récupérer les informations du client
                 String clientId = resultSet.getString("client_id");
                 String nomClient = resultSet.getString("nom");
                 String prenomClient = resultSet.getString("prenom");
                 String emailClient = resultSet.getString("email");
-                Client client = new Client(clientId, nomClient, prenomClient, emailClient);
+              //  Client client = new Client(clientId, nomClient, prenomClient, emailClient);
 
                 // Créer une nouvelle transaction avec l'objet Client et l'objet Offre
                 Transaction transaction = new Transaction(id, nomClient, prenomClient, dateReservation, prixRemise, offreId, status);
@@ -90,9 +103,26 @@ public class TransactionController {
     }
 
     public static Connection connect() throws SQLException {
-        String url = "jdbc:mysql://localhost:3306/events";
+        String url = "jdbc:mysql://localhost:3306/chachaaa";
         String username = "root";
         String password = "";
         return DriverManager.getConnection(url, username, password);
+    }
+
+    // Méthode pour gérer l'action du bouton retour
+    @FXML
+    private void handleConnexionButtonAction(ActionEvent event) {
+        // Charger la nouvelle page
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Menu.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) Menu.getScene().getWindow();
+            stage.setScene(new Scene(root));
+
+            // Imprimer un message
+            System.out.println("Navigué vers la page menu avec succès !");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -11,6 +11,7 @@ public class Image extends Offre  {
 
     // Constructeur avec tous les champs
     public Image(String imageFileName, BigInteger offreId, String imageURL, String url) {
+        super();
         this.imageFileName = imageFileName;
         this.offreId = offreId;
         this.imageURL = imageURL;

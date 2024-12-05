@@ -1,20 +1,14 @@
 package com.example.myevent.entities;
 
 import com.example.myevent.tools.Connexion;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.layout.HBox;
-import javafx.util.Callback;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.sql.*;
-
+import java.time.LocalDate;
 
 
 public class OffreDAO {
@@ -22,6 +16,7 @@ public class OffreDAO {
     private Connection connection;
     private BigInteger offreId;
     private String message;
+    private BigInteger id;
 
 
     public OffreDAO(Connection connection ) {
@@ -152,21 +147,27 @@ public class OffreDAO {
 
             offres.clear();
             while (resultSet.next()) {
-                Offre offre = new Offre();
-                offre.setId(BigInteger.valueOf(resultSet.getLong("id")));
-                offre.setTitre(resultSet.getString("titre"));
-                offre.setDescription(resultSet.getString("description"));
-                offre.setPrixInitial(resultSet.getDouble("prixInitial"));
-                offre.setPrixRemise(resultSet.getDouble("prixRemise"));
-                offre.setDateFinRemise(resultSet.getDate("dateFinRemise").toLocalDate());
-                offre.setEntrepreneurId(BigInteger.valueOf(resultSet.getLong("entrepreneur_id")));
+                // Récupération des valeurs à partir de ResultSet
+                BigInteger id = BigInteger.valueOf(resultSet.getLong("id"));
+                String titre = resultSet.getString("titre");
+                String description = resultSet.getString("description");
+                double prixInitial = resultSet.getDouble("prixInitial");
+                double prixRemise = resultSet.getDouble("prixRemise");
+                LocalDate dateFinRemise = resultSet.getDate("dateFinRemise") != null ?
+                        resultSet.getDate("dateFinRemise").toLocalDate() : null;
+                BigInteger entrepreneurId = BigInteger.valueOf(resultSet.getLong("entrepreneur_id"));
 
+                // Création de l'objet Offre avec les valeurs extraites
+                Offre offre = new Offre();
+
+                // Ajout de l'offre à la liste observable
                 offres.add(offre);
             }
         } catch (SQLException e) {
             System.err.println("Error loading offer data: " + e.getMessage());
         }
     }
+
 
     public BigInteger ajouterOffre(Offre offre, SalleFete salleFete, Image image) throws SQLException {
 

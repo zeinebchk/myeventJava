@@ -135,7 +135,7 @@ public class OffreFormController implements Initializable {
         rs = st.executeQuery();
         if (rs.next()) {
 
-           ee.setId(rs.getBigDecimal("id").toBigInteger());
+            ee.setId(rs.getBigDecimal("id").toBigInteger());
         }
         try {
             connection.setAutoCommit(false);
@@ -162,7 +162,7 @@ public class OffreFormController implements Initializable {
             }
 
 
-            Offre offre = new Offre(id, titre, description, prixInitial, prixRemise, dateFinRemise, ee.getId());
+            Offre offre = new Offre();
             if (offre.getDateFinRemise() == null) {
                 throw new IllegalArgumentException("La date de fin de remise ne peut pas être null.");
             }
@@ -220,13 +220,13 @@ public class OffreFormController implements Initializable {
         if (file != null) {
             Path sourcePath = file.toPath();
             String uniqueFileName = UUID.randomUUID().toString() + "_" + file.getName();
-            Path destinationPath = Paths.get("C:","Users", "R I B", "images", uniqueFileName);
+            Path destinationPath = Paths.get("D:","projects", "images", uniqueFileName);
 
             try {
                 // Vérifier si le fichier existe déjà, et si c'est le cas, générer un nouveau nom
                 while (Files.exists(destinationPath)) {
                     uniqueFileName = UUID.randomUUID().toString() + "_" + file.getName();
-                    destinationPath = Paths.get("C:","Users", "R I B", "images", uniqueFileName);
+                    destinationPath = Paths.get("D:","projects", "images", uniqueFileName);
                 }
 
                 Files.copy(sourcePath, destinationPath);
@@ -261,7 +261,7 @@ public class OffreFormController implements Initializable {
     @FXML
     private void handleRetourMenu(ActionEvent event) {
         try {
-            Parent menuParent = FXMLLoader.load(getClass().getResource("/menu.fxml"));
+            Parent menuParent = FXMLLoader.load(getClass().getResource("/fxml/Menu.fxml"));
             Scene menuScene = new Scene(menuParent);
             Stage window = (Stage) retourMenuButton.getScene().getWindow();
             window.setScene(menuScene);
@@ -271,5 +271,13 @@ public class OffreFormController implements Initializable {
             showAlert("Erreur", "Erreur lors du chargement de la page de menu : " + e.getMessage());
         }
     }
-}
 
+   /* public void afficherMenu(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Menu.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+    }*/
+}

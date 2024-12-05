@@ -1,28 +1,48 @@
 package com.example.myevent.ChefProjet;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.Date;
+import java.util.Objects;
+
 public class SalleFete extends Offre {
-    private String surface;
+    private int surface;
     private int capacitePersonne;
     private String gouvernerat;
     private String ville;
     private String adresseExacte;
-    private String description;
-    private double latitude;
-    private double longitude;
+    private double latitude; // Ajoutez le champ latitude
+    private double longitude; // Ajoutez le champ longitude
     private String optionInclus;
-    private double prix;
+    private BigInteger id;
 
-    // Constructeur
-    public SalleFete(String titre, String description, double prix) {
-        super(titre, description, prix);
+    public SalleFete(int surface, int capacitePersonne, String gouvernerat, String ville, String adresseExacte, String optionInclus,BigInteger offreId) {
+        super();
+        this.surface = surface;
+        this.capacitePersonne = capacitePersonne;
+        this.gouvernerat = gouvernerat;
+        this.ville = ville;
+        this.adresseExacte = adresseExacte;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.optionInclus = optionInclus;
+        this.id = offreId;
     }
 
-    // Getters et setters
-    public String getSurface() {
+    public SalleFete() {
+
+    }
+
+
+
+
+
+    // Getters et setters pour les attributs
+    public int getSurface() {
         return surface;
     }
 
-    public void setSurface(String surface) {
+    public void setSurface(int surface) {
         this.surface = surface;
     }
 
@@ -57,15 +77,6 @@ public class SalleFete extends Offre {
     public void setAdresseExacte(String adresseExacte) {
         this.adresseExacte = adresseExacte;
     }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public double getLatitude() {
         return latitude;
     }
@@ -79,8 +90,7 @@ public class SalleFete extends Offre {
     }
 
     public void setLongitude(double longitude) {
-        this.longitude = longitude;
-    }
+        this.longitude = longitude;}
 
     public String getOptionInclus() {
         return optionInclus;
@@ -89,12 +99,11 @@ public class SalleFete extends Offre {
     public void setOptionInclus(String optionInclus) {
         this.optionInclus = optionInclus;
     }
-
-    public double getPrix() {
-        return prix;
+    public BigInteger getId() {
+        return id;
     }
 
-    public void setPrix(double prix) {
-        this.prix = prix;
+    public void setId(BigInteger id) {
+        this.id = id;
     }
 }

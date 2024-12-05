@@ -10,8 +10,8 @@ public class Offre {
     private double prixRemise;
     private LocalDate dateFinRemise;
     private BigInteger entrepreneurId;  // Nouvel attribut entrepreneurId
-  // Référence à la salle de fête
-     // Référence à l'image
+    // Référence à la salle de fête
+    // Référence à l'image
 
     public Offre(BigInteger id, String titre, String description, double prixInitial, double prixRemise, LocalDate dateFinRemise, BigInteger entrepreneurId) {
         this.id = id;

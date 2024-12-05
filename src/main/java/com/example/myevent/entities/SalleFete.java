@@ -1,9 +1,6 @@
 package com.example.myevent.entities;
 
-import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.Date;
-import java.util.Objects;
 
 public class SalleFete extends Offre {
     private int surface;
@@ -11,12 +8,13 @@ public class SalleFete extends Offre {
     private String gouvernerat;
     private String ville;
     private String adresseExacte;
-    private double latitude; // Ajoutez le champ latitude
-    private double longitude; // Ajoutez le champ longitude
+    private double latitude;
+    private double longitude;
     private String optionInclus;
-    private BigInteger id;
 
-    public SalleFete(int surface, int capacitePersonne, String gouvernerat, String ville, String adresseExacte, String optionInclus,BigInteger offreId) {
+    public SalleFete(int surface, int capacitePersonne, String gouvernerat, String ville, String adresseExacte,
+                     String optionInclus, BigInteger offreId) {
+        // Appel du constructeur de la classe parente (Offre)
         super();
         this.surface = surface;
         this.capacitePersonne = capacitePersonne;
@@ -26,16 +24,11 @@ public class SalleFete extends Offre {
         this.latitude = latitude;
         this.longitude = longitude;
         this.optionInclus = optionInclus;
-        this.id = offreId;
     }
 
     public SalleFete() {
-
+        super();  // Constructeur par défaut
     }
-
-
-
-
 
     // Getters et setters pour les attributs
     public int getSurface() {
@@ -77,6 +70,7 @@ public class SalleFete extends Offre {
     public void setAdresseExacte(String adresseExacte) {
         this.adresseExacte = adresseExacte;
     }
+
     public double getLatitude() {
         return latitude;
     }
@@ -90,7 +84,8 @@ public class SalleFete extends Offre {
     }
 
     public void setLongitude(double longitude) {
-        this.longitude = longitude;}
+        this.longitude = longitude;
+    }
 
     public String getOptionInclus() {
         return optionInclus;
@@ -99,11 +94,13 @@ public class SalleFete extends Offre {
     public void setOptionInclus(String optionInclus) {
         this.optionInclus = optionInclus;
     }
+
+    // Getters et setters pour l'id
     public BigInteger getId() {
-        return id;
+        return super.getId();
     }
 
     public void setId(BigInteger id) {
-        this.id = id;
+        super.setId(id);
     }
 }

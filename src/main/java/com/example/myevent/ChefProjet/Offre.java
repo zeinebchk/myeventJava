@@ -1,39 +1,34 @@
 package com.example.myevent.ChefProjet;
+
+import java.math.BigInteger;
 import java.time.LocalDate;
 
 public class Offre {
-    private String id;
+    private BigInteger id;
     private String titre;
     private String description;
     private double prixInitial;
     private double prixRemise;
     private LocalDate dateFinRemise;
-    private String entrepreneur_id;
-    public Offre(String id, String titre, String description, double prixInitial, double prixRemise, LocalDate dateFinRemise) {
+    private BigInteger entrepreneurId;
+
+    // Constructeur
+    public Offre() {
         this.id = id;
         this.titre = titre;
         this.description = description;
         this.prixInitial = prixInitial;
         this.prixRemise = prixRemise;
         this.dateFinRemise = dateFinRemise;
+        this.entrepreneurId = entrepreneurId;
     }
 
-    public Offre(String id, String titre, double prixInitial) {
-        this.id = id;
-        this.titre = titre;
-        this.description = description;
-        this.prixInitial = prixInitial;
-        this.prixRemise = prixRemise;
-        this.dateFinRemise = dateFinRemise;
-        this.entrepreneur_id = entrepreneur_id;
-    }
-
-    // Getters and setters
-    public String getId() {
+    // Getters et setters
+    public BigInteger getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(BigInteger id) {
         this.id = id;
     }
 
@@ -77,11 +72,11 @@ public class Offre {
         this.dateFinRemise = dateFinRemise;
     }
 
-    public String getEntrepreneur_id() {
-        return entrepreneur_id;
+    public BigInteger getEntrepreneurId() {
+        return entrepreneurId;
     }
 
-    public void setEntrepreneur_id(String entrepreneur_id) {
-        this.entrepreneur_id = entrepreneur_id;
+    public void setEntrepreneurId(BigInteger entrepreneurId) {
+        this.entrepreneurId = entrepreneurId;
     }
 }

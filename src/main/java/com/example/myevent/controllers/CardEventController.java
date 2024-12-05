@@ -17,10 +17,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.Authenticator;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Properties;
 
 public class CardEventController {
@@ -73,7 +70,7 @@ public class CardEventController {
         stmt2.setString(1, "enAttente");
         stmt2.setTime(2,e.getHeuredebutEvent());
         stmt2.setTime(3,e.getHeureFinEvent());
-        stmt2.setDate(4,e.getDateEvent());
+        stmt2.setDate(4, Date.valueOf(e.getDateEvent()));
         stmt2.setInt(5,0);
         stmt2.setBigDecimal(6,new BigDecimal(OffreSession.getInstance().getSalle().getId()));
         stmt2.setBigDecimal(7,new BigDecimal(UserSession.getInstance().getUser().getId()));

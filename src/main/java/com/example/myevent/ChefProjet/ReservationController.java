@@ -1,5 +1,7 @@
 package com.example.myevent.ChefProjet;
 
+import com.example.myevent.entities.Offre;
+import com.example.myevent.entities.Reservation;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -19,7 +21,7 @@ import java.time.LocalDate;
 
 
 public class ReservationController {
-    @FXML
+   @FXML
     private TableView<Reservation> MainTable;
     private Button confirmerButton;
     @FXML
@@ -57,7 +59,7 @@ public class ReservationController {
             if (rowsUpdated > 0) {
                 System.out.println("Le statut de la réservation avec l'ID " + reservationId + " a été mis à jour avec succès.");
                 showAlert("L'offre a ete refusée ");
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/hello-view.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/hello-view.fxml"));
 
                 Parent root = loader.load();
                 Scene scene = new Scene(root);
@@ -86,7 +88,7 @@ public class ReservationController {
             if (rowsUpdated > 0) {
                 System.out.println("Le statut de la réservation avec l'ID " + reservationId + " a été mis à jour avec succès.");
                 showAlert("L'offre a ete confirmée avec succées");
-               FXMLLoader loader = new FXMLLoader(getClass().getResource("/hello-view.fxml"));
+               FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/hello-view.fxml"));
 
             Parent root = loader.load();
             Scene scene = new Scene(root);
@@ -121,14 +123,14 @@ public class ReservationController {
         TableColumn<Reservation, String> statusColumn = new TableColumn<>("Status");
 
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-        nomClientColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getClient().getNom()));
+       /* nomClientColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getClient().getNom()));
         heureDebutColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getClient().getPrenom()));
         heureFinColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getClient().getEmail()));
         offreTitreColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getOffre().getTitre()));
         offreDesciptionColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getOffre().getDescription()));
         avanceClientColumn.setCellValueFactory(new PropertyValueFactory<>("avanceClient"));
         statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
-        NumOffre.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getOffre().getId()));
+        NumOffre.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getOffre().getId()));*/
 
         MainTable.getColumns().addAll(idColumn, nomClientColumn, heureDebutColumn, heureFinColumn, offreTitreColumn, offreDesciptionColumn, avanceClientColumn, NumOffre,statusColumn);
     }
@@ -155,17 +157,17 @@ public class ReservationController {
                 double prixRemise = resultSet.getDouble("prixRemise");
                 LocalDate dateFinRemise = resultSet.getDate("dateFinRemise").toLocalDate();
                 // Créer une instance de l'objet Offre
-                Offre offre = new Offre(offreId, titreOffre, descriptionOffre, prixInitial, prixRemise, dateFinRemise);
+               // Offre offre = new Offre(offreId, titreOffre, descriptionOffre, prixInitial, prixRemise, dateFinRemise);
                 // Récupérer les informations du client
                 String clientId = resultSet.getString("client_id");
                 String nomClient = resultSet.getString("nom");
                 String prenomClient = resultSet.getString("prenom");
                 String emailClient = resultSet.getString("email");
-                Client client = new Client(clientId, nomClient, prenomClient, emailClient);
+               // Client client = new Client(clientId, nomClient, prenomClient, emailClient);
 
                 // Créer une nouvelle réservation avec l'objet Client et l'objet Offre
-                Reservation reservation = new Reservation(id, status, heureDebut, heureFin, dateReservation, avanceClient, offre, client);
-                reservations.add(reservation);
+             //   Reservation reservation = new Reservation(id, status, heureDebut, heureFin, dateReservation, avanceClient, offre, client);
+               // reservations.add(reservation);
 
             }
         } catch (SQLException e) {
@@ -176,7 +178,7 @@ public class ReservationController {
     }
 
     public static Connection connect() throws SQLException {
-        String url = "jdbc:mysql://localhost:3306/events";
+        String url = "jdbc:mysql://localhost:3306/chachaaa";
         String username = "root";
         String password = "";
         return DriverManager.getConnection(url, username, password);
@@ -184,7 +186,7 @@ public class ReservationController {
     @FXML
    public void afficherMenu(ActionEvent event) throws IOException {
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Menu.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Menu.fxml"));
 
         Parent root = loader.load();
         Scene scene = new Scene(root);

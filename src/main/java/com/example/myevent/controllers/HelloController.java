@@ -2,7 +2,6 @@ package com.example.myevent.controllers;
 
 import com.example.myevent.entities.Image;
 import com.example.myevent.entities.SalleFete;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -35,7 +34,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 
@@ -65,6 +63,7 @@ public class HelloController implements Initializable {
     private Button retour;
     private OffreDAO offreDAO;
     private Connection connection;
+    private com.example.myevent.ChefProjet.Offre offre;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -279,7 +278,8 @@ public class HelloController implements Initializable {
             statement.setBigDecimal(1, new BigDecimal(offreId));
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    Image image = new Image();
+                    String imageFileName = "";
+                    Image image = new Image(imageFileName, offre.getId());
                     image.setImageURL(resultSet.getString("url"));
                     return image;
                 }

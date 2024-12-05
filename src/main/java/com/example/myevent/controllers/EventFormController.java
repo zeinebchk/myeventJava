@@ -171,7 +171,7 @@ public class EventFormController implements Initializable {
                 stmt3.setString(1, "enAttente");
                 stmt3.setTime(2,e.getHeuredebutEvent());
                 stmt3.setTime(3,e.getHeureFinEvent());
-                stmt3.setDate(4,e.getDateEvent());
+                stmt3.setDate(4, Date.valueOf(e.getDateEvent()));
                 stmt3.setInt(5,0);
                 stmt3.setBigDecimal(6,new BigDecimal(OffreSession.getInstance().getSalle().getId()));
                 stmt3.setBigDecimal(7,new BigDecimal(UserSession.getInstance().getUser().getId()));

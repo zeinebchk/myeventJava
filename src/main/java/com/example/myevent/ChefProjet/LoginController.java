@@ -1,5 +1,6 @@
 package com.example.myevent.ChefProjet;
 
+import com.example.myevent.entities.UserSession;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.event.ActionEvent;
@@ -7,11 +8,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.fxml.FXMLLoader;
 
 
 import java.io.IOException;
-import java.net.URL;
 
 public class LoginController {
 
@@ -64,7 +63,7 @@ public class LoginController {
     private void handleConnexionButtonActionnListeClient(ActionEvent event) {
         // Charger la nouvelle page
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/hello-view.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/hello-view.fxml"));
             Parent root = loader.load();
             Stage stage = (Stage) studio_btn.getScene().getWindow();
             stage.setScene(new Scene(root));
@@ -80,7 +79,7 @@ public class LoginController {
     private void handleConnexionButtonActionnListeTransaction(ActionEvent event) {
         // Charger la nouvelle page
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Transaction.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Transaction.fxml"));
             Parent root = loader.load();
             Stage stage = (Stage) venue_btn.getScene().getWindow();
             stage.setScene(new Scene(root));
@@ -93,9 +92,9 @@ public class LoginController {
     }
 
     @FXML
-    private void handleViewProductButtonAction(ActionEvent event) throws IOException{
+    private void afficherListeOffres(ActionEvent event) throws IOException{
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/offre.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/liste-offres.fxml"));
             Parent root = loader.load();
             Stage stage = (Stage) emp_btn.getScene().getWindow();
             stage.setScene(new Scene(root));
@@ -106,7 +105,7 @@ public class LoginController {
     }
 
     @FXML
-    private void handleAddProductButtonAction(ActionEvent event) throws IOException {
+    private void ajouterOffre(ActionEvent event) throws IOException {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/offre-view.fxml"));
             Parent root = loader.load();
@@ -117,5 +116,16 @@ public class LoginController {
             e.printStackTrace();
         }
     }
-}
 
+    public void deconnexion(ActionEvent actionEvent) {
+        UserSession.getInstance().setUser(null);
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) event_btn.getScene().getWindow();
+            stage.setScene(new Scene(root));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
