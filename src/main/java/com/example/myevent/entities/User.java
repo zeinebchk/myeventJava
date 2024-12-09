@@ -52,7 +52,7 @@ public class User {
         }
 
         public String getEmail() {
-                return email;
+                return this.email;
         }
 
         public void setEmail(String email) {
@@ -91,4 +91,17 @@ public class User {
                 this.image = image;
         }
 
+        @Override
+        public String toString() {
+                return "User{" +
+                        "id=" + id +
+                        ", nom='" + nom + '\'' +
+                        ", prenom='" + prenom + '\'' +
+                        ", email='" + email + '\'' +
+                        ", password='" + password + '\'' +
+                        ", numTel=" + numTel +
+                        ", genre='" + genre + '\'' +
+                        ", image='" + image + '\'' +
+                        '}';
+        }
 }

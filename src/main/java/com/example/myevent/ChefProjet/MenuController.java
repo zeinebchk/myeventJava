@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class LoginController {
+public class MenuController {
 
     @FXML
     private Button nextPageButton; // Assurez-vous que l'identifiant fx:id correspond à celui dans votre fichier FXML

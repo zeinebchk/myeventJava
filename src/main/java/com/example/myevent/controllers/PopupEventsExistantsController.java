@@ -82,7 +82,7 @@ public class PopupEventsExistantsController implements Initializable {
     public List<Evennement> getData() throws SQLException {
         List<Evennement> events=new ArrayList<>();
         st = con.prepareStatement("SELECT * from evennements where client_id=?");
-        st.setBigDecimal(1, new BigDecimal(String.valueOf(id)));
+        st.setLong(1, id.longValue());
         rs = st.executeQuery();
         int rowCount = 0;
         while (rs.next()) {

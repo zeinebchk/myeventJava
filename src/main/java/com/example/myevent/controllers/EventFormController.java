@@ -103,9 +103,9 @@ public class EventFormController implements Initializable {
     }
     @FXML
     void reserverNouvEvent(ActionEvent event) throws SQLException {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-        LocalTime time1 = LocalTime.parse(heureDebut.getText(), formatter);
-        LocalTime time2 = LocalTime.parse(heureFin.getText(), formatter);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+        LocalTime time1 = LocalTime.parse(heureDebut.getText()+":00", formatter);
+        LocalTime time2 = LocalTime.parse(heureFin.getText()+":00", formatter);
        if(titre.getText().isEmpty()){
            erreurTitre.setText("le titre est obligatoire");
        }else {
@@ -144,11 +144,11 @@ public class EventFormController implements Initializable {
         if(!titre.getText().isEmpty() && !invites.getText().isEmpty() && date.getValue()!=null && isValidTime(heureDebut.getText()) && isValidTime(heureFin.getText())){
             Evennement e=new Evennement();
             String req2 = "insert into evennements(titre,dateEvent,heureDebutEvent,heureFinEvent,nbInvites,gouvernerat,ville,adresseExacte,client_id)values(?,?,?,?,?,?,?,?,?)";
-            PreparedStatement stmt2 = con.prepareStatement(req2);
+            PreparedStatement stmt2 = con.prepareStatement(req2,Statement.RETURN_GENERATED_KEYS);
             stmt2.setString(1, titre.getText());
             stmt2.setDate(2, Date.valueOf(date.getValue()));
-            stmt2.setTime(3, Time.valueOf(heureDebut.getText()));
-            stmt2.setTime(4,Time.valueOf(heureDebut.getText()));
+            stmt2.setTime(3, Time.valueOf(heureDebut.getText()+":00"));
+            stmt2.setTime(4,Time.valueOf(heureFin.getText()+":00"));
             stmt2.setInt(5, Integer.parseInt(invites.getText()));
             stmt2.setString(6,gouvs.getValue());
             stmt2.setString(7,villes.getValue());
@@ -156,8 +156,12 @@ public class EventFormController implements Initializable {
             stmt2.setBigDecimal(9,new BigDecimal(UserSession.getInstance().getUser().getId()));
             int result2 = stmt2.executeUpdate();
             if (result2>0) {
-                e.setId(rs.getBigDecimal("id").toBigInteger());
-
+                ResultSet rs = stmt2.getGeneratedKeys();
+                if (rs.next()) {
+                  e.setId(rs.getBigDecimal(1).toBigInteger());
+                  e.setHeuredebutEvent(rs.getTime(4));
+                  e.setHeureFinEvent(rs.getTime(5));
+                  e.setDateEvent(rs.getDate(3));
                 String req = "insert into offre_event(event_id,offre_id)values(?,?)";
                 PreparedStatement stmt = con.prepareStatement(req);
                 stmt.setBigDecimal(1, new BigDecimal(e.getId()));
@@ -167,7 +171,7 @@ public class EventFormController implements Initializable {
                     System.out.println("ajouter au offreEvent avec succées");
                 }
                 String req3 = "insert into reservations(status,heureDebut,heureFin,dateReservation,avanceClient,offre_id,client_id)values(?,?,?,?,?,?,?)";
-                PreparedStatement stmt3 = con.prepareStatement(req2);
+                PreparedStatement stmt3 = con.prepareStatement(req3);
                 stmt3.setString(1, "enAttente");
                 stmt3.setTime(2,e.getHeuredebutEvent());
                 stmt3.setTime(3,e.getHeureFinEvent());
@@ -179,6 +183,7 @@ public class EventFormController implements Initializable {
                 if (result3>0) {
                     showAlert("Votre demande a éte enregistré avec succés");
                 }
+            }
             }
         }
 

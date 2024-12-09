@@ -2,6 +2,9 @@ package com.example.myevent.controllers;
 
 import animatefx.animation.BounceInDown;
 import animatefx.animation.Shake;
+import com.example.myevent.ExistUserException;
+import com.example.myevent.entities.User;
+import com.example.myevent.interfaces.GestionUser;
 import com.example.myevent.tools.Connexion;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -89,7 +92,7 @@ public class SignupController implements Initializable {
     PreparedStatement st = null;
     ResultSet rs = null;
     Connection con = Connexion.getInstance().getCnx();
-
+    GestionUser gu=new GestionUser();
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         nom.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -233,7 +236,8 @@ public class SignupController implements Initializable {
             }
         });
 
-        genres.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+        genres.getSelectionModel().selectedItemProperty().
+                addListener((observable, oldValue, newValue) -> {
             // Rendre le TextField visible si le genre est "professionnelle", sinon le rendre invisible
             boolean isProfessionnelle = "professionnelle".equals(newValue);
             if(isProfessionnelle){
@@ -333,7 +337,7 @@ public class SignupController implements Initializable {
     stage.show();
 }
   @FXML
-    private void inscrire(ActionEvent event) throws Exception {
+    private void inscrire(ActionEvent event) throws ExistUserException,SQLException,IOException {
       long userId = 0;
       String emailText=email.getText();
       String nomText= nom.getText();
@@ -419,9 +423,11 @@ public class SignupController implements Initializable {
       }
 
       if(!nom.getText().isEmpty() && !prenom.getText().isEmpty() && isValidEmail(emailText) && numTelError.getText()=="" && mdpError.getText()=="" && confirmError.getText()==""){
-          String hashedPassword = BCrypt.hashpw(password,  BCrypt.gensalt(12));
-          String newHash = hashedPassword.replaceFirst("^\\$2a\\$", "\\$2y\\$");
-          String req = "INSERT INTO users (nom,prenom,email,numTel,genre,image,password) VALUES(?,?,?,?,?,?,?)";
+          User user=gu.getUser(email.getText());
+          if (user==null) {
+              String hashedPassword = BCrypt.hashpw(password,  BCrypt.gensalt(12));
+              String newHash = hashedPassword.replaceFirst("^\\$2a\\$", "\\$2y\\$");
+              String req = "INSERT INTO users (nom,prenom,email,numTel,genre,image,password) VALUES(?,?,?,?,?,?,?)";
               PreparedStatement stmt = con.prepareStatement(req, Statement.RETURN_GENERATED_KEYS);
               stmt.setString(1,nomText);
               stmt.setString(2,prenomText);
@@ -431,39 +437,49 @@ public class SignupController implements Initializable {
               stmt.setString(6, imageFileName);
               stmt.setString(7, newHash);
               int result = stmt.executeUpdate();
-          if (result > 0){
-              ResultSet rs = stmt.getGeneratedKeys();
-              if (rs.next()) {
-                   userId = rs.getLong(1);}}
-                  System.out.println(result + " enregistrement ajouté.");
-              showAlert("enregistrement ajouté.");
-          if(genres.getValue()=="professionnelle"){
-              String req2 = "INSERT INTO entrepreneurs (nomProjet,categorie,gouvernerat,ville,adresseExacte,numTelPro,latitude,longitude,user_id) VALUES(?,?,?,?,?,?,?,?,?)";
-              PreparedStatement stmt2 = con.prepareStatement(req2);
-              stmt2.setString(1,nomProj);
-              stmt2.setString(2,categorie);
-              stmt2.setString(3, gouv);
-              stmt2.setString(4,ville);
-              stmt2.setString(5, adr);
-              stmt2.setInt(6, Integer.parseInt(numPro));
-              stmt2.setInt(7, Integer.parseInt(String.valueOf(latitude)));
-              stmt2.setInt(8, Integer.parseInt(String.valueOf(longitude)));
-              stmt2.setLong(9, userId);
-              int result1 = stmt2.executeUpdate();
+              if (result > 0){
+                  ResultSet rs = stmt.getGeneratedKeys();
+                  if (rs.next()) {
+                      userId = rs.getLong(1);}}
               System.out.println(result + " enregistrement ajouté.");
               showAlert("enregistrement ajouté.");
-              FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));
-              Parent root = loader.load();
-              Scene scene = new Scene(root);
-              Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-              stage.setScene(scene);
-              stage.show();
+              if(genres.getValue()=="professionnelle"){
+                  String req2 = "INSERT INTO entrepreneurs (nomProjet,categorie,gouvernerat,ville,adresseExacte,numTelPro,latitude,longitude,user_id) VALUES(?,?,?,?,?,?,?,?,?)";
+                  PreparedStatement stmt2 = con.prepareStatement(req2);
+                  stmt2.setString(1,nomProj);
+                  stmt2.setString(2,categorie);
+                  stmt2.setString(3, gouv);
+                  stmt2.setString(4,ville);
+                  stmt2.setString(5, adr);
+                  stmt2.setInt(6, Integer.parseInt(numPro));
+                  stmt2.setInt(7, Integer.parseInt(String.valueOf(latitude)));
+                  stmt2.setInt(8, Integer.parseInt(String.valueOf(longitude)));
+                  stmt2.setLong(9, userId);
+                  int result1 = stmt2.executeUpdate();
+                  System.out.println(result + " enregistrement ajouté.");
+                  showAlert("enregistrement ajouté.");
+                  FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));
+                  Parent root = loader.load();
+                  Scene scene = new Scene(root);
+                  Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                  stage.setScene(scene);
+                  stage.show();
+
+              }
+          }else{
+              showWarningAlert("utilisateur existe deja");
+             throw new ExistUserException("utilisateur existe deja");
 
           }
+
 
       }
 
   }
+    private void showWarningAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.WARNING, message, ButtonType.OK);
+        alert.show();
+    }
     private void showAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, message, ButtonType.OK);
         alert.show();
