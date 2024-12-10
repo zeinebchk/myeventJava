@@ -110,6 +110,17 @@ public class Offre {
         this.entrepreneurId = entrepreneurId;
     }
 
-
-
+    @Override
+    public String toString() {
+        return "Offre{" +
+                "id=" + id +
+                ", titre='" + titre + '\'' +
+                ", description='" + description + '\'' +
+                ", prixInitial=" + prixInitial +
+                ", prixRemise=" + prixRemise +
+                ", dateFinRemise=" + dateFinRemise +
+                ", entrepreneurId=" + entrepreneurId +
+                ", image=" + image +
+                '}';
+    }
 }

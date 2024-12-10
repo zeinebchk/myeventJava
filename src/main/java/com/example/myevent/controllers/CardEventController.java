@@ -1,4 +1,5 @@
 package com.example.myevent.controllers;
+import com.example.myevent.Services.EventService;
 import com.example.myevent.entities.*;
 import com.example.myevent.tools.Connexion;
 import com.mysql.cj.Session;
@@ -38,6 +39,7 @@ public class CardEventController {
     ResultSet rs = null;
     Connection con = Connexion.getInstance().getCnx();
     public static Evennement event;
+    EventService es = new EventService();
     public void setData(Evennement event){
         this.event=event;
         date.setText(event.getDateEvent().toString());
@@ -47,6 +49,7 @@ public class CardEventController {
     }
     @FXML
     void ajouterOffreAuEvennement(ActionEvent event) throws SQLException, IOException {
+
         Evennement e=new Evennement();
         st = con.prepareStatement("SELECT * FROM evennements  WHERE titre = ?");
         st.setString(1, titre.getText());
@@ -59,7 +62,11 @@ public class CardEventController {
             e.setDateEvent(rs.getDate("dateEvent"));
             e.setNbInvites(rs.getInt("nbInvites"));
             }
-
+        System.out.println(e.toString());
+        if(es.chercherOffreDansEvent(e.getId(),OffreSession.getInstance().getSalle().getId())){
+            showWorningAlert("cette offre existe deja dans votre evennement ");
+        }
+       else{
         String req = "insert into offre_event(event_id,offre_id)values(?,?)";
         PreparedStatement stmt = con.prepareStatement(req);
         stmt.setBigDecimal(1, new BigDecimal(e.getId()));
@@ -89,11 +96,16 @@ public class CardEventController {
             stage.setScene(scene);
             stage.show();
         }
+       }
 
     }
 
     private void showAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, message, ButtonType.OK);
+        alert.show();
+    }
+    private void showWorningAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.WARNING, message, ButtonType.OK);
         alert.show();
     }
 

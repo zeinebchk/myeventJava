@@ -4,7 +4,7 @@ import animatefx.animation.BounceInDown;
 import animatefx.animation.Shake;
 import com.example.myevent.ExistUserException;
 import com.example.myevent.entities.User;
-import com.example.myevent.interfaces.GestionUser;
+import com.example.myevent.Services.GestionUser;
 import com.example.myevent.tools.Connexion;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,8 +12,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import java.io.File;
 import java.io.IOException;
@@ -22,17 +20,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.*;
-import java.util.Base64;
-import java.util.EventObject;
 import java.util.ResourceBundle;
 import java.util.UUID;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import com.example.myevent.entities.AESCrypt;
 import org.mindrot.jbcrypt.BCrypt;
 
 public class SignupController implements Initializable {
@@ -423,7 +416,7 @@ public class SignupController implements Initializable {
       }
 
       if(!nom.getText().isEmpty() && !prenom.getText().isEmpty() && isValidEmail(emailText) && numTelError.getText()=="" && mdpError.getText()=="" && confirmError.getText()==""){
-          User user=gu.getUser(email.getText());
+          User user=gu.getUserByMail(email.getText());
           if (user==null) {
               String hashedPassword = BCrypt.hashpw(password,  BCrypt.gensalt(12));
               String newHash = hashedPassword.replaceFirst("^\\$2a\\$", "\\$2y\\$");

@@ -37,9 +37,6 @@ public class DashboardUserController implements Initializable {
     private DatePicker dateReservation;
 
     @FXML
-    private ImageView filter2;
-
-    @FXML
     private Pane filtragePanel;
 
     @FXML
@@ -155,11 +152,6 @@ public class DashboardUserController implements Initializable {
         search.setImage(brandingImage);
 
 
-
-        File brandingFile3 = new File("images/filter.png");
-        Image brandingImage3 = new Image(brandingFile3.toURI().toString());
-        filter2.setImage(brandingImage3);
-
     }
     public List<SalleFete> getAllRooomsAvailable(Date t) throws SQLException {
         st = con.prepareStatement("SELECT * from offre o " +
@@ -224,7 +216,7 @@ public class DashboardUserController implements Initializable {
                s->s.getGouvernerat().equals(gouvernerat)
                && s.getVille().equals(ville)
                && s.getCapacitePersonne()>=nbInvites
-               && s.getPrixInitial()>=minBudget && s.getSurface()<=maxBudget).collect(Collectors.toList());
+               && s.getPrixInitial()>=minBudget && s.getPrixInitial()<=maxBudget).collect(Collectors.toList());
        for(SalleFete s:salles){
 
            System.out.println(s.toString());

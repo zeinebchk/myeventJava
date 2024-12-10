@@ -1,9 +1,7 @@
-package com.example.myevent.interfaces;
+package com.example.myevent.Services;
 
-import com.example.myevent.entities.SalleFete;
 import com.example.myevent.entities.User;
 import com.example.myevent.tools.Connexion;
-import javafx.scene.image.Image;
 
 import java.math.BigInteger;
 import java.sql.Connection;
@@ -14,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
-public class GestionUser implements IUser{
+public class GestionUser implements IUser {
     @Override
     public List<User> getAllUsers() throws SQLException {
         List<User> users = new ArrayList<>();
@@ -47,13 +45,24 @@ public class GestionUser implements IUser{
     }
 
     @Override
-    public User getUser(String email) throws SQLException {
+    public User getUserByMail(String email) throws SQLException {
         List<User>users=getAllUsers();
         User s=filterByCriteria(u->u.getEmail()!=null && u.getEmail().equals(email),users);
        if(s!=null)
            System.out.println(s.toString());
         return s;
     }
+
+    @Override
+    public User getUserById(int id) throws SQLException {
+        List<User>users=getAllUsers();
+        User s=filterByCriteria(u->u.getId()!=null && u.getId().equals(id),users);
+        if(s!=null)
+            System.out.println(s.toString());
+        return s;
+    }
+    
+
 
     public User filterByCriteria(Predicate<User> p, List<User> users) throws SQLException {
         for(User c:users)

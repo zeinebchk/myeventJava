@@ -105,7 +105,7 @@ public class SalleFete extends Offre {
 
     @Override
     public String toString() {
-        return "SalleFete{" +
+        return super.toString() + "SalleFete{" +
                 "surface=" + surface +
                 ", capacitePersonne=" + capacitePersonne +
                 ", gouvernerat='" + gouvernerat + '\'' +

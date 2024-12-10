@@ -1,5 +1,8 @@
 package com.example.myevent.controllers;
 
+import com.example.myevent.Services.EventService;
+import com.example.myevent.Services.OffreService;
+import com.example.myevent.entities.Evennement;
 import com.example.myevent.entities.OffreSession;
 import com.example.myevent.entities.SalleFete;
 import com.example.myevent.tools.Connexion;
@@ -23,6 +26,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 public class CardController implements Initializable {
     @FXML
@@ -44,12 +48,13 @@ public class CardController implements Initializable {
 
     @FXML
     private ImageView group;
-
+    OffreService offreService=new OffreService();
+    EventService eventService=new EventService();
     PreparedStatement st = null;
     ResultSet rs = null;
     Connection con = Connexion.getInstance().getCnx();
 
-    public void setData(SalleFete s ){
+    public void setData(SalleFete s){
         this.salle = s;
         addresse.setText(s.getAdresseExacte());
         titre.setText(s.getTitre());
@@ -70,22 +75,8 @@ public class CardController implements Initializable {
     SalleFete s=new SalleFete();
     @FXML
     void afficherDetailOffre(ActionEvent event) throws IOException, SQLException {
+        s=offreService.getSalleFeteByTitle(titre.getText());
 
-        st = con.prepareStatement("SELECT * FROM offre join salleFete on offre.id=salleFete.offre_id WHERE titre = ?");
-        st.setString(1, titre.getText());
-        rs = st.executeQuery();
-        if (rs.next()) {
-            s.setTitre(rs.getString("titre"));
-            s.setAdresseExacte(rs.getString("adresseExacte"));
-            s.setDescription(rs.getString("description"));
-            s.setPrixInitial(rs.getDouble("prixInitial"));
-            s.setCapacitePersonne(rs.getInt("capacitePersonne"));
-            s.setSurface(rs.getInt("surface"));
-            s.setGouvernerat(rs.getString("gouvernerat"));
-            s.setVille(rs.getString("ville"));
-            s.setDescription(rs.getString("description"));
-            s.setAdresseExacte(rs.getString("adresseExacte"));
-            s.setOptionInclus(rs.getString("optionInclus"));
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/detailCardOffre.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
@@ -94,35 +85,30 @@ public class CardController implements Initializable {
             stage.show();
             DetailOffreController detail = loader.getController();
             detail.setInformation(s);
-        }
+
 
     }
     @FXML
     void verifierDispo(ActionEvent event) throws IOException, SQLException {
-        SalleFete f=new SalleFete();
-        st = con.prepareStatement("SELECT * FROM offre join salleFete on offre.id=salleFete.offre_id WHERE titre = ?");
-        st.setString(1, titre.getText());
-        rs = st.executeQuery();
-        if (rs.next()) {
-            f.setId(rs.getBigDecimal("id").toBigInteger());
-            f.setTitre(rs.getString("titre"));
-            f.setAdresseExacte(rs.getString("adresseExacte"));
-            f.setDescription(rs.getString("description"));
-            f.setPrixInitial(rs.getDouble("prixInitial"));
-            f.setCapacitePersonne(rs.getInt("capacitePersonne"));
-            f.setSurface(rs.getInt("surface"));
-            f.setGouvernerat(rs.getString("gouvernerat"));
-            f.setVille(rs.getString("ville"));
-            f.setDescription(rs.getString("description"));
-            f.setAdresseExacte(rs.getString("adresseExacte"));
-            f.setOptionInclus(rs.getString("optionInclus"));}
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/popupEventExistant.fxml"));
-        Parent root = loader.load();
-        Scene scene = new Scene(root);
-        Stage stage = new Stage();
-        stage.setScene(scene);
-        stage.show();
+        SalleFete f =offreService.getSalleFeteByTitle(titre.getText());
+        System.out.println("card controller"+f.toString());
         OffreSession.getInstance().setSalle(f);
+        Set<Evennement> events=eventService.getEventsByClIent_id();
+        if(events.isEmpty()){
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/eventForm.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.show();
+        }else {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/popupEventExistant.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.show();
+        }
 
 
     }

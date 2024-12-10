@@ -2,7 +2,7 @@ package com.example.myevent.controllers;
 
 import com.example.myevent.entities.User;
 import com.example.myevent.entities.UserSession;
-import com.example.myevent.interfaces.GestionUser;
+import com.example.myevent.Services.GestionUser;
 import com.example.myevent.tools.Connexion;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,7 +16,6 @@ import javafx.stage.Stage;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.IOException;
-import java.math.BigInteger;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -147,7 +146,7 @@ public class LoginController implements Initializable {
 //            st = con.prepareStatement("SELECT * FROM users WHERE email = ?");
 //            st.setString(1, email.getText());
 //            rs = st.executeQuery();
-            User user=gu.getUser(email.getText());
+            User user=gu.getUserByMail(email.getText());
             if (user!=null) {
                    String newHash = user.getPassword().replaceFirst("^\\$2y\\$", "\\$2a\\$");
                    System.out.println(newHash);

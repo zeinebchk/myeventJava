@@ -1,4 +1,4 @@
-package com.example.myevent.interfaces;
+package com.example.myevent.Services;
 
 import com.example.myevent.entities.User;
 
@@ -9,7 +9,8 @@ import java.util.function.Predicate;
 public interface IUser {
 
     public List<User> getAllUsers() throws SQLException;
-    public  User getUser(String email) throws SQLException;
+    public  User getUserByMail(String email) throws SQLException;
+    public User getUserById(int id) throws SQLException;
     public Object filterByCriteria(Predicate<User> p, List<User> users) throws SQLException;
 
 }

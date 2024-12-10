@@ -4,8 +4,9 @@ import java.math.BigInteger;
 import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
+import java.util.Objects;
 
-public class Evennement {
+public class Evennement implements Comparable<Evennement> {
     private BigInteger id;
     private String titre;
     private Date dateEvent;
@@ -94,4 +95,37 @@ public class Evennement {
     }
 
 
+    @Override
+    public int compareTo(Evennement e) {
+        return e.getDateEvent().compareTo(dateEvent);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Evennement that = (Evennement) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
+
+    @Override
+    public String toString() {
+        return "Evennement{" +
+                "id=" + id +
+                ", titre='" + titre + '\'' +
+                ", dateEvent=" + dateEvent +
+                ", heuredebutEvent=" + heuredebutEvent +
+                ", heureFinEvent=" + heureFinEvent +
+                ", nbInvites=" + nbInvites +
+                ", gouvernerat='" + gouvernerat + '\'' +
+                ", ville='" + ville + '\'' +
+                ", adresseExacte='" + adresseExacte + '\'' +
+                ", client_id=" + client_id +
+                '}';
+    }
 }

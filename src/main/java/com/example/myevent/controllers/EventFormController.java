@@ -159,9 +159,6 @@ public class EventFormController implements Initializable {
                 ResultSet rs = stmt2.getGeneratedKeys();
                 if (rs.next()) {
                   e.setId(rs.getBigDecimal(1).toBigInteger());
-                  e.setHeuredebutEvent(rs.getTime(4));
-                  e.setHeureFinEvent(rs.getTime(5));
-                  e.setDateEvent(rs.getDate(3));
                 String req = "insert into offre_event(event_id,offre_id)values(?,?)";
                 PreparedStatement stmt = con.prepareStatement(req);
                 stmt.setBigDecimal(1, new BigDecimal(e.getId()));
@@ -173,9 +170,9 @@ public class EventFormController implements Initializable {
                 String req3 = "insert into reservations(status,heureDebut,heureFin,dateReservation,avanceClient,offre_id,client_id)values(?,?,?,?,?,?,?)";
                 PreparedStatement stmt3 = con.prepareStatement(req3);
                 stmt3.setString(1, "enAttente");
-                stmt3.setTime(2,e.getHeuredebutEvent());
-                stmt3.setTime(3,e.getHeureFinEvent());
-                stmt3.setDate(4,e.getDateEvent());
+                stmt3.setTime(2, Time.valueOf(heureDebut.getText()+":00"));
+                stmt3.setTime(3, Time.valueOf(heureFin.getText()+":00"));
+                stmt3.setDate(4, Date.valueOf(date.getValue()));
                 stmt3.setInt(5,0);
                 stmt3.setBigDecimal(6,new BigDecimal(OffreSession.getInstance().getSalle().getId()));
                 stmt3.setBigDecimal(7,new BigDecimal(UserSession.getInstance().getUser().getId()));

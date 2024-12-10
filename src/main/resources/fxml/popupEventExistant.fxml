@@ -11,9 +11,10 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="625.0" styleClass="stackEvennement" stylesheets="@../css/loginDesign.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.myevent.controllers.PopupEventsExistantsController">
+<?import javafx.scene.layout.VBox?>
+<AnchorPane prefHeight="454.0" prefWidth="688.0" styleClass="stackEvennement" stylesheets="@../css/loginDesign.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.myevent.controllers.PopupEventsExistantsController">
    <children>
-       <ImageView fitHeight="415.0" fitWidth="596.0" layoutX="3.0" pickOnBounds="true" preserveRatio="true">
+       <ImageView fitHeight="461.0" fitWidth="685.0" layoutX="3.0" pickOnBounds="true" preserveRatio="true">
            <image>
                <Image url="@images/Customer_View_Event1.jpg" />
            </image>
@@ -29,24 +30,25 @@
             <Font name="Cambria" size="15.0" />
          </font>
       </Label>
-      <ScrollPane layoutY="135.0" prefHeight="265.0" prefWidth="625.0" style="-fx-background-color: transparent;" styleClass="transparent-scroll-pane" stylesheets="@../css/loginDesign.css">
-        <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="263.0" prefWidth="624.0" style="-fx-background-color: transparent;">
-               <children>
-                  <GridPane fx:id="grid" prefHeight="118.0" prefWidth="111.0">
-                    <rowConstraints>
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                  </GridPane>
-                  <Button layoutX="14.0" layoutY="202.0" mnemonicParsing="false" onAction="#afficherFormEvent" prefHeight="35.0" prefWidth="233.0" style="-fx-background-color: #DAAB3A;" text="Non,c'est une nouvelle demande">
-                     <font>
-                        <Font name="Cambria" size="15.0" />
-                     </font>
-                  </Button>
-               </children>
-            </AnchorPane>
-        </content>
-      </ScrollPane>
+       <ScrollPane layoutX="1.0" layoutY="135.0" prefHeight="325.0" prefWidth="685.0" style="-fx-background-color: transparent;" styleClass="transparent-scroll-pane" stylesheets="@../css/loginDesign.css">
+           <content>
+               <!-- Utilisation de VBox pour une mise en page dynamique -->
+               <VBox spacing="10.0" alignment="TOP_CENTER" prefWidth="685.0">
+                   <!-- Ajoutez vos éléments à la VBox, qui s'ajustera automatiquement -->
+                   <GridPane fx:id="grid">
+                       <rowConstraints>
+                           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                       </rowConstraints>
+                   </GridPane>
+                   <!-- Ajoutez d'autres éléments comme des boutons ou des labels -->
+                   <Button layoutX="14.0" layoutY="202.0" mnemonicParsing="false" onAction="#afficherFormEvent" prefHeight="35.0" prefWidth="233.0" style="-fx-background-color: #DAAB3A;" text="Non, c'est une nouvelle demande">
+                       <font>
+                           <Font name="Cambria" size="15.0" />
+                       </font>
+                   </Button>
+               </VBox>
+           </content>
+       </ScrollPane>
       <Label fx:id="offre" layoutX="89.0" layoutY="24.0" visible="false" />
    </children>
 </AnchorPane>

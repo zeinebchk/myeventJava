@@ -21,6 +21,14 @@ import java.time.LocalDate;
 
 
 public class ReservationController {
+    public void afficherMenu(ActionEvent actionEvent) {
+    }
+
+    public void supprimerReservations(ActionEvent actionEvent) {
+    }
+
+    public void confirmerReservations(ActionEvent actionEvent) {
+    }
    /* @FXML
     private TableView<Reservation> MainTable;
     private Button confirmerButton;
