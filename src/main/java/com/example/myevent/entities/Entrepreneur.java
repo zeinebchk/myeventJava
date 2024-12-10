@@ -2,7 +2,7 @@ package com.example.myevent.entities;
 
 import java.math.BigInteger;
 
-public class Entrepreneur extends User{
+public class Entrepreneur extends User {
     private BigInteger id;
     private String nomProjet;
     private String categorie;
@@ -13,12 +13,30 @@ public class Entrepreneur extends User{
     private double latitude;
     private double longitude;
 
-    public Entrepreneur(){};
+    // Constructeur sans argument avec valeurs par défaut
+    public Entrepreneur() {
+        super(); // Appel au constructeur sans argument de User
+        this.id = BigInteger.ZERO; // Valeur par défaut
+        this.nomProjet = "";
+        this.categorie = "";
+        this.gouvernerat = "";
+        this.ville = "";
+        this.adresseExacte = "";
+        this.numTelPro = 0;
+        this.latitude = 0.0;
+        this.longitude = 0.0;
+    }
+
+    // Constructeur de l'Entrepreneur avec arguments
     public Entrepreneur(BigInteger id, String nom, String prenom, String email, String password, int numTel,
                         String genre, String image, BigInteger id2, String nomProjet, String categorie, String gouvernerat,
                         String ville, String adresseExacte, int numTelPro, double latitude, double longitude) {
-        super(id, nom, prenom, email, password, numTel, genre, image);
-        id = id2;
+
+        // Appel du constructeur de la classe parente User
+        super(nom, prenom, email, password, numTel, genre, image);
+
+        // Affectation des valeurs aux attributs de la classe Entrepreneur
+        this.id = id2; // Utilisation correcte de l'attribut 'id'
         this.nomProjet = nomProjet;
         this.categorie = categorie;
         this.gouvernerat = gouvernerat;
@@ -29,6 +47,7 @@ public class Entrepreneur extends User{
         this.longitude = longitude;
     }
 
+    // Accesseurs et mutateurs pour les attributs de l'Entrepreneur
     public BigInteger getId() {
         return id;
     }
@@ -100,6 +119,4 @@ public class Entrepreneur extends User{
     public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
-
-
 }

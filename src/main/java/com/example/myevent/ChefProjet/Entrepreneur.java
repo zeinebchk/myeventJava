@@ -1,4 +1,7 @@
 package com.example.myevent.ChefProjet;
+import com.example.myevent.entities.SalleFete;
+import com.example.myevent.entities.User;
+
 import java.util.List;
 
 public class Entrepreneur extends User {

@@ -1,5 +1,7 @@
 package com.example.myevent.ChefProjet;
 
+import com.example.myevent.entities.Offre;
+import com.example.myevent.entities.User;
 import com.jfoenix.controls.JFXButton;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,7 +17,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-
 import java.math.BigInteger;
 import java.sql.*;
 import java.time.LocalDate;
@@ -30,14 +31,11 @@ public class TransactionController {
     @FXML
     private JFXButton Menu;
 
-
     public void initialize() {
         initializeTableView();
 
-
         ObservableList<Transaction> reservationsDB = getAllReservations();
         MainTable.setItems(reservationsDB);
-
     }
 
     public void initializeTableView() {
@@ -64,7 +62,7 @@ public class TransactionController {
         ObservableList<Transaction> transactions = FXCollections.observableArrayList();
 
         try (Connection connection = connect();
-             PreparedStatement statement = connection.prepareStatement("SELECT r.*, u.*, o.* FROM reservations r JOIN users u ON r.client_id = u.id JOIN offre o ON r.offre_id = o.id WHERE r.status = 'confirme'");
+             PreparedStatement statement = connection.prepareStatement("SELECT r.*, u.*, o.* FROM reservations r JOIN users u ON r.user_id = u.id JOIN offre o ON r.offre_id = o.id WHERE r.status = 'confirme'");
              ResultSet resultSet = statement.executeQuery()) {
 
             while (resultSet.next()) {
@@ -73,7 +71,8 @@ public class TransactionController {
                 String heureDebut = resultSet.getString("heureDebut");
                 String heureFin = resultSet.getString("heureFin");
                 LocalDate dateReservation = resultSet.getDate("dateReservation").toLocalDate();
-                double avanceClient = resultSet.getDouble("avanceClient");
+                double avanceUser = resultSet.getDouble("avanceUser");
+
                 // Récupérer les informations de l'offre
                 String offreId = resultSet.getString("offre_id");
                 String titreOffre = resultSet.getString("titre");
@@ -81,18 +80,25 @@ public class TransactionController {
                 double prixInitial = resultSet.getDouble("prixInitial");
                 double prixRemise = resultSet.getDouble("prixRemise");
                 LocalDate dateFinRemise = resultSet.getDate("dateFinRemise").toLocalDate();
+
                 // Créer une instance de l'objet Offre
+                Offre offre = new Offre(resultSet.getInt("id"), resultSet.getString("nom"));
+                offre.setId(offreId);
+                offre.setTitre(titreOffre);
+                offre.setDescription(descriptionOffre);
+                offre.setPrixInitial(prixInitial);
+                offre.setPrixRemise(prixRemise);
+                offre.setDateFinRemise(dateFinRemise);
 
-                Offre offre = new Offre();
-                // Récupérer les informations du client
-                String clientId = resultSet.getString("client_id");
-                String nomClient = resultSet.getString("nom");
-                String prenomClient = resultSet.getString("prenom");
-                String emailClient = resultSet.getString("email");
-              //  Client client = new Client(clientId, nomClient, prenomClient, emailClient);
+                // Récupérer les informations de l'utilisateur
+                String userId = resultSet.getString("user_id");
+                String nomUser = resultSet.getString("nom");
+                String prenomUser = resultSet.getString("prenom");
+                String emailUser = resultSet.getString("email");
+                User user = new User(nomUser, prenomUser, emailUser, null, 0, null, null);
 
-                // Créer une nouvelle transaction avec l'objet Client et l'objet Offre
-                Transaction transaction = new Transaction(id, nomClient, prenomClient, dateReservation, prixRemise, offreId, status);
+                // Créer une nouvelle transaction avec l'objet User et l'objet Offre
+                Transaction transaction = new Transaction(id, nomUser, prenomUser, dateReservation, prixRemise, offreId, status);
                 transactions.add(transaction);
             }
         } catch (SQLException e) {
@@ -109,17 +115,14 @@ public class TransactionController {
         return DriverManager.getConnection(url, username, password);
     }
 
-    // Méthode pour gérer l'action du bouton retour
     @FXML
     private void handleConnexionButtonAction(ActionEvent event) {
-        // Charger la nouvelle page
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Menu.fxml"));
             Parent root = loader.load();
             Stage stage = (Stage) Menu.getScene().getWindow();
             stage.setScene(new Scene(root));
 
-            // Imprimer un message
             System.out.println("Navigué vers la page menu avec succès !");
         } catch (IOException e) {
             e.printStackTrace();

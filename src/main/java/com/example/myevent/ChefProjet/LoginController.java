@@ -128,4 +128,31 @@ public class LoginController {
             e.printStackTrace();
         }
     }
+
+    @FXML
+    private void handleViewProductButtonAction(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/offre-view.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) emp_btn.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            System.out.println("Navigué vers la page View Product avec succès !");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void handleAddProductButtonAction(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/offre-view.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) event_btn.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            System.out.println("Navigué vers la page Add Product avec succès !");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

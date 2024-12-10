@@ -24,6 +24,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+import static java.lang.String.valueOf;
+
 public class CardController implements Initializable {
     @FXML
     private Label addresse;
@@ -103,7 +105,7 @@ public class CardController implements Initializable {
         st.setString(1, titre.getText());
         rs = st.executeQuery();
         if (rs.next()) {
-            f.setId(rs.getBigDecimal("id").toBigInteger());
+            f.setId(valueOf(rs.getBigDecimal("id").toBigInteger()));
             f.setTitre(rs.getString("titre"));
             f.setAdresseExacte(rs.getString("adresseExacte"));
             f.setDescription(rs.getString("description"));

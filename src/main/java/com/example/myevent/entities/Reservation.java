@@ -1,70 +1,107 @@
 package com.example.myevent.entities;
 
 import java.math.BigInteger;
-import java.sql.Date;
-import java.sql.Time;
+import java.time.LocalDate;
 
 public class Reservation {
     private BigInteger id;
     private String status;
-    private Time heureDebut;
-    private Time heureFin;
-    private Date dateReservation;
-    private int avanceClient;
+    private String heureDebut;
+    private String heureFin;
+    private LocalDate dateReservation;
+    private double avanceClient;
+    private Offre offre; // Changer le nom de la variable
+    private User user;
     private Offre offre_id;
-    private User client_id;
+    private Offre offreId;
+
+    public Reservation(BigInteger id, String status, String heureDebut, String heureFin, LocalDate dateReservation, double avanceClient, Offre offre, User user) {
+        this.id = id;
+        this.status = status;
+        this.heureDebut = heureDebut;
+        this.heureFin = heureFin;
+        this.dateReservation = dateReservation;
+        this.avanceClient = avanceClient;
+        this.offre = offre;
+        this.user = user;
+    }
 
     public Reservation() {
-        super();
+
     }
+
+    // Getters and setters
     public BigInteger getId() {
         return id;
     }
+
     public void setId(BigInteger id) {
         this.id = id;
     }
+
     public String getStatus() {
         return status;
     }
+
     public void setStatus(String status) {
         this.status = status;
     }
-    public Time getHeureDebut() {
+
+    public String getHeureDebut() {
         return heureDebut;
     }
-    public void setHeureDebut(Time heureDebut) {
+
+    public void setHeureDebut(String heureDebut) {
         this.heureDebut = heureDebut;
     }
-    public Time getHeureFin() {
+
+    public String getHeureFin() {
         return heureFin;
     }
-    public void setHeureFin(Time heureFin) {
+
+    public void setHeureFin(String heureFin) {
         this.heureFin = heureFin;
     }
-    public Date getDateReservation() {
+
+    public LocalDate getDateReservation() {
         return dateReservation;
     }
-    public void setDateReservation(Date dateReservation) {
+
+    public void setDateReservation(LocalDate dateReservation) {
         this.dateReservation = dateReservation;
     }
-    public int getAvanceClient() {
+
+    public double getAvanceClient() {
         return avanceClient;
     }
-    public void setAvanceClient(int avanceClient) {
+
+    public void setAvanceClient(double avanceClient) {
         this.avanceClient = avanceClient;
     }
+
+    public Offre getOffre() {
+        return offre;
+    }
+
+    public void setOffre(Offre offre) {
+        this.offre = offre;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     public Offre getOffre_id() {
-        return offre_id;
-    }
-    public void setOffre_id(Offre offre_id) {
-        this.offre_id = offre_id;
-    }
-    public User getClient_id() {
-        return client_id;
-    }
-    public void setClient_id(User client_id) {
-        this.client_id = client_id;
+        Offre offre_id;
+        
+        return offreId;
     }
 
-
+    public void setOffre_id(Offre offreId) {
+        this.offre_id = offreId;
+    }
 }

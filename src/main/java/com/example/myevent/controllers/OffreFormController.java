@@ -30,7 +30,6 @@ import java.util.ResourceBundle;
 import java.util.UUID;
 import java.math.BigInteger;
 
-
 public class OffreFormController implements Initializable {
     @FXML
     private ChoiceBox<String> gouverneratField;
@@ -55,7 +54,7 @@ public class OffreFormController implements Initializable {
 
     @FXML
     private TextField prixRemiseField;
-
+    LocalDate dateFinRemise;
     @FXML
     private DatePicker dateFinRemisePicker;
 
@@ -128,15 +127,23 @@ public class OffreFormController implements Initializable {
 
     @FXML
     private void handleAjouterOffre() throws SQLException {
-        Entrepreneur ee=new Entrepreneur();
-        entrepreneur_id= UserSession.getInstance().getUser().getId();
+        Entrepreneur ee = new Entrepreneur();
+        entrepreneur_id = UserSession.getInstance().getUser().getId();
+
+
+
+        if (entrepreneur_id == null) {
+            showAlert("Erreur", "L'utilisateur n'est pas connecté.");
+            return;
+        }
+
         st = con.prepareStatement("SELECT * FROM entrepreneurs WHERE user_id = ?");
-        st.setBigDecimal(1,new BigDecimal(entrepreneur_id));
+        st.setBigDecimal(1, new BigDecimal(entrepreneur_id));
         rs = st.executeQuery();
         if (rs.next()) {
-
             ee.setId(rs.getBigDecimal("id").toBigInteger());
         }
+
         try {
             connection.setAutoCommit(false);
 
@@ -144,33 +151,43 @@ public class OffreFormController implements Initializable {
             String description = descriptionField.getText().trim();
             double prixInitial = Double.parseDouble(prixInitialField.getText());
             double prixRemise = Double.parseDouble(prixRemiseField.getText());
-            LocalDate dateFinRemise = dateFinRemisePicker.getValue();
+
+            dateFinRemise = dateFinRemisePicker.getValue();
             int surface = Integer.parseInt(surfaceField.getText());
             int capacitePersonne = Integer.parseInt(capaciteField.getText());
             String gouvernerat = gouverneratField.getValue();
             String ville = villeField.getValue();
-            String adresseExacte =adresseField.getText();
-            String optionInclus =optionsInclusField.getText();
+            String adresseExacte = adresseField.getText();
+            String optionInclus = optionsInclusField.getText();
+
+            // Vérifications supplémentaires
+            if (surface <= 0 || capacitePersonne <= 0) {
+                showAlert("Erreur", "Les valeurs de surface et de capacité doivent être positives.");
+                return;
+            }
+
+            if (prixInitial <= 0 || prixRemise < 0 || prixRemise > prixInitial) {
+                showAlert("Erreur", "Les valeurs de prix sont incorrectes.");
+                return;
+            }
 
             if (imageFileName == null || imageFileName.isEmpty()) {
                 showAlert("Erreur", "Veuillez sélectionner une image.");
                 return;
             }
+
             if (titre.isEmpty() || description.isEmpty() || gouvernerat == null || ville == null) {
                 showAlert("Erreur", "Veuillez remplir tous les champs obligatoires.");
                 return;
             }
 
-
-            Offre offre = new Offre();
-            if (offre.getDateFinRemise() == null) {
-                throw new IllegalArgumentException("La date de fin de remise ne peut pas être null.");
-            }
-            SalleFete salleFete = new SalleFete(surface, capacitePersonne, gouvernerat, ville, adresseExacte, optionInclus ,offre.getId());
-            Image image = new Image(imageFileName, offre.getId());
-            image.setImageURL(imageFileName);
+            Offre offre = new Offre(titre, description);
+            SalleFete salleFete = new SalleFete(surface, capacitePersonne, gouvernerat, ville, adresseExacte, optionInclus, offre.getId());
+            Image image = new Image();
+            image.setUrl(imageFileName);
 
             offreDAO.ajouterOffre(offre, salleFete, image);
+
             clearFormFields();
             connection.commit();
             connection.setAutoCommit(true);
@@ -189,6 +206,7 @@ public class OffreFormController implements Initializable {
             showAlert("Erreur", "Veuillez saisir des valeurs valides dans les champs numériques.");
         }
     }
+
 
     private void showAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);

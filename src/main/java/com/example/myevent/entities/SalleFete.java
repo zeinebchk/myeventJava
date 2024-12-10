@@ -1,21 +1,20 @@
 package com.example.myevent.entities;
 
-import java.math.BigInteger;
-
 public class SalleFete extends Offre {
     private int surface;
     private int capacitePersonne;
     private String gouvernerat;
     private String ville;
     private String adresseExacte;
-    private double latitude;
-    private double longitude;
+    private double latitude; // Ajoutez le champ latitude
+    private double longitude; // Ajoutez le champ longitude
     private String optionInclus;
+    private String id;
 
-    public SalleFete(int surface, int capacitePersonne, String gouvernerat, String ville, String adresseExacte,
-                     String optionInclus, BigInteger offreId) {
-        // Appel du constructeur de la classe parente (Offre)
-        super();
+
+    // Constructeur avec tous les paramètres nécessaires
+    public SalleFete(int surface, int capacitePersonne, String gouvernerat, String ville, String adresseExacte, String optionInclus, String offreId) {
+        super(offreId, "Nom"); // Remplacer "Nom" par le vrai nom de l'offre si vous avez
         this.surface = surface;
         this.capacitePersonne = capacitePersonne;
         this.gouvernerat = gouvernerat;
@@ -24,10 +23,12 @@ public class SalleFete extends Offre {
         this.latitude = latitude;
         this.longitude = longitude;
         this.optionInclus = optionInclus;
+        this.id = offreId;
     }
 
+    // Constructeur sans paramètres
     public SalleFete() {
-        super();  // Constructeur par défaut
+        super("0", "Nom"); // Remplacer "Nom" par un nom par défaut, ou selon votre logique
     }
 
     // Getters et setters pour les attributs
@@ -95,12 +96,26 @@ public class SalleFete extends Offre {
         this.optionInclus = optionInclus;
     }
 
-    // Getters et setters pour l'id
-    public BigInteger getId() {
-        return super.getId();
+    public String getId() {
+        return id;
     }
 
-    public void setId(BigInteger id) {
-        super.setId(id);
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "SalleFete{" +
+                "surface=" + surface +
+                ", capacitePersonne=" + capacitePersonne +
+                ", gouvernerat='" + gouvernerat + '\'' +
+                ", ville='" + ville + '\'' +
+                ", adresseExacte='" + adresseExacte + '\'' +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
+                ", optionInclus='" + optionInclus + '\'' +
+                ", id='" + id + '\'' +
+                '}';
     }
 }

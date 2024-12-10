@@ -140,7 +140,7 @@ public class EntrepreneurController implements Initializable {
         String Adresse_Exacte = tfAdresse_Exacte.getText();
         String NumTelPro = tfNumTelPro.getText();
 
-        String query = "INSERT INTO entrepreneur (Id_User, projet, Categorie, Gouvernerat, Ville, Adresse_Exacte, NumTelPro) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO entrepreneurs (Id_User, projet, Categorie, Gouvernerat, Ville, Adresse_Exacte, NumTelPro) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setString(1, Id_User);
             pstmt.setString(2, projet);

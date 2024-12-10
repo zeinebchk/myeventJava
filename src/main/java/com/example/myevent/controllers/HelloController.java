@@ -28,7 +28,6 @@ import javafx.scene.control.Label;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -63,7 +62,6 @@ public class HelloController implements Initializable {
     private Button retour;
     private OffreDAO offreDAO;
     private Connection connection;
-    private com.example.myevent.ChefProjet.Offre offre;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -95,7 +93,7 @@ public class HelloController implements Initializable {
         try {
             // Ensure the connection is valid before loading data
             if (connection != null && !connection.isClosed()) {
-                TableViewOffres.setItems(offreDAO.getAllOffres());
+                TableViewOffres.setItems(offreDAO.getOffres());
             } else {
                 System.err.println("The database connection is null or closed.");
             }
@@ -171,7 +169,7 @@ public class HelloController implements Initializable {
         TextField adresseField = new TextField(salleFete != null ? salleFete.getAdresseExacte() : "");
 
         Image image = getImageByOffreId(offre.getId());
-        TextField imageURLField = new TextField(image != null ? image.getImageURL() : "");
+        TextField imageURLField = new TextField(image != null ? image.getUrl() : "");
 // Apply styles to form elements
         titreField.getStyleClass().add("dialog-textfield");
         descriptionField.getStyleClass().add("dialog-textfield");
@@ -217,7 +215,7 @@ public class HelloController implements Initializable {
 
                 // Update Image if it exists
                 if (image != null) {
-                    image.setImageURL(imageURLField.getText());
+                    image.setUrl(imageURLField.getText());
                 }
 
                 // Call the update method of your DAO to update the offer in the database
@@ -246,7 +244,7 @@ public class HelloController implements Initializable {
         alert.setContentText(message);
         alert.showAndWait();
     }
-    private SalleFete getSalleFeteByOffreId(BigInteger offreId) {
+    private SalleFete getSalleFeteByOffreId(String offreId) {
         connection = Connexion.getInstance().getCnx();
         String query = "SELECT * FROM sallefete WHERE offre_id = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -271,16 +269,15 @@ public class HelloController implements Initializable {
         return null;
     }
 
-    private Image getImageByOffreId(BigInteger offreId) {
+    private Image getImageByOffreId(String offreId) {
         connection = Connexion.getInstance().getCnx();
         String query = "SELECT * FROM image WHERE offre_id = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setBigDecimal(1, new BigDecimal(offreId));
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    String imageFileName = "";
-                    Image image = new Image(imageFileName, offre.getId());
-                    image.setImageURL(resultSet.getString("url"));
+                    Image image = new Image();
+                    image.setUrl(resultSet.getString("url"));
                     return image;
                 }
             }
@@ -292,7 +289,7 @@ public class HelloController implements Initializable {
     @FXML
     private void handleRetourButtonAction(ActionEvent event) throws IOException {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/menu.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Menu.fxml"));
             Parent root = loader.load();
             Stage stage = (Stage) retour.getScene().getWindow();
             stage.setScene(new Scene(root));

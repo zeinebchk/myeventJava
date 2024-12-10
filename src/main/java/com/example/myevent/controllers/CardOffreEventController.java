@@ -1,9 +1,8 @@
 package com.example.myevent.controllers;
 
 import com.example.myevent.entities.OffreAPayer;
-import com.example.myevent.entities.OffreSession;
 import com.example.myevent.entities.Reservation;
-import com.example.myevent.entities.SalleFete;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

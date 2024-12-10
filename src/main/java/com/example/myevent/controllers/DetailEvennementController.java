@@ -95,7 +95,7 @@ public class DetailEvennementController implements Initializable {
             // Créer l'objet Offre avec les informations récupérées
             Offre offre = new Offre(
                     // ID de l'entrepreneur
-            );
+                    rs.getInt("id"), rs.getString("nom"));
 
             // Créer l'objet Reservation et le remplir avec les données récupérées
             Reservation s = new Reservation();

@@ -2,60 +2,41 @@ package com.example.myevent.entities;
 
 import java.math.BigInteger;
 
-public class Image extends Offre  {
-    private BigInteger id;
-    private String imageFileName;
-    private BigInteger offreId;
-    private String imageURL;
+public class Image extends Offre {
+    private String id;
+    private String offreId;
     private String url;  // Ajout de la propriété 'url'
 
-    // Constructeur avec tous les champs
-    public Image(String imageFileName, BigInteger offreId, String imageURL, String url) {
-        super();
-        this.imageFileName = imageFileName;
+    // Constructeur par défaut sans 'ResultSet' (pas besoin de rs)
+    public Image() {
+        super(Integer.parseInt(String.valueOf(Integer.parseInt(null))), "Nom");  // Remplacer "Nom" par le nom de l'offre si nécessaire
+        this.id = id;
         this.offreId = offreId;
-        this.imageURL = imageURL;
         this.url = url;
     }
 
-    // Constructeur vide (non utilisé dans cet exemple)
-    public Image() {
-    }
-
+    // Constructeur supplémentaire pour une image avec un fichier et une offre
     public Image(String imageFileName, BigInteger offreId) {
+        super(offreId.toString(), "Nom");  // Remplacer "Nom" par le vrai nom si nécessaire
+        // Si vous souhaitez définir des valeurs par défaut ou effectuer une action spécifique avec le nom du fichier image, faites-le ici
+        this.url = imageFileName;  // Exemple, vous pouvez utiliser imageFileName comme URL
     }
 
     // Getters et Setters
-    public BigInteger getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(BigInteger id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public String getImageFileName() {
-        return imageFileName;
-    }
-
-    public void setImageFileName(String imageFileName) {
-        this.imageFileName = imageFileName;
-    }
-
-    public BigInteger getOffreId() {
+    public String getOffreId() {
         return offreId;
     }
 
-    public void setOffreId(BigInteger offreId) {
+    public void setOffreId(String offreId) {
         this.offreId = offreId;
-    }
-
-    public String getImageURL() {
-        return imageURL;
-    }
-
-    public void setImageURL(String imageURL) {
-        this.imageURL = imageURL;
     }
 
     public String getUrl() {
@@ -64,5 +45,14 @@ public class Image extends Offre  {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    @Override
+    public String toString() {
+        return "Image{" +
+                "id='" + id + '\'' +
+                ", offreId='" + offreId + '\'' +
+                ", url='" + url + '\'' +
+                '}';
     }
 }
