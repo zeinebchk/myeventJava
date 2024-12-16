@@ -4,7 +4,7 @@ import animatefx.animation.BounceInDown;
 import animatefx.animation.Shake;
 import com.example.myevent.ExistUserException;
 import com.example.myevent.entities.User;
-import com.example.myevent.Services.GestionUser;
+import com.example.myevent.Services.UserService;
 import com.example.myevent.tools.Connexion;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -85,7 +85,7 @@ public class SignupController implements Initializable {
     PreparedStatement st = null;
     ResultSet rs = null;
     Connection con = Connexion.getInstance().getCnx();
-    GestionUser gu=new GestionUser();
+    UserService gu=new UserService();
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         nom.textProperty().addListener((observable, oldValue, newValue) -> {

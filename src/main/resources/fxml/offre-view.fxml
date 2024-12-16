@@ -90,13 +90,10 @@
                 <Label fx:id="imagefileName" prefHeight="38.0" prefWidth="170.0" style="-fx-padding: 10px; -fx-font-weight: bold;" text="Importer votre photo" GridPane.rowIndex="11" />
                 <Button onAction="#onUploadButtonClick" prefHeight="35.0" prefWidth="124.0" text="Importer" GridPane.columnIndex="1" GridPane.rowIndex="11" />
                     <Button fx:id="ajouterOffre" mnemonicParsing="false" onAction="#handleAjouterOffre" prefHeight="32.0" prefWidth="104.0" style="-fx-background-color: #FFB6C1; -fx-text-fill: white;" text="Ajouter Offre" />
-                    <JFXButton fx:id="retourMenuButton" buttonType="RAISED" onAction="#handleRetourMenu" prefHeight="33.0" prefWidth="114.0" style="-fx-background-color: #FFB6C1; -fx-text-fill: white;" text="Retour"/>
-
+                    <Button fx:id="retourMenuButton"  onAction="#handleRetourMenu" prefHeight="33.0" prefWidth="114.0" style="-fx-background-color: #FFB6C1; -fx-text-fill: white;" text="Retour"/>
                 </HBox>
             </GridPane>
-
         </VBox>
     </VBox>
-
 
 </StackPane>

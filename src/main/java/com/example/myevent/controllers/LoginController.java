@@ -1,8 +1,9 @@
 package com.example.myevent.controllers;
 
+import com.example.myevent.entities.Entrepreneur;
 import com.example.myevent.entities.User;
 import com.example.myevent.entities.UserSession;
-import com.example.myevent.Services.GestionUser;
+import com.example.myevent.Services.UserService;
 import com.example.myevent.tools.Connexion;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -44,7 +45,7 @@ public class LoginController implements Initializable {
     PreparedStatement st = null;
     ResultSet rs = null;
     Connection con = Connexion.getInstance().getCnx();
-    GestionUser gu=new GestionUser();
+    UserService gu=new UserService();
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
        /* File brandingFile = new File("images/login.png");
@@ -153,20 +154,23 @@ public class LoginController implements Initializable {
                    if(BCrypt.checkpw(mdp.getText(),newHash)){
                     System.out.println("Password Matched!");
                     // Add your code here for successful password verification
-                    UserConnected = new User();
-                    UserConnected.setId(user.getId());
-                    UserConnected.setNom(user.getNom());
-                    UserConnected.setPrenom(user.getPrenom());
-                    UserConnected.setGenre(user.getGenre());
-                    UserConnected.setEmail(user.getEmail());
-                    UserConnected.setNumTel(user.getNumTel());
-                    UserConnected.setImage(user.getImage());
-                    UserSession.getInstance().setUser(UserConnected);
+                       UserConnected = new User();
+                       UserConnected.setId(user.getId());
+                       UserConnected.setNom(user.getNom());
+                       UserConnected.setPrenom(user.getPrenom());
+                       UserConnected.setGenre(user.getGenre());
+                       UserConnected.setEmail(user.getEmail());
+                       UserConnected.setNumTel(user.getNumTel());
+                       UserConnected.setImage(user.getImage());
+                       UserSession.getInstance().setUser(UserConnected);
 
                     if (UserConnected.getGenre().equals("particulier")){
+
                         System.out.println("aaaaaaaa");
                        loader = new FXMLLoader(getClass().getResource("/Fxml/dashboardUser.fxml"));
                     } else {
+
+
                         loader = new FXMLLoader(getClass().getResource("/fxml/Menu.fxml"));
                     }
                     Parent root = loader.load();

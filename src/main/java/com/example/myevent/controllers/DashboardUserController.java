@@ -236,7 +236,7 @@ public class DashboardUserController implements Initializable {
         rs = st.executeQuery();
         if(rs.next()){
             System.out.println(rs.getString("nom"));
-            entrepreneur.setId(new BigInteger(rs.getString("id")));
+            entrepreneur.setIdEntrepreneur(new BigInteger(rs.getString("id")));
             entrepreneur.setNomProjet(rs.getString("nomProjet"));
             entrepreneur.setCategorie(rs.getString("categorie"));
             entrepreneur.setGouvernerat(rs.getString("gouvernerat"));

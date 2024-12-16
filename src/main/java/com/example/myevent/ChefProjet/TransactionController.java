@@ -1,6 +1,7 @@
 package com.example.myevent.ChefProjet;
 
-import com.example.myevent.entities.Offre;
+import com.example.myevent.Services.UserService;
+import com.example.myevent.entities.Transaction;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -16,8 +17,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.List;
 
 public class TransactionController {
     @FXML
@@ -26,76 +29,42 @@ public class TransactionController {
 
     @FXML
     private TextField Text_Searchbar;
-
+    UserService userService = new UserService();
     public void initialize() {
+        System.out.println("aaaaaaaaaaaaaaaaa");
+        ObservableList<Transaction> observableTransactions = FXCollections.observableArrayList(userService.getConfirmedUserReservation());
+        for (Transaction transaction : observableTransactions) {
+            System.out.println(transaction.toString());
+        }
+        MainTable.setItems(observableTransactions);
         initializeTableView();
 
-
-        ObservableList<Transaction> reservationsDB = getAllReservations();
-        MainTable.setItems(reservationsDB);
 
     }
 
     public void initializeTableView() {
-        TableColumn<Transaction, Integer> idColumn = new TableColumn<>("ID");
+
         TableColumn<Transaction, String> nomColumn = new TableColumn<>("Nom");
         TableColumn<Transaction, String> prenomColumn = new TableColumn<>("Prenom");
-        TableColumn<Transaction, LocalDate> dateColumn = new TableColumn<>("Date");
+        TableColumn<Transaction, String> emailColumn = new TableColumn<>("Email");
+        TableColumn<Transaction, Date> dateColumn = new TableColumn<>("Date de reservation");
+        TableColumn<Transaction, String> offreColumn = new TableColumn<>("Offre");
         TableColumn<Transaction, Double> prixColumn = new TableColumn<>("Prix");
-        TableColumn<Transaction, String> referenceColumn = new TableColumn<>("Reference");
         TableColumn<Transaction, String> statutColumn = new TableColumn<>("Statut");
+        TableColumn<Transaction, Integer> avanceColumn = new TableColumn<>("Avance du client");
 
-        idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         nomColumn.setCellValueFactory(new PropertyValueFactory<>("nom"));
         prenomColumn.setCellValueFactory(new PropertyValueFactory<>("prenom"));
-        dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
-        prixColumn.setCellValueFactory(new PropertyValueFactory<>("prix"));
-        referenceColumn.setCellValueFactory(new PropertyValueFactory<>("reference"));
-        statutColumn.setCellValueFactory(new PropertyValueFactory<>("statut"));
+        emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
+        dateColumn.setCellValueFactory(new PropertyValueFactory<>("dateReservation"));
+        offreColumn.setCellValueFactory(new PropertyValueFactory<>("titreSalle"));
+        prixColumn.setCellValueFactory(new PropertyValueFactory<>("prixSalle"));
+        statutColumn.setCellValueFactory(new PropertyValueFactory<>("statutReservation"));  // Modifié ici
+        avanceColumn.setCellValueFactory(new PropertyValueFactory<>("avance"));
 
-        MainTable.getColumns().addAll(idColumn, nomColumn, prenomColumn, dateColumn, prixColumn, referenceColumn, statutColumn);
+        MainTable.getColumns().addAll( nomColumn, prenomColumn, emailColumn, dateColumn, offreColumn, prixColumn, statutColumn, avanceColumn);
     }
 
-    public ObservableList<Transaction> getAllReservations() {
-        ObservableList<Transaction> transactions = FXCollections.observableArrayList();
-
-        try (Connection connection = connect();
-             PreparedStatement statement = connection.prepareStatement("SELECT r.*, u.*, o.* FROM reservations r JOIN users u ON r.client_id = u.id JOIN offre o ON r.offre_id = o.id WHERE r.status = 'confirme'");
-             ResultSet resultSet = statement.executeQuery()) {
-
-            while (resultSet.next()) {
-                String id = resultSet.getString("id");
-                String status = resultSet.getString("status");
-                String heureDebut = resultSet.getString("heureDebut");
-                String heureFin = resultSet.getString("heureFin");
-                LocalDate dateReservation = resultSet.getDate("dateReservation").toLocalDate();
-                double avanceClient = resultSet.getDouble("avanceClient");
-                // Récupérer les informations de l'offre
-                String offreId = resultSet.getString("offre_id");
-                String titreOffre = resultSet.getString("titre");
-                String descriptionOffre = resultSet.getString("description");
-                double prixInitial = resultSet.getDouble("prixInitial");
-                double prixRemise = resultSet.getDouble("prixRemise");
-                LocalDate dateFinRemise = resultSet.getDate("dateFinRemise").toLocalDate();
-                // Créer une instance de l'objet Offre
-               // Offre offre = new Offre(offreId, titreOffre, descriptionOffre, prixInitial, prixRemise, dateFinRemise);
-                // Récupérer les informations du client
-                String clientId = resultSet.getString("client_id");
-                String nomClient = resultSet.getString("nom");
-                String prenomClient = resultSet.getString("prenom");
-                String emailClient = resultSet.getString("email");
-               // Client client = new Client(clientId, nomClient, prenomClient, emailClient);
-
-                // Créer une nouvelle transaction avec l'objet Client et l'objet Offre
-                Transaction transaction = new Transaction(id, nomClient, prenomClient, dateReservation, prixRemise, offreId, status);
-                transactions.add(transaction);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return transactions;
-    }
 
     public static Connection connect() throws SQLException {
         String url = "jdbc:mysql://localhost:3306/events";

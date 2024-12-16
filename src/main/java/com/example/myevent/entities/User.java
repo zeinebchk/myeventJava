@@ -31,8 +31,8 @@ public class User {
                 return id;
         }
 
-        public void setId(BigInteger id) {
-                this.id = id;
+        public void setId(BigInteger idEntrepreneur) {
+                this.id = idEntrepreneur;
         }
 
         public String getNom() {

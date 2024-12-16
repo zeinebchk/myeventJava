@@ -135,7 +135,7 @@ public class OffreFormController implements Initializable {
         rs = st.executeQuery();
         if (rs.next()) {
 
-           ee.setId(rs.getBigDecimal("id").toBigInteger());
+           ee.setIdEntrepreneur(rs.getBigDecimal("id").toBigInteger());
         }
         try {
             connection.setAutoCommit(false);
@@ -162,7 +162,7 @@ public class OffreFormController implements Initializable {
             }
 
 
-            Offre offre = new Offre(id, titre, description, prixInitial, prixRemise, dateFinRemise, ee.getId());
+            Offre offre = new Offre(id, titre, description, prixInitial, prixRemise, dateFinRemise, ee.getIdEntrepreneur());
             if (offre.getDateFinRemise() == null) {
                 throw new IllegalArgumentException("La date de fin de remise ne peut pas être null.");
             }

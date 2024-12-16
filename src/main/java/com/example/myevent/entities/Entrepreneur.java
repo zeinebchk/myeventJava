@@ -3,7 +3,7 @@ package com.example.myevent.entities;
 import java.math.BigInteger;
 
 public class Entrepreneur extends User{
-    private BigInteger id;
+    private BigInteger idEntrepreneur;
     private String nomProjet;
     private String categorie;
     private String gouvernerat;
@@ -29,12 +29,12 @@ public class Entrepreneur extends User{
         this.longitude = longitude;
     }
 
-    public BigInteger getId() {
-        return id;
+    public BigInteger getIdEntrepreneur() {
+        return idEntrepreneur;
     }
 
-    public void setId(BigInteger id) {
-        this.id = id;
+    public void setIdEntrepreneur(BigInteger idEntrepreneur) {
+        this.idEntrepreneur = idEntrepreneur;
     }
 
     public String getNomProjet() {

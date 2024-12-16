@@ -2,7 +2,6 @@ package com.example.myevent.controllers;
 import com.example.myevent.Services.EventService;
 import com.example.myevent.entities.*;
 import com.example.myevent.tools.Connexion;
-import com.mysql.cj.Session;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,13 +15,10 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.net.Authenticator;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Properties;
 
 public class CardEventController {
     @FXML
