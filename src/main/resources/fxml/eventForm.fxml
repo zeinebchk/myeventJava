@@ -69,8 +69,8 @@
                      </font>
                   </Label>
                   <DatePicker fx:id="date" layoutX="23.0" layoutY="249.0" stylesheets="@../css/loginDesign.css" />
-                  <TextField fx:id="heureDebut" layoutX="225.0" layoutY="249.0" prefHeight="34.0" prefWidth="173.0" promptText="20:00:00" styleClass="custom-text-field" stylesheets="@../css/loginDesign.css" />
-                  <TextField fx:id="heureFin" layoutX="418.0" layoutY="249.0" prefHeight="34.0" prefWidth="200.0" promptText="22:00:00" styleClass="custom-text-field" stylesheets="@../css/loginDesign.css" />
+                  <TextField fx:id="heureDebut" layoutX="225.0" layoutY="249.0" prefHeight="34.0" prefWidth="173.0" promptText="20:00" styleClass="custom-text-field" stylesheets="@../css/loginDesign.css" />
+                  <TextField fx:id="heureFin" layoutX="418.0" layoutY="249.0" prefHeight="34.0" prefWidth="200.0" promptText="22:00" styleClass="custom-text-field" stylesheets="@../css/loginDesign.css" />
                   <Label layoutX="21.0" layoutY="288.0" text="Combien de participants attendez vous ? *">
                      <font>
                         <Font name="Cambria" size="15.0" />

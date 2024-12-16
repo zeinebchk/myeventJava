@@ -1,6 +1,7 @@
 package com.example.myevent.controllers;
 
 import com.example.myevent.entities.*;
+import com.example.myevent.tools.Connexion;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -11,12 +12,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.FileChooser;
-import com.example.myevent.tools.Connexion;
 import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -25,10 +26,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ResourceBundle;
 import java.util.UUID;
-import java.math.BigInteger;
 
 public class OffreFormController implements Initializable {
     @FXML
@@ -54,7 +53,7 @@ public class OffreFormController implements Initializable {
 
     @FXML
     private TextField prixRemiseField;
-    LocalDate dateFinRemise;
+
     @FXML
     private DatePicker dateFinRemisePicker;
 
@@ -86,17 +85,17 @@ public class OffreFormController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         connection = Connexion.getInstance().getCnx();
-        offreDAO = new OffreDAO(connection);
+        offreDAO = new OffreDAO();
 
         // Initialisation des valeurs par défaut dans le formulaire
         titreField.setText("");
         descriptionField.setText("");
         prixInitialField.setText("0.0");
         prixRemiseField.setText("0.0");
-        dateFinRemisePicker.setValue(LocalDate.now());
         surfaceField.setText("0");
         adresseField.setText("");
         capaciteField.setText("0");
+
         optionsInclusField.setText("");
 
         gouverneratField.setItems(FXCollections.observableArrayList("Sfax", "Tunis", "Monastir", "Sousse"));
@@ -125,42 +124,70 @@ public class OffreFormController implements Initializable {
         });
     }
 
+
     @FXML
     private void handleAjouterOffre() throws SQLException {
         Entrepreneur ee = new Entrepreneur();
         entrepreneur_id = UserSession.getInstance().getUser().getId();
 
-
-
-        if (entrepreneur_id == null) {
+        // Vérifier si l'utilisateur est connecté
+        if (entrepreneur_id == null || entrepreneur_id.equals(BigInteger.ZERO)) {
             showAlert("Erreur", "L'utilisateur n'est pas connecté.");
             return;
         }
 
+        // Récupérer les informations de l'entrepreneur
         st = con.prepareStatement("SELECT * FROM entrepreneurs WHERE user_id = ?");
-        st.setBigDecimal(1, new BigDecimal(entrepreneur_id));
+        st.setBigDecimal(1, new BigDecimal(entrepreneur_id));  // Utilisation de BigDecimal
         rs = st.executeQuery();
         if (rs.next()) {
-            ee.setId(rs.getBigDecimal("id").toBigInteger());
+            ee.setId(rs.getBigDecimal("id").toBigInteger());  // Utilisation correcte de BigInteger
         }
 
         try {
             connection.setAutoCommit(false);
 
+            // Validation des champs obligatoires et numériques
             String titre = titreField.getText().trim();
+            System.out.println("Insertion dans la base de données avec gouvernerat: " + titre); // Afficher la valeur sélectionnée
+
             String description = descriptionField.getText().trim();
-            double prixInitial = Double.parseDouble(prixInitialField.getText());
-            double prixRemise = Double.parseDouble(prixRemiseField.getText());
+            System.out.println("Insertion dans la base de données avec gouvernerat: " + description); // Afficher la valeur sélectionnée
 
-            dateFinRemise = dateFinRemisePicker.getValue();
-            int surface = Integer.parseInt(surfaceField.getText());
-            int capacitePersonne = Integer.parseInt(capaciteField.getText());
+            double prixInitial = parseDoubleField(prixInitialField, "Le prix initial doit être un nombre valide.");
+            System.out.println("Insertion dans la base de données avec gouvernerat: " +prixInitial ); // Afficher la valeur sélectionnée
+
+            double prixRemise = parseDoubleField(prixRemiseField, "Le prix de remise doit être un nombre valide.");
+            System.out.println("Insertion dans la base de données avec gouvernerat: " +prixRemise ); // Afficher la valeur sélectionnée
+            int surface = parseIntegerField(surfaceField, "La surface doit être un nombre valide.");
+            System.out.println("Insertion dans la base de données avec gouvernerat: " + surface ); // Afficher la valeur sélectionnée
+            int capacitePersonne = parseIntegerField(capaciteField, "La capacité doit être un nombre valide.");
+            System.out.println("Insertion dans la base de données avec gouvernerat: " +capacitePersonne ); // Afficher la valeur sélectionnée
+
+            // Vérification des champs obligatoires
+            if (gouverneratField.getValue() == null || gouverneratField.getValue().isEmpty()) {
+                showAlert("Erreur", "Le gouvernerat doit être sélectionné.");
+                return;
+            }
+
+
             String gouvernerat = gouverneratField.getValue();
-            String ville = villeField.getValue();
-            String adresseExacte = adresseField.getText();
-            String optionInclus = optionsInclusField.getText();
+            System.out.println("Insertion dans la base de données avec gouvernerat: " + gouvernerat); // Afficher la valeur sélectionnée
 
-            // Vérifications supplémentaires
+            String ville = villeField.getValue();
+            System.out.println("Insertion dans la base de données avec gouvernerat: " + ville); // Afficher la valeur sélectionnée
+
+            if (ville == null || ville.isEmpty()) {
+                showAlert("Erreur", "La ville doit être sélectionnée.");
+                return;
+            }
+
+            String adresseExacte = adresseField.getText();
+            System.out.println("Insertion dans la base de données avec gouvernerat: " + adresseExacte); // Afficher la valeur sélectionnée
+
+            String optionInclus = optionsInclusField.getText();
+            System.out.println("Insertion dans la base de données avec gouvernerat: " + optionInclus); // Afficher la valeur sélectionnée
+
             if (surface <= 0 || capacitePersonne <= 0) {
                 showAlert("Erreur", "Les valeurs de surface et de capacité doivent être positives.");
                 return;
@@ -176,18 +203,21 @@ public class OffreFormController implements Initializable {
                 return;
             }
 
-            if (titre.isEmpty() || description.isEmpty() || gouvernerat == null || ville == null) {
+            if (titre.isEmpty() || description.isEmpty()) {
                 showAlert("Erreur", "Veuillez remplir tous les champs obligatoires.");
                 return;
             }
 
+            // Création de l'objet Offre et SalleFete
             Offre offre = new Offre(titre, description);
-            SalleFete salleFete = new SalleFete(surface, capacitePersonne, gouvernerat, ville, adresseExacte, optionInclus, offre.getId());
+            SalleFete sallefete = new SalleFete(surface, capacitePersonne, gouvernerat, ville, adresseExacte, optionInclus, offre.getId());
             Image image = new Image();
             image.setUrl(imageFileName);
 
-            offreDAO.ajouterOffre(offre, salleFete, image);
+            // Ajouter l'offre dans la base de données
+            offreDAO.ajouterOffre(offre, sallefete, image);
 
+            // Réinitialiser le formulaire et commettre la transaction
             clearFormFields();
             connection.commit();
             connection.setAutoCommit(true);
@@ -202,8 +232,27 @@ public class OffreFormController implements Initializable {
                 showAlert("Erreur", "Erreur lors du rollback de la transaction : " + ex.getMessage());
                 ex.printStackTrace();
             }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    // Méthodes utilitaires pour parsing
+    private double parseDoubleField(TextField field, String errorMessage) {
+        try {
+            return Double.parseDouble(field.getText());
         } catch (NumberFormatException e) {
-            showAlert("Erreur", "Veuillez saisir des valeurs valides dans les champs numériques.");
+            showAlert("Erreur", errorMessage);
+            throw e;
+        }
+    }
+
+    private int parseIntegerField(TextField field, String errorMessage) {
+        try {
+            return Integer.parseInt(field.getText());
+        } catch (NumberFormatException e) {
+            showAlert("Erreur", errorMessage);
+            throw e;
         }
     }
 
@@ -220,7 +269,6 @@ public class OffreFormController implements Initializable {
         descriptionField.clear();
         prixInitialField.clear();
         prixRemiseField.clear();
-        dateFinRemisePicker.setValue(LocalDate.now());
         surfaceField.clear();
         adresseField.clear();
         optionsInclusField.clear();

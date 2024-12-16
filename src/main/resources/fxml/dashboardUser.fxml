@@ -47,11 +47,6 @@
                <font>
                   <Font name="Cambria" size="15.0" />
                </font></Button>
-            <ImageView fx:id="filter2" fitHeight="18.0" fitWidth="22.0" layoutX="565.0" layoutY="80.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@images/filter.png" />
-               </image>
-            </ImageView>
             <Label layoutX="13.0" layoutY="310.0" text="budget maximum" textFill="WHITE">
                <font>
                   <Font name="Cambria" size="15.0" />

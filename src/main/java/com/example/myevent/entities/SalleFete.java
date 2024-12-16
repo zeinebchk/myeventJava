@@ -1,20 +1,20 @@
 package com.example.myevent.entities;
 
+import java.math.BigInteger;
+
 public class SalleFete extends Offre {
     private int surface;
     private int capacitePersonne;
     private String gouvernerat;
     private String ville;
     private String adresseExacte;
-    private double latitude; // Ajoutez le champ latitude
-    private double longitude; // Ajoutez le champ longitude
+    private double latitude;
+    private double longitude;
     private String optionInclus;
-    private String id;
 
-
-    // Constructeur avec tous les paramètres nécessaires
-    public SalleFete(int surface, int capacitePersonne, String gouvernerat, String ville, String adresseExacte, String optionInclus, String offreId) {
-        super(offreId, "Nom"); // Remplacer "Nom" par le vrai nom de l'offre si vous avez
+    // Constructor with all parameters
+    public SalleFete(BigInteger id, String nom, int surface, int capacitePersonne, String gouvernerat, String ville, String adresseExacte, double latitude, double longitude, String optionInclus) {
+        super(id, nom);
         this.surface = surface;
         this.capacitePersonne = capacitePersonne;
         this.gouvernerat = gouvernerat;
@@ -23,15 +23,27 @@ public class SalleFete extends Offre {
         this.latitude = latitude;
         this.longitude = longitude;
         this.optionInclus = optionInclus;
-        this.id = offreId;
     }
 
-    // Constructeur sans paramètres
-    public SalleFete() {
-        super("0", "Nom"); // Remplacer "Nom" par un nom par défaut, ou selon votre logique
+    // Constructor with essential parameters
+    public SalleFete(BigInteger id, String nom, int surface, int capacitePersonne, String gouvernerat, String ville, String adresseExacte, String optionInclus) {
+        this(id, nom, surface, capacitePersonne, gouvernerat, ville, adresseExacte, 0.0, 0.0, optionInclus);
     }
 
-    // Getters et setters pour les attributs
+    // Constructor matching the error signature
+    public SalleFete(int surface, int capacitePersonne, String gouvernerat, String ville, String adresseExacte, String optionInclus, BigInteger id) {
+        super(id, "Default Nom");
+        this.surface = surface;
+        this.capacitePersonne = capacitePersonne;
+        this.gouvernerat = gouvernerat;
+        this.ville = ville;
+        this.adresseExacte = adresseExacte;
+        this.latitude = 0.0;
+        this.longitude = 0.0;
+        this.optionInclus = optionInclus;
+    }
+
+    // Getters and Setters
     public int getSurface() {
         return surface;
     }
@@ -96,17 +108,9 @@ public class SalleFete extends Offre {
         this.optionInclus = optionInclus;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
     @Override
     public String toString() {
-        return "SalleFete{" +
+        return super.toString() + "SalleFete{" +
                 "surface=" + surface +
                 ", capacitePersonne=" + capacitePersonne +
                 ", gouvernerat='" + gouvernerat + '\'' +
@@ -115,7 +119,6 @@ public class SalleFete extends Offre {
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +
                 ", optionInclus='" + optionInclus + '\'' +
-                ", id='" + id + '\'' +
                 '}';
     }
 }

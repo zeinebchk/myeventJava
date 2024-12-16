@@ -15,9 +15,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-
+import    java.math.BigInteger;
 import java.io.IOException;
-import java.math.BigInteger;
 import java.sql.*;
 import java.time.LocalDate;
 
@@ -30,6 +29,7 @@ public class TransactionController {
     private TextField Text_Searchbar;
     @FXML
     private JFXButton Menu;
+    private String offreId;
 
     public void initialize() {
         initializeTableView();
@@ -74,7 +74,8 @@ public class TransactionController {
                 double avanceUser = resultSet.getDouble("avanceUser");
 
                 // Récupérer les informations de l'offre
-                String offreId = resultSet.getString("offre_id");
+
+               offreId = resultSet.getString("offre_id");
                 String titreOffre = resultSet.getString("titre");
                 String descriptionOffre = resultSet.getString("description");
                 double prixInitial = resultSet.getDouble("prixInitial");
@@ -83,7 +84,8 @@ public class TransactionController {
 
                 // Créer une instance de l'objet Offre
                 Offre offre = new Offre(resultSet.getInt("id"), resultSet.getString("nom"));
-                offre.setId(offreId);
+                offre.setId(new BigInteger(offreId));
+
                 offre.setTitre(titreOffre);
                 offre.setDescription(descriptionOffre);
                 offre.setPrixInitial(prixInitial);

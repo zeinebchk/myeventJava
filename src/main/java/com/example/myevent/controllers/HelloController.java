@@ -1,33 +1,24 @@
 package com.example.myevent.controllers;
 
-import com.example.myevent.entities.Image;
-import com.example.myevent.entities.SalleFete;
+import com.example.myevent.entities.*;
+import com.example.myevent.tools.Connexion;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import com.example.myevent.entities.Offre;
-import com.example.myevent.entities.OffreDAO;
-import com.example.myevent.tools.Connexion;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -62,7 +53,13 @@ public class HelloController implements Initializable {
     private Button retour;
     private OffreDAO offreDAO;
     private Connection connection;
-
+    int surface;
+    int capacitePersonne;
+    String gouvernerat;
+    String ville;
+    Evennement offre;
+    String optionInclus;
+    String adresseExacte;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -75,7 +72,7 @@ public class HelloController implements Initializable {
 
         // Create a connection to your database
         connection = Connexion.getInstance().getCnx();
-        offreDAO = new OffreDAO(connection);
+        offreDAO = new OffreDAO();
 
         // Load offer data into the TableView
         loadOffresData();
@@ -226,7 +223,7 @@ public class HelloController implements Initializable {
                 dialog.close();
             } catch (NumberFormatException e) {
                 showAlert("Invalid number format: " + e.getMessage());
-            } catch (SQLException e) {
+            } catch (SQLException | IOException e) {
                 showAlert("SQL Error: " + e.getMessage());
             }
         });
@@ -244,14 +241,14 @@ public class HelloController implements Initializable {
         alert.setContentText(message);
         alert.showAndWait();
     }
-    private SalleFete getSalleFeteByOffreId(String offreId) {
+    private SalleFete getSalleFeteByOffreId(BigInteger offreId) {
         connection = Connexion.getInstance().getCnx();
         String query = "SELECT * FROM sallefete WHERE offre_id = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setBigDecimal(1, new BigDecimal(offreId));
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    SalleFete salleFete = new SalleFete();
+                    SalleFete salleFete = new SalleFete(surface, capacitePersonne, gouvernerat, ville, adresseExacte, optionInclus, offre.getId());
                     salleFete.setSurface(resultSet.getInt("surface"));
                     salleFete.setCapacitePersonne(resultSet.getInt("capacitePersonne"));
                     salleFete.setGouvernerat(resultSet.getString("gouvernerat"));
@@ -269,7 +266,7 @@ public class HelloController implements Initializable {
         return null;
     }
 
-    private Image getImageByOffreId(String offreId) {
+    private Image getImageByOffreId(BigInteger offreId) {
         connection = Connexion.getInstance().getCnx();
         String query = "SELECT * FROM image WHERE offre_id = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {

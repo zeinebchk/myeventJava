@@ -1,59 +1,36 @@
 package com.example.myevent.Services;
 
 
-import com.example.myevent.entities.Evennement;
-import com.example.myevent.entities.Event;
+import com.example.myevent.entities.*;
 import com.example.myevent.tools.Connexion;
 
 import java.math.BigInteger;
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class EventService implements iservice<Evennement> {
+    PreparedStatement st = null;
+    ResultSet rs = null;
+    Connection con = Connexion.getInstance().getCnx();
 
-    private static Connection connection;
 
     public EventService() {
-        connection = Connexion.getInstance().getCnx();
-    }
-
-    // Method to add a user
-   public void ajouter(Evennement event) throws SQLException {
-    /*     String sql = "INSERT INTO evennements (titre, dateEvent, heuredebutEvent, heureFinEvent, nbInvites, gouvernerat, ville, adresseExacte) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        preparedStatement.setString(1, event.getTitre());
-        preparedStatement.setDate(2, Date.valueOf(event.getDateEvent())); // Conversion de LocalDate en java.sql.Date
-        preparedStatement.setTime(3, event.getHeureDebutEvent());
-        preparedStatement.setTime(4, event.getHeureFinEvent());
-        preparedStatement.setInt(5, event.getNbInvites());
-        preparedStatement.setString(6, event.getGouvernerat());
-        preparedStatement.setString(7, event.getVille());
-        preparedStatement.setString(8, event.getAdresseExacte());
-
-        preparedStatement.executeUpdate();*/
-    }
-
-    @Override
-    public void modifier(Evennement event) throws SQLException {
-
-    }
-
-    @Override
-    public void supprimer(Evennement event) throws SQLException {
-
     }
 
 
-    public List<Evennement> afficher() throws SQLException {
-        String sql = "SELECT id, titre, dateEvent, heuredebutEvent, heureFinEvent, nbInvites, gouvernerat, ville, adresseExacte FROM evennements";
-        List<Evennement> eventsList = new ArrayList<>();
-
-        try (Statement statement = connection.createStatement();
-             ResultSet rs = statement.executeQuery(sql)) {
-
-            while (rs.next()) {
+    public Set<Evennement> getEventsByClIent_id() throws SQLException {
+        String sql = "SELECT id, titre, dateEvent, heuredebutEvent, heureFinEvent, nbInvites, gouvernerat, ville, adresseExacte FROM evennements where client_id=?";
+       st = con.prepareStatement(sql);
+        BigInteger bigId = UserSession.getInstance().getUser().getId();
+        long userId = bigId.longValue();
+        st.setLong(1, userId);
+        rs = st.executeQuery();
+        int rowCount = 0;
+        Set<Evennement> eventsList = new TreeSet<>();
+        while (rs.next()) {
                 BigInteger id = rs.getBigDecimal("id").toBigInteger();
                 String titre = rs.getString("titre");
                 Date dateEvent = rs.getDate("dateEvent"); // Utilisation de getDate() pour récupérer la date
@@ -67,9 +44,32 @@ public class EventService implements iservice<Evennement> {
                 Evennement event = new Evennement(id, titre, dateEvent, heuredebutEvent, heureFinEvent, nbInvites, gouvernerat, ville, adresseExacte);
                 eventsList.add(event);
             }
-        }
-
         return eventsList;
     }
+    public  boolean chercherOffreDansEvent(BigInteger idevent,BigInteger idOffre) throws SQLException {
+        System.out.println("idevent"+idevent);
+        long idev = idevent.longValue();
+        System.out.println("idev"+idev);
+        System.out.println("idoff"+idOffre);
+        List<Offre> offres= new ArrayList<>();
+        String sql = "SELECT * from offre_event oe join Offre o on oe.offre_id=o.id  where event_id=?";
+        st = con.prepareStatement(sql);
+        st.setLong(1,idev);
+        rs = st.executeQuery();
+        while (rs.next()) {
+            Offre o= new Offre(rs.getInt("id"), rs.getString("nom"));
+            o.setId(rs.getBigDecimal("offre_id").toBigInteger());
+            o.setTitre(rs.getString("titre"));
+            offres.add(o);
+        }
+        for (Offre o : offres) {
+            System.out.println(o.toString());
+        }
+        Boolean oo = offres.stream().anyMatch(o -> o.getId().equals(idOffre)) ;
+
+        return oo;
+
+    }
+
 
 }

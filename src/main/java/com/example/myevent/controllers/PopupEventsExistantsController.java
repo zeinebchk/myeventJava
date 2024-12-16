@@ -1,5 +1,6 @@
 package com.example.myevent.controllers;
 
+import com.example.myevent.Services.EventService;
 import com.example.myevent.entities.Evennement;
 import com.example.myevent.entities.SalleFete;
 import com.example.myevent.entities.UserSession;
@@ -26,9 +27,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class PopupEventsExistantsController implements Initializable {
     @FXML
@@ -39,20 +38,21 @@ public class PopupEventsExistantsController implements Initializable {
     PreparedStatement st = null;
     ResultSet rs = null;
     Connection con = Connexion.getInstance().getCnx();
-    private List<Evennement> events=new ArrayList<>();
+    private Set<Evennement> events=new TreeSet<>();
+    EventService eventService = new EventService();
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
-            events.addAll(getData());
+            events.addAll(eventService.getEventsByClIent_id());
             int column = 0;
             int row = 1;
             try {
-                for (int i = 0; i < events.size(); i++) {
+                for (Evennement e : events) {
                     FXMLLoader fxmlLoader = new FXMLLoader();
                     fxmlLoader.setLocation(getClass().getResource("/fxml/cardEvent.fxml"));
                     AnchorPane anchorPane = fxmlLoader.load();
                     CardEventController itemController = fxmlLoader.getController();
-                    itemController.setData(events.get(i));
+                    itemController.setData(e);
 
                     if (column == 3) {
                         column = 0;
@@ -79,35 +79,7 @@ public class PopupEventsExistantsController implements Initializable {
             throw new RuntimeException(e);
         }
     }
-    public List<Evennement> getData() throws SQLException {
-        List<Evennement> events=new ArrayList<>();
-        st = con.prepareStatement("SELECT * from evennements where client_id=?");
-        st.setBigDecimal(1, new BigDecimal(String.valueOf(id)));
-        rs = st.executeQuery();
-        int rowCount = 0;
-        while (rs.next()) {
-            rowCount++;
-            Evennement s=new Evennement();
-            s.setTitre(rs.getString("titre"));
-            s.setDateEvent(rs.getDate("dateEvent"));
-            s.setHeuredebutEvent(rs.getTime("heureDebutEvent"));
-            s.setHeureFinEvent(rs.getTime("heureFinEvent"));
-            s.setNbInvites(rs.getInt("nbInvites"));
-            s.setAdresseExacte(rs.getString("adresseExacte"));
-            s.setGouvernerat(rs.getString("gouvernerat"));
-            s.setVille(rs.getString("ville"));
-            s.setAdresseExacte(rs.getString("adresseExacte"));
-            if (!events.contains(s)) {
-                events.add(s);
-            }
-            System.out.println("hhhhhh");
-        }
-        System.out.println("Nombre de lignes retournées : " + rowCount);
-        for(int i=0;i<events.size();i++){
-            System.out.println(events.get(i).toString());
-        }
-        return events;
-    }
+
     public void setOffre(SalleFete f){
 
         offre.setText(String.valueOf(f.getId()));

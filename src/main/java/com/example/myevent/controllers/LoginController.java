@@ -3,6 +3,7 @@ package com.example.myevent.controllers;
 import com.example.myevent.entities.AESCrypt;
 import com.example.myevent.entities.User;
 import com.example.myevent.entities.UserSession;
+import com.example.myevent.Services.GestionUser;
 import com.example.myevent.tools.Connexion;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -20,7 +21,6 @@ import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.File;
 import java.io.IOException;
-import java.math.BigInteger;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -49,7 +49,7 @@ public class LoginController implements Initializable {
     PreparedStatement st = null;
     ResultSet rs = null;
     Connection con = Connexion.getInstance().getCnx();
-
+    GestionUser gu=new GestionUser();
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
        /* File brandingFile = new File("images/login.png");
@@ -148,23 +148,24 @@ public class LoginController implements Initializable {
         else{
             mdp.setStyle(null);
             mdpError.setText("");
-            st = con.prepareStatement("SELECT * FROM users WHERE email = ?");
-            st.setString(1, email.getText());
-            rs = st.executeQuery();
-            if (rs.next()) {
-                   String newHash = rs.getString("password").replaceFirst("^\\$2y\\$", "\\$2a\\$");
+//            st = con.prepareStatement("SELECT * FROM users WHERE email = ?");
+//            st.setString(1, email.getText());
+//            rs = st.executeQuery();
+            User user=gu.getUserByMail(email.getText());
+            if (user!=null) {
+                   String newHash = user.getPassword().replaceFirst("^\\$2y\\$", "\\$2a\\$");
                    System.out.println(newHash);
                    if(BCrypt.checkpw(mdp.getText(),newHash)){
                     System.out.println("Password Matched!");
                     // Add your code here for successful password verification
                     UserConnected = new User();
-                    UserConnected.setId(BigInteger.valueOf(rs.getInt("id")));
-                    UserConnected.setNom(rs.getString("nom"));
-                    UserConnected.setPrenom(rs.getString("prenom"));
-                    UserConnected.setGenre(rs.getString("genre"));
-                    UserConnected.setEmail(rs.getString("email"));
-                    UserConnected.setNumTel(rs.getInt("numTel"));
-                    UserConnected.setImage(rs.getString("image"));
+                    UserConnected.setId(user.getId());
+                    UserConnected.setNom(user.getNom());
+                    UserConnected.setPrenom(user.getPrenom());
+                    UserConnected.setGenre(user.getGenre());
+                    UserConnected.setEmail(user.getEmail());
+                    UserConnected.setNumTel(user.getNumTel());
+                    UserConnected.setImage(user.getImage());
                     UserSession.getInstance().setUser(UserConnected);
 
                     if (UserConnected.getGenre().equals("particulier")){
@@ -204,30 +205,3 @@ public class LoginController implements Initializable {
     }
 }
 
-/*package com.example.myevent.controllers;
-
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.scene.control.*;
-
-public class LoginController {
-
-    public TextField email;
-    public TextField mdp;
-    @FXML
-    public void login(ActionEvent event){
-        System.out.println("aaaaaaaaaaaaaaa");
-        if(email.getText().isEmpty()){
-            email.setStyle("-fx-border-color:red;-fx-border-width:2px;");
-            showAlert("Champ Email Vide", "Veuillez saisir votre email.");
-        }
-    }
-    private void showAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
-
-}*/

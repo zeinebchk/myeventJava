@@ -28,6 +28,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 public class EventController implements Initializable {
     @FXML
@@ -104,7 +105,7 @@ public class EventController implements Initializable {
     private void loadUserData() {
         ObservableList<Evennement> events = FXCollections.observableArrayList();
         try {
-            List<Evennement> eventList = eventService.afficher();
+            Set<Evennement> eventList = eventService.getEventsByClIent_id();
             if (eventList != null) {
                 for (Evennement event : eventList) {
                     if (event != null) {
@@ -176,31 +177,7 @@ public class EventController implements Initializable {
         alert.showAndWait();*/
     }
 
-    @FXML
-    private void addUser(ActionEvent event) {
-        /*String titre = tf_titre.getText();
-        LocalDate dateEvent = tf_date.getValue();
-        Time heuredebutEvent = Time.valueOf(ft_hd.getText());
-        Time heureFinEvent = Time.valueOf(ft_hf.getText());
-        Integer nbInvites = Integer.valueOf(ft_nb.getText());
-        String gouvernerat = ft_gouvert.getText();
-        String ville = ft_ville.getText();
-        String adresseExacte = ft_adresseExacte.getText();
 
-        if (titre.isEmpty() || dateEvent == null || heuredebutEvent == null || heureFinEvent == null || nbInvites == null || gouvernerat.isEmpty() || ville.isEmpty() || adresseExacte.isEmpty()) {
-            showAlert(Alert.AlertType.WARNING, "Ajout impossible", "Veuillez remplir tous les champs.");
-            return;
-        }
-
-        try {
-            Evennement events = new Evennement(0, titre, dateEvent, heuredebutEvent, heureFinEvent, nbInvites, gouvernerat, ville, adresseExacte);
-            eventService.ajouter(events);
-            showAlert(Alert.AlertType.CONFIRMATION, "Succès", "Événement ajouté avec succès.");
-            loadUserData(); // Rafraîchir la table après l'ajout
-        } catch (SQLException e) {
-            showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur lors de l'ajout de l'événement : " + e.getMessage());
-        }*/
-    }
 
     private void showAlert(Alert.AlertType alertType, String title, String message) {
         Alert alert = new Alert(alertType);
