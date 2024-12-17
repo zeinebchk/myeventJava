@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.function.Predicate;
 
-public interface IUser {
+public interface IUserService {
 
     public List<User> getAllUsers() throws SQLException;
     public  User getUserByMail(String email) throws SQLException;

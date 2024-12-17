@@ -11,7 +11,7 @@ public class Evennement implements Comparable<Evennement> {
     private String titre;
     private Date dateEvent;
     private Time heuredebutEvent;
-    private Time heureFinEvent;
+    private Time heurefinEvent;
     private int nbInvites;
     private String gouvernerat;
     private String ville;
@@ -26,7 +26,7 @@ public class Evennement implements Comparable<Evennement> {
         this.titre = titre;
         this.dateEvent = dateEvent;
         this.heuredebutEvent = heuredebutEvent;
-        this.heureFinEvent = heureFinEvent;
+        this.heurefinEvent = heureFinEvent;
         this.nbInvites = nbInvites;
         this.gouvernerat = gouvernerat;
         this.ville = ville;
@@ -45,7 +45,7 @@ public class Evennement implements Comparable<Evennement> {
         this.heuredebutEvent = heuredebutEvent;
     }
     public void setHeureFinEvent(Time heureFinEvent) {
-        this.heureFinEvent = heureFinEvent;
+        this.heurefinEvent = heureFinEvent;
     }
     public void setNbInvites(int nbInvites) {
         this.nbInvites = nbInvites;
@@ -73,7 +73,7 @@ public class Evennement implements Comparable<Evennement> {
         return heuredebutEvent;
     }
     public Time getHeureFinEvent() {
-        return heureFinEvent;
+        return heurefinEvent;
     }
     public int getNbInvites() {
         return nbInvites;
@@ -120,7 +120,7 @@ public class Evennement implements Comparable<Evennement> {
                 ", titre='" + titre + '\'' +
                 ", dateEvent=" + dateEvent +
                 ", heuredebutEvent=" + heuredebutEvent +
-                ", heureFinEvent=" + heureFinEvent +
+                ", heureFinEvent=" + heurefinEvent +
                 ", nbInvites=" + nbInvites +
                 ", gouvernerat='" + gouvernerat + '\'' +
                 ", ville='" + ville + '\'' +

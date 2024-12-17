@@ -72,10 +72,9 @@ public class CardController implements Initializable {
         group.setImage(brandingImage);
     }
     public Button btnCon;
-    SalleFete s=new SalleFete();
     @FXML
     void afficherDetailOffre(ActionEvent event) throws IOException, SQLException {
-        s=offreService.getSalleFeteByTitle(titre.getText());
+       SalleFete s=offreService.getSalleFeteByTitle(titre.getText());
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/detailCardOffre.fxml"));
             Parent root = loader.load();

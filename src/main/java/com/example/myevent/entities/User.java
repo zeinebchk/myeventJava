@@ -14,7 +14,7 @@ public class User {
 
         public User() {
         }
-        public User(BigInteger id, String nom, String prenom, String email, String password, int numTel, String genre,
+        public User(String nom, String prenom, String email, String password, int numTel, String genre,
                     String image) {
                 super();
                 this.id = id;

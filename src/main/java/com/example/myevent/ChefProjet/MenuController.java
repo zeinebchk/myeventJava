@@ -63,7 +63,7 @@ public class MenuController {
     private void handleConnexionButtonActionnListeClient(ActionEvent event) {
         // Charger la nouvelle page
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/hello-view.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/liste_client.fxml"));
             Parent root = loader.load();
             Stage stage = (Stage) studio_btn.getScene().getWindow();
             stage.setScene(new Scene(root));
@@ -128,5 +128,31 @@ public class MenuController {
             e.printStackTrace();
         }
     }
-}
 
+    @FXML
+    private void handleViewProductButtonAction(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/offre-view.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) emp_btn.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            System.out.println("Navigué vers la page View Product avec succès !");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void handleAddProductButtonAction(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/offre-view.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) event_btn.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            System.out.println("Navigué vers la page Add Product avec succès !");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+}

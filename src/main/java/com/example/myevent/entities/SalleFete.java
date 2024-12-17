@@ -1,9 +1,6 @@
 package com.example.myevent.entities;
 
-import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.Date;
-import java.util.Objects;
 
 public class SalleFete extends Offre {
     private int surface;
@@ -11,14 +8,13 @@ public class SalleFete extends Offre {
     private String gouvernerat;
     private String ville;
     private String adresseExacte;
-    private double latitude; // Ajoutez le champ latitude
-    private double longitude; // Ajoutez le champ longitude
+    private double latitude;
+    private double longitude;
     private String optionInclus;
-    private BigInteger id;
 
-
-    public SalleFete(int surface, int capacitePersonne, String gouvernerat, String ville, String adresseExacte, String optionInclus,BigInteger offreId) {
-        super();
+    // Constructor with all parameters
+    public SalleFete(BigInteger id, String nom, int surface, int capacitePersonne, String gouvernerat, String ville, String adresseExacte, double latitude, double longitude, String optionInclus) {
+        super(id, nom);
         this.surface = surface;
         this.capacitePersonne = capacitePersonne;
         this.gouvernerat = gouvernerat;
@@ -27,13 +23,30 @@ public class SalleFete extends Offre {
         this.latitude = latitude;
         this.longitude = longitude;
         this.optionInclus = optionInclus;
-        this.id = offreId;
     }
 
-    public SalleFete() {
-        super();
+    // Constructor with essential parameters
+    public SalleFete(BigInteger id, String nom, int surface, int capacitePersonne, String gouvernerat, String ville, String adresseExacte, String optionInclus) {
+        this(id, nom, surface, capacitePersonne, gouvernerat, ville, adresseExacte, 0.0, 0.0, optionInclus);
     }
-    // Getters et setters pour les attributs
+
+    // Constructor matching the error signature
+    public SalleFete(int surface, int capacitePersonne, String gouvernerat, String ville, String adresseExacte, String optionInclus, BigInteger id) {
+        super(id, "Default Nom");
+        this.surface = surface;
+        this.capacitePersonne = capacitePersonne;
+        this.gouvernerat = gouvernerat;
+        this.ville = ville;
+        this.adresseExacte = adresseExacte;
+        this.latitude = 0.0;
+        this.longitude = 0.0;
+        this.optionInclus = optionInclus;
+    }
+   public  SalleFete(){
+       super();
+   }
+
+    // Getters and Setters
     public int getSurface() {
         return surface;
     }
@@ -73,6 +86,7 @@ public class SalleFete extends Offre {
     public void setAdresseExacte(String adresseExacte) {
         this.adresseExacte = adresseExacte;
     }
+
     public double getLatitude() {
         return latitude;
     }
@@ -86,7 +100,8 @@ public class SalleFete extends Offre {
     }
 
     public void setLongitude(double longitude) {
-        this.longitude = longitude;}
+        this.longitude = longitude;
+    }
 
     public String getOptionInclus() {
         return optionInclus;
@@ -94,13 +109,6 @@ public class SalleFete extends Offre {
 
     public void setOptionInclus(String optionInclus) {
         this.optionInclus = optionInclus;
-    }
-    public BigInteger getId() {
-        return id;
-    }
-
-    public void setId(BigInteger id) {
-        this.id = id;
     }
 
     @Override
@@ -114,7 +122,6 @@ public class SalleFete extends Offre {
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +
                 ", optionInclus='" + optionInclus + '\'' +
-                ", id=" + id +
                 '}';
     }
 }

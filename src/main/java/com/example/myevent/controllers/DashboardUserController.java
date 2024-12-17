@@ -1,6 +1,8 @@
 package com.example.myevent.controllers;
 
+import com.example.myevent.Services.OffreService;
 import com.example.myevent.entities.Entrepreneur;
+import com.example.myevent.entities.Evennement;
 import com.example.myevent.entities.SalleFete;
 import com.example.myevent.tools.Connexion;
 import javafx.event.ActionEvent;
@@ -43,7 +45,7 @@ public class DashboardUserController implements Initializable {
     private ComboBox<String> gouvs;
 
     @FXML
-    private GridPane grid;
+    private GridPane gridPane;
 
     @FXML
     private Slider maxBudget;
@@ -63,12 +65,12 @@ public class DashboardUserController implements Initializable {
     @FXML
     private ChoiceBox<String> villes;
 
-
     PreparedStatement st = null;
     ResultSet rs = null;
     Connection con = Connexion.getInstance().getCnx();
-
+    OffreService os = new OffreService();
     private List<SalleFete> salles=new ArrayList<>();
+
     public void initialiseGridPane(List<SalleFete> salles) {
 
         int column = 0;
@@ -87,16 +89,16 @@ public class DashboardUserController implements Initializable {
                     row++;
                 }
 
-                grid.add(anchorPane, column++, row); //(child,column,row)
+                gridPane.add(anchorPane, column++, row); //(child,column,row)
                 //set grid width
-                grid.setMinWidth(Region.USE_COMPUTED_SIZE);
-                grid.setPrefWidth(Region.USE_COMPUTED_SIZE);
-                grid.setMaxWidth(Region.USE_PREF_SIZE);
+                gridPane.setMinWidth(Region.USE_COMPUTED_SIZE);
+                gridPane.setPrefWidth(Region.USE_COMPUTED_SIZE);
+                gridPane.setMaxWidth(Region.USE_PREF_SIZE);
 
                 //set grid height
-                grid.setMinHeight(Region.USE_COMPUTED_SIZE);
-                grid.setPrefHeight(Region.USE_COMPUTED_SIZE);
-                grid.setMaxHeight(Region.USE_PREF_SIZE);
+                gridPane.setMinHeight(Region.USE_COMPUTED_SIZE);
+                gridPane.setPrefHeight(Region.USE_COMPUTED_SIZE);
+                gridPane.setMaxHeight(Region.USE_PREF_SIZE);
 
                 GridPane.setMargin(anchorPane, new Insets(10));
             }
@@ -112,10 +114,12 @@ public class DashboardUserController implements Initializable {
             Date today = Date.valueOf(LocalDate.now().plusDays(1));
             dateReservation.setValue(today.toLocalDate());
             nbInvites.setText("20");
-            getAllRooomsAvailable(today);
+            os.getAllRooomsAvailable(today,salles);
             System.out.println(salles.size());
             initialiseGridPane(salles);
         } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
         gouvs.getItems().add("Sfax");
@@ -153,7 +157,7 @@ public class DashboardUserController implements Initializable {
 
 
     }
-    public List<SalleFete> getAllRooomsAvailable(Date t) throws SQLException {
+   /* public List<SalleFete> getAllRooomsAvailable(Date t) throws SQLException {
         st = con.prepareStatement("SELECT * from offre o " +
                 "JOIN sallefete f ON o.id = f.offre_id " +
                 "JOIN (SELECT MIN(id) as id, offre_id, url FROM image GROUP BY offre_id) i ON o.id = i.offre_id " +
@@ -184,8 +188,8 @@ public class DashboardUserController implements Initializable {
             s.setAdresseExacte(rs.getString("adresseExacte"));
             s.setImage(image);
 
-             /* Entrepreneur entrepreneur = getEntrepreneurFromResultSet(rs.getBigDecimal("entrepreneur_id"));
-              s.setEntrepreneur_id(entrepreneur);*/
+             *//* Entrepreneur entrepreneur = getEntrepreneurFromResultSet(rs.getBigDecimal("entrepreneur_id"));
+              s.setEntrepreneur_id(entrepreneur);*//*
             if (!salles.contains(s)) {
                 salles.add(s);
             }
@@ -193,9 +197,9 @@ public class DashboardUserController implements Initializable {
 
     }
         return salles;
-    }
+    }*/
 
-   public List<SalleFete> filtrerBYcriteria(String gouvernerat,String ville,Date t,int nbInvites,int minBudget,int maxBudget) throws SQLException {
+  /* public List<SalleFete> filtrerBYcriteria(String gouvernerat,String ville,Date t,int nbInvites,int minBudget,int maxBudget,List<SalleFete> salles) throws SQLException {
         salles.clear();
        getAllRooomsAvailable(t);
        System.out.println(salles.size());
@@ -222,12 +226,9 @@ public class DashboardUserController implements Initializable {
            System.out.println(s.toString());
        }
        return salles;
+    }*/
 
-
-
-    }
-
-    private Entrepreneur getEntrepreneurFromResultSet(BigDecimal id) throws SQLException {
+/*    private Entrepreneur getEntrepreneurFromResultSet(BigDecimal id) throws SQLException {
         System.out.println("gggg");
         // Assuming Entrepreneur has an empty constructor and setter methods for each property
         Entrepreneur entrepreneur = new Entrepreneur();
@@ -255,7 +256,7 @@ public class DashboardUserController implements Initializable {
         }
 
         return entrepreneur;
-    }
+    }*/
     @FXML
     void affichMenu(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MenuUser.fxml"));
@@ -266,15 +267,15 @@ public class DashboardUserController implements Initializable {
         stage.show();
     }
 
-    public void filtrer(ActionEvent actionEvent) throws SQLException {
+    public void filtrer(ActionEvent actionEvent) throws SQLException, IOException {
         String gouv=gouvs.getValue();
         String ville=villes.getValue();
         int nbinvites=Integer.parseInt(nbInvites.getText());
         int minbudget=(int) Math.round(minBudget.getValue()); ;
         int maxbudget=(int) Math.round(maxBudget.getValue()); ;
         Date dateRes= Date.valueOf(dateReservation.getValue());
-        List<SalleFete> ss=filtrerBYcriteria(gouv,ville,dateRes,nbinvites,minbudget,maxbudget);
-        grid.getChildren().clear();
+        List<SalleFete> ss=os.filtrerBYcriteria(gouv,ville,dateRes,nbinvites,minbudget,maxbudget,salles);
+        gridPane.getChildren().clear();
         initialiseGridPane(ss);
     }
 }

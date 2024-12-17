@@ -1,8 +1,9 @@
 package com.example.myevent.entities;
 
 import java.math.BigInteger;
-import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDate;
+import java.util.Date;
 
 public class Reservation {
     private BigInteger id;

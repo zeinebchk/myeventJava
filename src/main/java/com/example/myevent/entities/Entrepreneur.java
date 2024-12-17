@@ -13,11 +13,15 @@ public class Entrepreneur extends User{
     private double latitude;
     private double longitude;
 
+    public void setIdEntrepreneur(BigInteger idEntrepreneur) {
+        this.idEntrepreneur = idEntrepreneur;
+    }
+
     public Entrepreneur(){};
     public Entrepreneur(BigInteger id, String nom, String prenom, String email, String password, int numTel,
                         String genre, String image, BigInteger id2, String nomProjet, String categorie, String gouvernerat,
                         String ville, String adresseExacte, int numTelPro, double latitude, double longitude) {
-        super(id, nom, prenom, email, password, numTel, genre, image);
+        super(nom, prenom, email, password, numTel, genre, image);
         id = id2;
         this.nomProjet = nomProjet;
         this.categorie = categorie;
@@ -29,12 +33,12 @@ public class Entrepreneur extends User{
         this.longitude = longitude;
     }
 
-    public BigInteger getIdEntrepreneur() {
+    public BigInteger getId() {
         return idEntrepreneur;
     }
 
-    public void setIdEntrepreneur(BigInteger idEntrepreneur) {
-        this.idEntrepreneur = idEntrepreneur;
+    public void setId(BigInteger id) {
+        this.idEntrepreneur = id;
     }
 
     public String getNomProjet() {

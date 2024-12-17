@@ -18,7 +18,8 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.myevent.controllers.OffreFormController" >
+<StackPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.myevent.controllers.OffreFormController">
+
     <!-- Image en arrière-plan -->
     <ImageView fitHeight="600.0" fitWidth="900.0">
         <image>
@@ -36,7 +37,6 @@
                 <Label text="Titre :" GridPane.rowIndex="0" style="-fx-font-weight: bold; -fx-font-size: 14px;" />
                 <TextField fx:id="titreField" prefHeight="32.0" prefWidth="239.0" promptText="Entrez le titre" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
-                <!-- Ajoutez les autres champs du formulaire ici -->
                 <Label text="Description :" GridPane.rowIndex="1" style="-fx-font-weight: bold; -fx-font-size: 14px;" />
                 <TextField fx:id="descriptionField" promptText="Entrez la description" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
@@ -45,9 +45,6 @@
 
                 <Label text="Prix Remise :" GridPane.rowIndex="3" style="-fx-font-weight: bold; -fx-font-size: 14px;" />
                 <TextField fx:id="prixRemiseField" prefHeight="33.0" prefWidth="240.0" promptText="Entrez le prix remisé" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-
-                <Label text="Date Fin Remise :" GridPane.rowIndex="4" style="-fx-font-weight: bold; -fx-font-size: 14px;" />
-                <DatePicker fx:id="dateFinRemisePicker" prefHeight="34.0" prefWidth="240.0" promptText="Sélectionnez la date" GridPane.columnIndex="1" GridPane.rowIndex="4" />
 
                 <Label text="Surface :" GridPane.rowIndex="5" style="-fx-font-weight: bold; -fx-font-size: 14px;" />
                 <TextField fx:id="surfaceField" prefHeight="33.0" prefWidth="239.0" promptText="Entrez la surface" GridPane.columnIndex="1" GridPane.rowIndex="5" />
@@ -58,7 +55,7 @@
                 <Label text="Capacité :" GridPane.rowIndex="7" style="-fx-font-weight: bold; -fx-font-size: 14px;" />
                 <TextField fx:id="capaciteField" prefHeight="29.0" prefWidth="239.0" promptText="Entrez la capacité" GridPane.columnIndex="1" GridPane.rowIndex="7" />
 
-                <Label text="Gouvernerat :" GridPane.rowIndex="8" style="-fx-font-weight: bold; -fx-font-size: 14px;" />
+                <Label text="Gouvernorat :" GridPane.rowIndex="8" style="-fx-font-weight: bold; -fx-font-size: 14px;" />
                 <ChoiceBox fx:id="gouverneratField" prefHeight="33.0" prefWidth="242.0" GridPane.columnIndex="1" GridPane.rowIndex="8">
                     <items>
                         <FXCollections fx:factory="observableArrayList">
@@ -84,16 +81,14 @@
                 <Label text="Options Inclus :" GridPane.rowIndex="10" style="-fx-font-weight: bold; -fx-font-size: 14px;" />
                 <TextField fx:id="optionsInclusField" prefHeight="34.0" prefWidth="242.0" promptText="Entrez les options inclus" GridPane.columnIndex="1" GridPane.rowIndex="10" />
 
-                <HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="12">
-                    <HBox spacing="10" />
-
                 <Label fx:id="imagefileName" prefHeight="38.0" prefWidth="170.0" style="-fx-padding: 10px; -fx-font-weight: bold;" text="Importer votre photo" GridPane.rowIndex="11" />
                 <Button onAction="#onUploadButtonClick" prefHeight="35.0" prefWidth="124.0" text="Importer" GridPane.columnIndex="1" GridPane.rowIndex="11" />
+
+                <HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="12">
                     <Button fx:id="ajouterOffre" mnemonicParsing="false" onAction="#handleAjouterOffre" prefHeight="32.0" prefWidth="104.0" style="-fx-background-color: #FFB6C1; -fx-text-fill: white;" text="Ajouter Offre" />
-                    <Button fx:id="retourMenuButton"  onAction="#handleRetourMenu" prefHeight="33.0" prefWidth="114.0" style="-fx-background-color: #FFB6C1; -fx-text-fill: white;" text="Retour"/>
+                    <JFXButton fx:id="retourMenuButton" buttonType="RAISED" onAction="#handleRetourMenu" prefHeight="33.0" prefWidth="114.0" style="-fx-background-color: #FFB6C1; -fx-text-fill: white;" text="Retour"/>
                 </HBox>
             </GridPane>
         </VBox>
     </VBox>
-
 </StackPane>

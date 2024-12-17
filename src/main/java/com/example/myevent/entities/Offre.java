@@ -1,9 +1,10 @@
 package com.example.myevent.entities;
 
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
+import java.io.InputStream;
 import java.math.BigInteger;
+import java.sql.Blob;
 import java.time.LocalDate;
 
 public class Offre {
@@ -16,8 +17,7 @@ public class Offre {
     private BigInteger entrepreneurId;
     private Image image;
 
-
-    public Offre(BigInteger id, String titre, String description, double prixInitial, double prixRemise, LocalDate dateFinRemise, BigInteger entrepreneurId) {
+    public Offre(String titre, String description) {
         this.id = id;
         this.titre = titre;
         this.description = description;
@@ -28,12 +28,14 @@ public class Offre {
 
     }
 
-    public Offre(BigInteger entrepreneurId) {
+    public Offre(BigInteger entrepreneurId, String nom) {
         this.entrepreneurId = entrepreneurId;
     }
+    public Offre(){
 
+    }
     // Constructeur sans arguments avec des valeurs par défaut
-    public Offre() {
+    public Offre(int id, String nom) {
         this.id = BigInteger.ZERO;
         this.titre = "";
         this.description = "";
@@ -110,6 +112,8 @@ public class Offre {
         this.entrepreneurId = entrepreneurId;
     }
 
+
+
     @Override
     public String toString() {
         return "Offre{" +
@@ -123,4 +127,5 @@ public class Offre {
                 ", image=" + image +
                 '}';
     }
+
 }

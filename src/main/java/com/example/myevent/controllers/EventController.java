@@ -26,6 +26,7 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -38,11 +39,11 @@ public class EventController implements Initializable {
     @FXML
     private TableColumn<Evennement, String> titre;
     @FXML
-    private TableColumn<Evennement, LocalDate> dateEvent;
+    private TableColumn<Evennement, Date> dateEvent;
     @FXML
     private TableColumn<Evennement, Time> heuredebutEvent;
     @FXML
-    private TableColumn<Evennement, Time> heureFinEvent;
+    private TableColumn<Evennement, Time> heurefinEvent;
     @FXML
     private TableColumn<Evennement, Integer> nbInvites;
     @FXML
@@ -91,8 +92,8 @@ public class EventController implements Initializable {
         id.setCellValueFactory(new PropertyValueFactory<>("id"));
         titre.setCellValueFactory(new PropertyValueFactory<>("titre"));
         dateEvent.setCellValueFactory(new PropertyValueFactory<>("dateEvent"));
-        heuredebutEvent.setCellValueFactory(new PropertyValueFactory<>("heureDebutEvent")); // Utilisation du nom correct de l'attribut
-        heureFinEvent.setCellValueFactory(new PropertyValueFactory<>("heureFinEvent"));
+        heuredebutEvent.setCellValueFactory(new PropertyValueFactory<>("heuredebutEvent")); // Utilisation du nom correct de l'attribut
+        heurefinEvent.setCellValueFactory(new PropertyValueFactory<>("heurefinEvent"));
         nbInvites.setCellValueFactory(new PropertyValueFactory<>("nbInvites"));
         gouvernerat.setCellValueFactory(new PropertyValueFactory<>("gouvernerat"));
         ville.setCellValueFactory(new PropertyValueFactory<>("ville"));
@@ -187,12 +188,7 @@ public class EventController implements Initializable {
         alert.showAndWait();
     }
     @FXML
-    void afficherMenu(ActionEvent event) throws IOException {
-        FXMLLoader  loader = new FXMLLoader(getClass().getResource("/fxml/MenuUser.fxml"));
-    Parent root = loader.load();
-    Scene scene = new Scene(root);
-    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                    stage.setScene(scene);
-                    stage.show();
+    void afficherMenu(ActionEvent event) {
+
     }
 }

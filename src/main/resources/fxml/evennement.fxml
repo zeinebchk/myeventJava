@@ -36,6 +36,6 @@
                 <Font name="System Bold" size="40.0" />
             </font>
         </Text>
-        <Button layoutX="578.0" layoutY="119.0" mnemonicParsing="false" onAction="#afficherMenu" prefHeight="30.0" prefWidth="129.0" style="-fx-background-color: #DAAB3A;" text="Menu" />
+        <Button layoutX="578.0" layoutY="119.0" mnemonicParsing="false" onAction="#afficherMenu" prefHeight="30.0" prefWidth="129.0" style="-fx-background-color: #DAAB3A;" text="View" />
     </children>
 </AnchorPane>

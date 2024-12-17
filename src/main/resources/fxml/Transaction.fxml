@@ -14,6 +14,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
+<?import com.jfoenix.controls.JFXButton?>
 <GridPane alignment="center" hgap="10" prefHeight="600.0" prefWidth="900.0" vgap="10" xmlns="http://javafx.com/javafx/20.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.myevent.ChefProjet.TransactionController">
     <columnConstraints>
         <ColumnConstraints />
@@ -71,11 +72,11 @@
                         <Font size="19.0" />
                     </font>
                 </Label>
-                <Button  onAction="#afficherMenu" layoutX="69.0" layoutY="139.0"  opacity="0.72" prefHeight="25.0" prefWidth="94.0"  style="-fx-background-color: #00ffa2;" text="Menu" textFill="#2c0000" >
+                <JFXButton buttonType="RAISED"   fx:id="Menu" layoutX="69.0" layoutY="139.0"  opacity="0.72" prefHeight="25.0" prefWidth="94.0" ripplerFill="#a4a4a4" style="-fx-background-color: #00ffa2;" text="Menu" textFill="#2c0000"  onAction="#handleConnexionButtonAction">
                     <effect>
                         <DropShadow />
                     </effect>
-                </Button>
+                </JFXButton>
             </children>
         </AnchorPane>
     </children>

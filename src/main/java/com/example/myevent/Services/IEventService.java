@@ -3,11 +3,11 @@ package com.example.myevent.Services;
 
 import java.math.BigInteger;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Set;
 
-public interface iservice<T> {
+public interface IEventService<T> {
 
+    public  boolean chercherOffreDansEvent(BigInteger idevent, BigInteger idOffre) throws SQLException;
     public Set getEventsByClIent_id()throws SQLException;
 
 

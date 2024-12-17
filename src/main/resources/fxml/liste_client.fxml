@@ -56,11 +56,11 @@
                         <DropShadow />
                     </effect>
                 </JFXButton>
-            <JFXButton buttonType="RAISED" layoutX="682.0" layoutY="139.0" opacity="0.72" prefHeight="25.0" prefWidth="94.0" ripplerFill="#a4a4a4" style="-fx-background-color: #00ffa2;" text="Confirmer" textFill="#2c0000" onAction="#confirmerReservations" >
-               <effect>
-                  <DropShadow />
-               </effect>
-            </JFXButton>
+                <JFXButton buttonType="RAISED" layoutX="682.0" layoutY="139.0" opacity="0.72" prefHeight="25.0" prefWidth="94.0" ripplerFill="#a4a4a4" style="-fx-background-color: #00ffa2;" text="Confirmer" textFill="#2c0000" onAction="#confirmerReservations" >
+                    <effect>
+                        <DropShadow />
+                    </effect>
+                </JFXButton>
                 <JFXButton buttonType="RAISED" layoutX="162.0" layoutY="546.0" ripplerFill="#d0d0d0" text="Privacy Policy" textFill="WHITE">
                     <effect>
                         <DropShadow />

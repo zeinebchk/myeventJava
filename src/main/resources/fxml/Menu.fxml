@@ -100,7 +100,7 @@
                             </font>
                         </Label>
                         <Label alignment="CENTER" layoutX="507.0" layoutY="455.0" opacity="0.11" style="-fx-font-size: 12;" styleClass="Archivo" stylesheets="@../csschf/Text_Style.css" text="Planning Your Dreams" textFill="WHITE" />
-                        <JFXButton fx:id="exit_btn" buttonType="RAISED" layoutX="289.0" layoutY="425.0" opacity="0.87" prefHeight="30.0" prefWidth="320.0" style="-fx-background-color: A17B3F;" text="sign out" textFill="WHITE" onAction="#deconnexion">
+                        <JFXButton fx:id="exit_btn" buttonType="RAISED" layoutX="289.0" layoutY="425.0" opacity="0.87" prefHeight="30.0" prefWidth="320.0" style="-fx-background-color: A17B3F;" text="sign out" textFill="WHITE">
                             <font>
                                 <Font size="15.0" />
                             </font>
@@ -108,7 +108,7 @@
                                 <DropShadow />
                             </effect>
                         </JFXButton>
-                        <JFXButton fx:id="emp_btn" buttonType="RAISED" layoutX="291.0" layoutY="309.0" opacity="0.87" prefHeight="30.0" prefWidth="320.0" style="-fx-background-color: A17B3F;" text="Liste des offres" textFill="WHITE" onAction="#afficherListeOffres">
+                        <JFXButton fx:id="emp_btn" buttonType="RAISED" layoutX="291.0" layoutY="309.0" opacity="0.87" prefHeight="30.0" prefWidth="320.0" style="-fx-background-color: A17B3F;" text="View Product" textFill="WHITE" onAction="#handleViewProductButtonAction">
                             <font>
                                 <Font size="15.0" />
                             </font>
@@ -116,7 +116,7 @@
                                 <DropShadow />
                             </effect>
                         </JFXButton>
-                        <JFXButton fx:id="event_btn" buttonType="RAISED" layoutX="291.0" layoutY="347.0" opacity="0.87" prefHeight="30.0" prefWidth="320.0" style="-fx-background-color: A17B3F;" text="Ajouter offre" textFill="WHITE" onAction="#ajouterOffre">
+                        <JFXButton fx:id="event_btn" buttonType="RAISED" layoutX="291.0" layoutY="347.0" opacity="0.87" prefHeight="30.0" prefWidth="320.0" style="-fx-background-color: A17B3F;" text="Add Product" textFill="WHITE" onAction="#handleAddProductButtonAction">
                             <font>
                                 <Font size="15.0" />
                             </font>
@@ -124,7 +124,7 @@
                                 <DropShadow />
                             </effect>
                         </JFXButton>
-                        <JFXButton fx:id="edit_btn" buttonType="RAISED" layoutX="291.0" layoutY="387.0" opacity="0.87" prefHeight="30.0" prefWidth="320.0" style="-fx-background-color: #ffefcb;" text="Modifier profile" textFill="#6d0312">
+                        <JFXButton fx:id="edit_btn" buttonType="RAISED" layoutX="291.0" layoutY="387.0" opacity="0.87" prefHeight="30.0" prefWidth="320.0" style="-fx-background-color: #ffefcb;" text="Edit Profile" textFill="#6d0312">
                             <font>
                                 <Font size="15.0" />
                             </font>
@@ -140,7 +140,7 @@
                                 <DropShadow />
                             </effect>
                         </JFXButton>
-                        <JFXButton fx:id="studio_btn" buttonType="RAISED" layoutX="291.0" layoutY="227.0" opacity="0.87" prefHeight="30.0" prefWidth="320.0" style="-fx-background-color: #6d0312;" text="Liste des Client" textFill="#ffefcb" onAction="#handleConnexionButtonActionnListeClient" >
+                        <JFXButton fx:id="studio_btn" buttonType="RAISED" layoutX="291.0" layoutY="227.0" opacity="0.87" prefHeight="30.0" prefWidth="320.0" style="-fx-background-color: #6d0312;" text="List Client" textFill="#ffefcb" onAction="#handleConnexionButtonActionnListeClient" >
                             <font>
                                 <Font size="15.0" />
                             </font>
@@ -183,8 +183,15 @@
                         <Font size="19.0" />
                     </font>
                 </JFXButton>
-
-                <Label fx:id="welcome" layoutX="275.0" layoutY="24.0" style="-fx-font-size: 80;" styleClass="Honey" stylesheets="@../csschf/Text_Style.css" text="Bienvenue!" textFill="WHITE" AnchorPane.topAnchor="20.0">
+                <Label layoutX="526.0" layoutY="545.0" text="© 2024 All Rights Reserved By ESPRIM" textFill="WHITE">
+                    <font>
+                        <Font size="19.0" />
+                    </font>
+                    <effect>
+                        <DropShadow />
+                    </effect>
+                </Label>
+                <Label fx:id="welcome" layoutX="275.0" layoutY="24.0" style="-fx-font-size: 80;" styleClass="Honey" stylesheets="@../csschf/Text_Style.css" text="Welcome Back!" textFill="WHITE" AnchorPane.topAnchor="20.0">
                     <effect>
                         <DropShadow />
                     </effect>

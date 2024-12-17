@@ -1,6 +1,7 @@
 package com.example.myevent.ChefProjet;
 
 import com.example.myevent.Services.UserService;
+import com.example.myevent.entities.Offre;
 import com.example.myevent.entities.Transaction;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,10 +18,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.math.BigInteger;
 import java.sql.*;
 import java.time.LocalDate;
-import java.util.List;
 
 public class TransactionController {
     @FXML
