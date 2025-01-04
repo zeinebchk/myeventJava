@@ -45,6 +45,13 @@ public class Offre {
         this.entrepreneurId = BigInteger.ZERO;
     }
 
+    public Offre(BigInteger id, String titre, String desription, double prixInitial) {
+     this.id = id;
+     this.titre = titre;
+     this.description = desription;
+     this.prixInitial = prixInitial;
+    }
+
     public void setImage(Image image) {
         this.image = image;
     }

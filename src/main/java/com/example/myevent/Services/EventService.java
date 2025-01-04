@@ -44,6 +44,9 @@ public class EventService implements IEventService{
                 Evennement event = new Evennement(id, titre, dateEvent, heuredebutEvent, heureFinEvent, nbInvites, gouvernerat, ville, adresseExacte);
                 eventsList.add(event);
             }
+        for (Evennement event : eventsList ){
+            System.out.println(event.toString());
+        }
         return eventsList;
     }
     public  boolean chercherOffreDansEvent(BigInteger idevent,BigInteger idOffre) throws SQLException {

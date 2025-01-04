@@ -9,6 +9,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -41,6 +43,9 @@ public class DetailOffreController implements Initializable {
     @FXML
     private Label titre1;
 
+    @FXML
+    private ImageView img;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -56,6 +61,8 @@ public class DetailOffreController implements Initializable {
        gouvernerat.setText(s.getGouvernerat());
        ville.setText(s.getVille());
        adresse.setText(s.getAdresseExacte());
+        Image image = new Image(getClass().getResourceAsStream("/images/salle.jpg"));
+        img.setImage(image);
 
     }
     @FXML

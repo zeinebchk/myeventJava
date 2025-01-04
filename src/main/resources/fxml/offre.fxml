@@ -22,9 +22,8 @@
     <columns>
       <TableColumn fx:id="C_ID" text="ID" />
       <TableColumn fx:id="C_FN" text="Titre" />
-      <TableColumn fx:id="C_LN" prefWidth="149.59999084472656" text="Prix Initial" />
-      <TableColumn fx:id="C_CNIC" prefWidth="186.39996337890625" text="Prix Remise" />
-      <TableColumn fx:id="C_DOB" prefWidth="166.40008544921875" text="Date Fin Remise" />
+      <TableColumn fx:id="C_LN" prefWidth="149.59999084472656" text="Description" />
+      <TableColumn fx:id="C_CNIC" prefWidth="186.39996337890625" text="Prix itiale" />
       <TableColumn fx:id="C_ACTIONS" prefWidth="191.20000000000005" text="Actions" />
     </columns>
   </TableView>

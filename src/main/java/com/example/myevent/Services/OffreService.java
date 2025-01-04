@@ -9,7 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -23,9 +23,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class OffreService implements IOffreService  {
-    private BigInteger entrepreneur_id;
+    BigInteger entrepreneur_id = new BigInteger("1");
     PreparedStatement st = null;
     ResultSet rs = null;
+    private byte[] imageBytes;
+    private OffreService offreDAO;
     Connection con = Connexion.getInstance().getCnx();
 
     public SalleFete getSalleFeteByTitle(String title) throws IOException, SQLException {
@@ -52,66 +54,70 @@ public class OffreService implements IOffreService  {
         System.out.println("getSalleFeteByTitle"+s.toString());
        return s;
     }
+
+
     public void ajouterOffre(Offre offre, SalleFete salleFete, Image image) throws SQLException, IOException {
-        PreparedStatement st = null;
-        int rs ;
-        // Démarrer la transaction
-        //  connection.setAutoCommit(false);
         try {
+            if (this.entrepreneur_id == null) {
+                throw new SQLException("Le champ 'entrepreneur_id' ne peut pas être null");
+            }
+
             String query = "INSERT INTO offre (titre, description, prixInitial, prixRemise, entrepreneur_id) VALUES (?, ?, ?, ?, ?)";
-            st=con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            st = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 
             st.setString(1, offre.getTitre());
             st.setString(2, offre.getDescription());
             st.setDouble(3, offre.getPrixInitial());
             st.setDouble(4, offre.getPrixRemise());
-            st.setObject(5, entrepreneur_id);   // Utiliser l'ID de l'entrepreneur ici
+            st.setObject(5, entrepreneur_id);
 
-            rs = st.executeUpdate();
-            if (rs > 0) {
-                ResultSet rss = st.getGeneratedKeys();
-                if (rss.next()) {
-                    BigInteger offreId = rss.getBigDecimal(1).toBigInteger();
-                    offre.setId(offreId);
-                } else {
-                    throw new SQLException("Échec de la récupération de l'ID généré de l'offre.");
-                }
-            }
-            // 2. Insertion de l'image si elle est fournie
+            int ResultSet = st.executeUpdate();
+            { ResultSet rs = st.getGeneratedKeys(); if (rs.next())
+            { BigInteger offreId = rs.getBigDecimal(1).toBigInteger(); offre.setId(offreId); }
+            else { throw new SQLException("Échec de la récupération de l'ID généré de l'offre.");
+            } }
+            // Insertion de l'image si elle est fournie
             if (image != null) {
                 String imageQuery = "INSERT INTO image (offre_id, url) VALUES (?, ?)";
-                PreparedStatement stmt2 = con.prepareStatement(imageQuery,Statement.RETURN_GENERATED_KEYS);
+                PreparedStatement stmt2 = con.prepareStatement(imageQuery, Statement.RETURN_GENERATED_KEYS);
                 stmt2.setInt(1, offre.getId().intValue());
-                String imageUrl = "blob:";
-                stmt2.setString(2, imageUrl);
+                byte[] imageBytes = image.getUrl();
+                stmt2.setBytes(2, imageBytes);
                 stmt2.executeUpdate();
             }
 
-            // 3. Insertion dans la table "salle_fete" si elle est fournie
+            // Insertion dans la table "salle_fete" si elle est fournie
             if (salleFete != null) {
                 String salleFeteQuery = "INSERT INTO sallefete (offre_id, surface, capacitePersonne, gouvernerat, ville, adresseExacte, latitude, longitude, optionInclus) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-                PreparedStatement st3=con.prepareStatement(salleFeteQuery);
+                PreparedStatement st3 = con.prepareStatement(salleFeteQuery);
                 st3.setInt(1, offre.getId().intValue());
                 st3.setInt(2, salleFete.getSurface());
                 st3.setInt(3, salleFete.getCapacitePersonne());
-                st3.setString(4, salleFete.getGouvernerat());  // Ici, assurez-vous que la valeur est bien envoyée
+                st3.setString(4, salleFete.getGouvernerat());
                 st3.setString(5, salleFete.getVille());
                 st3.setString(6, salleFete.getAdresseExacte());
                 st3.setDouble(7, salleFete.getLatitude());
                 st3.setDouble(8, salleFete.getLongitude());
                 st3.setString(9, salleFete.getOptionInclus());
                 st3.executeUpdate();
-
-
             }
 
-            // Commiter la transaction
+
+
 
         } catch (SQLException e) {
-
-            throw new SQLException("Erreur lors de l'ajout de l'offre", e);
+            System.err.println("Erreur lors de l'ajout de l'offre : " + e.getMessage());
+            showAlert("Erreur", "Erreur lors de l'ajout de l'offre : " + e.getMessage());
         }
+
     }
+    private void showAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+
 
     public void deleteOffre(Offre offre) throws SQLException {
         String query = "DELETE FROM offre WHERE id = ?";
@@ -119,6 +125,11 @@ public class OffreService implements IOffreService  {
             statement.setInt(1, offre.getId().intValue());
             statement.executeUpdate();
         }
+    }
+
+    @Override
+    public void updateOffre(Offre offre, SalleFete salleFete, javafx.scene.image.Image image) throws SQLException, IOException {
+
     }
 
     public void updateOffre(Offre offre, SalleFete salleFete, Image image) throws SQLException, IOException {
@@ -138,13 +149,15 @@ public class OffreService implements IOffreService  {
         if (image != null) {
             String updateImageQuery = "UPDATE image SET url = ? WHERE offre_id = ?";
             try (PreparedStatement imageStatement = con.prepareStatement(updateImageQuery)) {
-                String imageUrl = "blob:";
-                imageStatement.setString(1, imageUrl);
-
+                byte[] imageBytes = image.getUrl();
+                imageStatement.setBytes(1, imageBytes);
                 imageStatement.setInt(2, offre.getId().intValue());
                 imageStatement.executeUpdate();
+            } catch (SQLException e) {
+                System.err.println("Error updating image data: " + e.getMessage());
             }
         }
+
         if (salleFete != null) {
             String updateSalleFeteQuery = "UPDATE sallefete SET surface = ?, capacitePersonne = ?, gouvernerat = ?, ville = ?, adresseExacte = ?, latitude = ?, longitude = ?, optionInclus = ? WHERE offre_id = ?";
             try (PreparedStatement salleFeteStatement = con.prepareStatement(updateSalleFeteQuery)) {
@@ -162,13 +175,15 @@ public class OffreService implements IOffreService  {
         }
     }
 
+
+
     public ObservableList<Offre> getOffres() throws SQLException {
         List<Offre> offres = new ArrayList<>();
         String query = "SELECT * FROM offre";
         try (Statement stmt = con.createStatement();
              ResultSet rs = stmt.executeQuery(query)) {
             while (rs.next()) {
-                Offre offre = new Offre(rs.getInt("id"), rs.getString("titre"));
+                Offre offre = new Offre(rs.getBigDecimal("id").toBigInteger(), rs.getString("titre"),rs.getString("description"),rs.getDouble("prixInitial"));
                 offres.add(offre);
             }
         }
@@ -201,11 +216,11 @@ public class OffreService implements IOffreService  {
             s.setDescription(rs.getString("description"));
             s.setAdresseExacte(rs.getString("adresseExacte"));
             Blob imageBlob = rs.getBlob("url");
-            if (imageBlob != null) {
+            /*if (imageBlob != null) {
                 InputStream imageStream = imageBlob.getBinaryStream();
                 Image javafxImage = new Image(imageStream); // Convertir InputStream en Image
                 s.setImage(javafxImage);
-            }
+            }*/
 
              /* Entrepreneur entrepreneur = getEntrepreneurFromResultSet(rs.getBigDecimal("entrepreneur_id"));
               s.setEntrepreneur_id(entrepreneur);*/

@@ -20,7 +20,7 @@ public interface IOffreService {
 
     public SalleFete getSalleFeteByTitle(String title) throws IOException, SQLException;
 
-    public void ajouterOffre(Offre offre, SalleFete salleFete, Image image) throws SQLException, IOException;
+    public void ajouterOffre(Offre offre, SalleFete salleFete, com.example.myevent.entities.Image image) throws SQLException, IOException;
 
     public void deleteOffre(Offre offre) throws SQLException;
 

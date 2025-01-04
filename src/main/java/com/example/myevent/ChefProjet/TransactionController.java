@@ -64,15 +64,7 @@ public class TransactionController {
         MainTable.getColumns().addAll( nomColumn, prenomColumn, emailColumn, dateColumn, offreColumn, prixColumn, statutColumn, avanceColumn);
     }
 
-
-    public static Connection connect() throws SQLException {
-        String url = "jdbc:mysql://localhost:3306/events";
-        String username = "root";
-        String password = "";
-        return DriverManager.getConnection(url, username, password);
-    }
-
-    public void afficherMenu(ActionEvent actionEvent) throws IOException {
+    public void handleMenu(ActionEvent actionEvent) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Menu.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);

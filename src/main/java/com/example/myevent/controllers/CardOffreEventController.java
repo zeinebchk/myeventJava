@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -33,6 +34,8 @@ public class CardOffreEventController {
         this.s = s;
         idRes.setText(s.getId().toString());
         titre.setText(s.getOffre_id().getTitre());
+        Image image = new Image(getClass().getResourceAsStream("/images/salle.jpg"));
+        img.setImage(image);
         if(s.getStatus().equals("enAttente")) {
             description.setText("Votre demande est en cours de traitement en attendant la confirmation ,merci de restez joignable");
         }

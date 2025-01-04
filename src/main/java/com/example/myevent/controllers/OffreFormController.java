@@ -9,13 +9,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
+import com.example.myevent.entities.Image;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -29,10 +28,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
-import java.util.UUID;
 
+import static com.example.myevent.controllers.CardEventController.event;
 
 public class OffreFormController implements Initializable {
+    @FXML
+    private Label imagefileName;
+
     @FXML
     private ChoiceBox<String> gouverneratField;
 
@@ -54,11 +56,6 @@ public class OffreFormController implements Initializable {
     @FXML
     private TextField prixInitialField;
 
-    @FXML
-    private TextField prixRemiseField;
-
-    @FXML
-    private DatePicker dateFinRemisePicker;
 
     @FXML
     private TextField surfaceField;
@@ -67,181 +64,101 @@ public class OffreFormController implements Initializable {
     private TextField adresseField;
 
     @FXML
-    private String imageFileName;
-    @FXML
     private Button ajouterOffre;
+
     @FXML
     private Button retourMenuButton;
-    private BigInteger id = BigInteger.ZERO;
-    private String imageData;
+
     private Connection connection;
-    private BigInteger offre_id;
-    private String generatedOffreId;
-    private BigInteger BigIntegerOffreId;
-    private BigInteger offreId;
+    private BigInteger id = BigInteger.ZERO;
     private BigInteger entrepreneur_id;
-    PreparedStatement st = null;
-    ResultSet rs = null;
-    Connection con = Connexion.getInstance().getCnx();
-    OffreService offreDAO = new OffreService();
+    private byte[] imageBytes;
+    private OffreService offreDAO;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         connection = Connexion.getInstance().getCnx();
+        offreDAO = new OffreService();
 
-
-        // Initialisation des valeurs par défaut dans le formulaire
+        // Initialisation des valeurs par défaut
         titreField.setText("");
         descriptionField.setText("");
         prixInitialField.setText("0.0");
-        prixRemiseField.setText("0.0");
         surfaceField.setText("0");
         adresseField.setText("");
-        capaciteField.setText("0");
-
+        capaciteField.setText("");
         optionsInclusField.setText("");
 
         gouverneratField.setItems(FXCollections.observableArrayList("Sfax", "Tunis", "Monastir", "Sousse"));
         villeField.setItems(FXCollections.observableArrayList("Monastir", "Moknine", "Sahline"));
-
         gouverneratField.setValue("Monastir");
 
         gouverneratField.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 villeField.getItems().clear();
                 switch (newValue) {
-                    case "Sfax":
-                        villeField.setItems(FXCollections.observableArrayList("Sfax Ville", "Sakiet Eddaier", "Sakiet Ezzit"));
-                        break;
-                    case "Tunis":
-                        villeField.setItems(FXCollections.observableArrayList("Tunis", "Ariana", "Ben Arous"));
-                        break;
-                    case "Monastir":
-                        villeField.setItems(FXCollections.observableArrayList("Monastir", "Moknine", "Sahline"));
-                        break;
-                    case "Sousse":
-                        villeField.setItems(FXCollections.observableArrayList("Sousse", "Hammam Sousse", "Kalaa Kebira"));
-                        break;
+                    case "Sfax" ->
+                            villeField.setItems(FXCollections.observableArrayList("Sfax Ville", "Sakiet Eddaier", "Sakiet Ezzit"));
+                    case "Tunis" ->
+                            villeField.setItems(FXCollections.observableArrayList("Tunis", "Ariana", "Ben Arous"));
+                    case "Monastir" ->
+                            villeField.setItems(FXCollections.observableArrayList("Monastir", "Moknine", "Sahline"));
+                    case "Sousse" ->
+                            villeField.setItems(FXCollections.observableArrayList("Sousse", "Hammam Sousse", "Kalaa Kebira"));
                 }
             }
         });
     }
 
     @FXML
-    private void handleAjouterOffre() throws SQLException {
-        Entrepreneur ee = new Entrepreneur();
-        entrepreneur_id = UserSession.getInstance().getUser().getId();
-
-        // Vérifier si l'utilisateur est connecté
-        if (entrepreneur_id == null || entrepreneur_id.equals(BigInteger.ZERO)) {
-            showAlert("Erreur", "L'utilisateur n'est pas connecté.");
-            return;
-        }
-
-        // Récupérer les informations de l'entrepreneur
-        st = con.prepareStatement("SELECT * FROM entrepreneurs WHERE user_id = ?");
-        st.setBigDecimal(1, new BigDecimal(entrepreneur_id));  // Utilisation de BigDecimal
-        rs = st.executeQuery();
-        if (rs.next()) {
-            ee.setId(rs.getBigDecimal("id").toBigInteger());  // Utilisation correcte de BigInteger
-        }
-
+    private void handleAjouterOffre(ActionEvent event) {
         try {
-            connection.setAutoCommit(false);
 
-            // Validation des champs obligatoires et numériques
+
+            // Validation et parsing des champs
             String titre = titreField.getText().trim();
-            System.out.println("Insertion dans la base de données avec gouvernerat: " + titre); // Afficher la valeur sélectionnée
-
             String description = descriptionField.getText().trim();
-            System.out.println("Insertion dans la base de données avec gouvernerat: " + description); // Afficher la valeur sélectionnée
-
             double prixInitial = parseDoubleField(prixInitialField, "Le prix initial doit être un nombre valide.");
-            System.out.println("Insertion dans la base de données avec gouvernerat: " +prixInitial ); // Afficher la valeur sélectionnée
-
-            double prixRemise = parseDoubleField(prixRemiseField, "Le prix de remise doit être un nombre valide.");
-            System.out.println("Insertion dans la base de données avec gouvernerat: " +prixRemise ); // Afficher la valeur sélectionnée
             int surface = parseIntegerField(surfaceField, "La surface doit être un nombre valide.");
-            System.out.println("Insertion dans la base de données avec gouvernerat: " + surface ); // Afficher la valeur sélectionnée
             int capacitePersonne = parseIntegerField(capaciteField, "La capacité doit être un nombre valide.");
-            System.out.println("Insertion dans la base de données avec gouvernerat: " +capacitePersonne ); // Afficher la valeur sélectionnée
+            String gouvernerat = gouverneratField.getValue();
+            String ville = villeField.getValue();
+            String adresseExacte = adresseField.getText().trim();
+            String optionInclus = optionsInclusField.getText().trim();
 
             // Vérification des champs obligatoires
-            if (gouverneratField.getValue() == null || gouverneratField.getValue().isEmpty()) {
-                showAlert("Erreur", "Le gouvernerat doit être sélectionné.");
-                return;
-            }
-
-
-            String gouvernerat = gouverneratField.getValue();
-            System.out.println("Insertion dans la base de données avec gouvernerat: " + gouvernerat); // Afficher la valeur sélectionnée
-
-            String ville = villeField.getValue();
-            System.out.println("Insertion dans la base de données avec gouvernerat: " + ville); // Afficher la valeur sélectionnée
-
-            if (ville == null || ville.isEmpty()) {
-                showAlert("Erreur", "La ville doit être sélectionnée.");
-                return;
-            }
-
-            String adresseExacte = adresseField.getText();
-            System.out.println("Insertion dans la base de données avec gouvernerat: " + adresseExacte); // Afficher la valeur sélectionnée
-
-            String optionInclus = optionsInclusField.getText();
-            System.out.println("Insertion dans la base de données avec gouvernerat: " + optionInclus); // Afficher la valeur sélectionnée
-
-            if (surface <= 0 || capacitePersonne <= 0) {
-                showAlert("Erreur", "Les valeurs de surface et de capacité doivent être positives.");
-                return;
-            }
-
-            if (prixInitial <= 0 || prixRemise < 0 || prixRemise > prixInitial) {
-                showAlert("Erreur", "Les valeurs de prix sont incorrectes.");
-                return;
-            }
-
-            if (imageFileName == null || imageFileName.isEmpty()) {
-                showAlert("Erreur", "Veuillez sélectionner une image.");
-                return;
-            }
-
-            if (titre.isEmpty() || description.isEmpty()) {
+            if (titre.isEmpty() || description.isEmpty() || gouvernerat == null || ville == null) {
                 showAlert("Erreur", "Veuillez remplir tous les champs obligatoires.");
                 return;
             }
 
-            // Création de l'objet Offre et SalleFete
+
+            // Création des objets Offre et SalleFete
             Offre offre = new Offre(titre, description);
+            offre.setPrixInitial(prixInitial);
             SalleFete sallefete = new SalleFete(surface, capacitePersonne, gouvernerat, ville, adresseExacte, optionInclus, offre.getId());
-            Image image = new Image();
-            image.setUrl(imageFileName);
 
-            // Ajouter l'offre dans la base de données
-           // offreDAO.ajouterOffre(offre, sallefete,image);
+            com.example.myevent.entities.Image image;
+            if (imageBytes == null) {
+                image = new com.example.myevent.entities.Image();
+            } else {
+                image = new com.example.myevent.entities.Image(imageBytes, offre.getId());
+            }
 
-            // Réinitialiser le formulaire et commettre la transaction
-            clearFormFields();
-            connection.commit();
-            connection.setAutoCommit(true);
+            // Ajout dans la base de données
+            offreDAO.ajouterOffre(offre, sallefete, image);
 
             showAlert("Succès", "L'offre a été ajoutée avec succès.");
-        } catch (SQLException e) {
-            showAlert("Erreur", "Erreur lors de l'ajout de l'offre dans la base de données : " + e.getMessage());
-            e.printStackTrace();
-            try {
-                connection.rollback();
-            } catch (SQLException ex) {
-                showAlert("Erreur", "Erreur lors du rollback de la transaction : " + ex.getMessage());
-                ex.printStackTrace();
-            }
-        } /*catch (IOException e) {
-            throw new RuntimeException(e);
-        }*/
+            clearFormFields();
+        } catch (SQLException | IOException e) {
+            showAlert("Erreur", "Erreur lors de l'ajout de l'offre : " + e.getMessage());
+
+        }
     }
 
-    // Méthodes utilitaires pour parsing
     private double parseDoubleField(TextField field, String errorMessage) {
         try {
-            return Double.parseDouble(field.getText());
+            return Double.parseDouble(field.getText().trim());
         } catch (NumberFormatException e) {
             showAlert("Erreur", errorMessage);
             throw e;
@@ -250,34 +167,24 @@ public class OffreFormController implements Initializable {
 
     private int parseIntegerField(TextField field, String errorMessage) {
         try {
-            return Integer.parseInt(field.getText());
+            return Integer.parseInt(field.getText().trim());
         } catch (NumberFormatException e) {
             showAlert("Erreur", errorMessage);
             throw e;
         }
     }
 
-
-    private void showAlert(String title, String content) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setContentText(content);
-        alert.showAndWait();
-    }
-
     private void clearFormFields() {
         titreField.clear();
         descriptionField.clear();
         prixInitialField.clear();
-        prixRemiseField.clear();
         surfaceField.clear();
+        capaciteField.clear();
         adresseField.clear();
         optionsInclusField.clear();
         gouverneratField.setValue("Monastir");
         villeField.getItems().clear();
     }
-
-
 
     @FXML
     private void onUploadButtonClick(ActionEvent event) {
@@ -285,45 +192,26 @@ public class OffreFormController implements Initializable {
         File file = fileChooser.showOpenDialog(null);
 
         if (file != null) {
-            Path sourcePath = file.toPath();
-            String uniqueFileName = UUID.randomUUID().toString() + "_" + file.getName();
-            Path destinationPath = Paths.get("D:","projects", "images", uniqueFileName);
-
             try {
-                // Vérifier si le fichier existe déjà, et si c'est le cas, générer un nouveau nom
-                while (Files.exists(destinationPath)) {
-                    uniqueFileName = UUID.randomUUID().toString() + "_" + file.getName();
-                    destinationPath = Paths.get("D:","projects", "images", uniqueFileName);
-                }
-
-                Files.copy(sourcePath, destinationPath);
-                imageFileName = uniqueFileName;
-
-                // Afficher une alerte pour informer l'utilisateur que le fichier a été copié avec succès
-                showAlert(Alert.AlertType.CONFIRMATION, "Succès", "Le fichier a été importé avec succès.");
+                Path imagePath = file.toPath();
+                imageBytes = Files.readAllBytes(imagePath);
+                imagefileName.setText(file.getName());
+                showAlert("Succès", "L'image a été importée avec succès.");
             } catch (IOException e) {
                 e.printStackTrace();
-                // Afficher une alerte en cas d'erreur
-                showAlert(Alert.AlertType.ERROR, "Erreur", "Une erreur s'est produite lors de l'importation du fichier.");
+                showAlert("Erreur", "Une erreur s'est produite lors de l'importation de l'image.");
             }
         } else {
-            // Afficher une alerte demandant à l'utilisateur de sélectionner une image
-            showAlert(Alert.AlertType.WARNING, "Attention", "Veuillez sélectionner une image.");
+            showAlert("Attention", "Veuillez sélectionner une image.");
         }
     }
 
-    private void showAlert(Alert.AlertType alertType, String title, String message) {
-        Platform.runLater(() -> {
-            Alert alert = new Alert(alertType);
-            alert.setTitle(title);
-            alert.setHeaderText(null);
-            alert.setContentText(message);
-            alert.showAndWait();
-        });
+    private void showAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
-
-
-
 
     @FXML
     private void handleRetourMenu(ActionEvent event) {
@@ -332,20 +220,8 @@ public class OffreFormController implements Initializable {
             Scene menuScene = new Scene(menuParent);
             Stage window = (Stage) retourMenuButton.getScene().getWindow();
             window.setScene(menuScene);
-            window.show();
         } catch (IOException e) {
-            e.printStackTrace();
-            showAlert("Erreur", "Erreur lors du chargement de la page de menu : " + e.getMessage());
+            showAlert("Erreur", "Erreur lors du retour au menu : " + e.getMessage());
         }
     }
-
-   public void afficherMenu(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Menu.fxml"));
-        Parent root = loader.load();
-        Scene scene = new Scene(root);
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(scene);
-        stage.show();
-    }
 }
-

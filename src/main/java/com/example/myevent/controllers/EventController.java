@@ -93,7 +93,7 @@ public class EventController implements Initializable {
         titre.setCellValueFactory(new PropertyValueFactory<>("titre"));
         dateEvent.setCellValueFactory(new PropertyValueFactory<>("dateEvent"));
         heuredebutEvent.setCellValueFactory(new PropertyValueFactory<>("heuredebutEvent")); // Utilisation du nom correct de l'attribut
-        heurefinEvent.setCellValueFactory(new PropertyValueFactory<>("heurefinEvent"));
+       // heurefinEvent.setCellValueFactory(new PropertyValueFactory<>("heurefinEvent"));
         nbInvites.setCellValueFactory(new PropertyValueFactory<>("nbInvites"));
         gouvernerat.setCellValueFactory(new PropertyValueFactory<>("gouvernerat"));
         ville.setCellValueFactory(new PropertyValueFactory<>("ville"));

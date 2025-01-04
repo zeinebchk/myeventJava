@@ -6,14 +6,18 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URL;
@@ -91,8 +95,8 @@ public class DetailEvennementController implements Initializable {
 
             // Créer l'objet Offre avec les informations récupérées
             Offre offre = new Offre(
-                    // ID de l'entrepreneur
-                    rs.getInt("id"), rs.getString("nom"));
+                    rs.getInt("id"),
+                    rs.getString("titre"));
 
             // Créer l'objet Reservation et le remplir avec les données récupérées
             Reservation s = new Reservation();
@@ -122,5 +126,37 @@ public class DetailEvennementController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        try {
+            res.addAll(getData());
+            int column = 0;
+            int row = 1;
+            try {
+                for (int i = 0; i < res.size(); i++) {
+                    FXMLLoader fxmlLoader = new FXMLLoader();
+                    fxmlLoader.setLocation(getClass().getResource("/fxml/cardOffreEvent.fxml"));
+                    AnchorPane anchorPane = fxmlLoader.load();
+                    CardOffreEventController itemController = fxmlLoader.getController();
+                    itemController.setData(res.get(i));
+                    if (column == 2) {
+                        column = 0;
+                        row++;
+                    }
+                    grid.add(anchorPane, column++, row); //(child,column,row)
+                    //set grid width
+                    grid.setMinWidth(Region.USE_COMPUTED_SIZE);
+                    grid.setPrefWidth(Region.USE_COMPUTED_SIZE);
+                    grid.setMaxWidth(Region.USE_PREF_SIZE);
+                    //set grid height
+                    grid.setMinHeight(Region.USE_COMPUTED_SIZE);
+                    grid.setPrefHeight(Region.USE_COMPUTED_SIZE);
+                    grid.setMaxHeight(Region.USE_PREF_SIZE);
+                    GridPane.setMargin(anchorPane, new Insets(10));
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

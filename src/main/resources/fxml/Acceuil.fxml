@@ -43,15 +43,7 @@
                     <effect>
                         <DropShadow />
                     </effect></Label>
-                <Label layoutX="580.0" layoutY="555.0" text="© 2020 All Rights Reserved By Esprim" textFill="WHITE" AnchorPane.bottomAnchor="27.0">
-                    <font>
-                        <Font size="19.0" />
-                    </font>
-                    <effect>
-                        <DropShadow />
-                    </effect>
-                </Label>
-                <JFXButton fx:id="nextPageButton" buttonType="RAISED" layoutX="280.0" layoutY="420.0" opacity="0.79" prefHeight="26.0" prefWidth="300.0" style="-fx-background-color: B19565;" text="Connexion" textFill="WHITE" onAction="#handleConnexionButtonAction">
+                <JFXButton fx:id="nextPageButton" buttonType="RAISED" layoutX="280.0" layoutY="420.0" opacity="0.79" prefHeight="26.0" prefWidth="300.0" style="-fx-background-color: B19565;" text="Connexion" textFill="WHITE" onAction="#loginButton">
                     <font>
                         <Font size="15.0" />
                     </font>
@@ -59,7 +51,7 @@
                         <DropShadow radius="15.93" width="44.72" />
                     </effect>
                 </JFXButton>
-                <JFXButton fx:id="nextPageButtonn" buttonType="RAISED" layoutX="280.0" layoutY="470.0" opacity="0.79" prefHeight="26.0" prefWidth="300.0" style="-fx-background-color: A17B3F;" text="inscription" textFill="WHITE" onAction="#handleConnexionButtonActionn">
+                <JFXButton fx:id="nextPageButtonn" buttonType="RAISED" layoutX="280.0" layoutY="470.0" opacity="0.79" prefHeight="26.0" prefWidth="300.0" style="-fx-background-color: A17B3F;" text="inscription" textFill="WHITE" onAction="#registerButton">
                     <font>
                         <Font size="15.0" />
                     </font>

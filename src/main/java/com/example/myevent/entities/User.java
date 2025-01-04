@@ -27,7 +27,14 @@ public class User {
                 this.image = image;
         }
 
-        public BigInteger getId() {
+    public User(BigInteger clientId, String nomClient, String prenomClient, String emailClient) {
+            this.id = clientId;
+            this.nom = nomClient;
+            this.prenom = prenomClient;
+            this.email = emailClient;
+    }
+
+    public BigInteger getId() {
                 return id;
         }
 

@@ -28,7 +28,7 @@ public class MenuController {
     private Button event_btn;// Vérifiez cette ligne
 
     @FXML
-    private void handleConnexionButtonAction(ActionEvent event) {
+    private void loginButton(ActionEvent event) {
         // Charger la nouvelle page
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));
@@ -44,7 +44,7 @@ public class MenuController {
     }
 
     @FXML
-    private void handleConnexionButtonActionn(ActionEvent event) {
+    private void registerButton(ActionEvent event) {
         // Charger la nouvelle page
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/signup.fxml"));
@@ -60,10 +60,10 @@ public class MenuController {
     }
 
     @FXML
-    private void handleConnexionButtonActionnListeClient(ActionEvent event) {
+    private void ListeClient(ActionEvent event) {
         // Charger la nouvelle page
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/liste_client.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/hello-view.fxml"));
             Parent root = loader.load();
             Stage stage = (Stage) studio_btn.getScene().getWindow();
             stage.setScene(new Scene(root));
@@ -76,7 +76,7 @@ public class MenuController {
     }
 
     @FXML
-    private void handleConnexionButtonActionnListeTransaction(ActionEvent event) {
+    private void ListeTransaction(ActionEvent event) {
         // Charger la nouvelle page
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Transaction.fxml"));
@@ -94,7 +94,7 @@ public class MenuController {
     @FXML
     private void afficherListeOffres(ActionEvent event) throws IOException{
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/liste-offres.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/offre.fxml"));
             Parent root = loader.load();
             Stage stage = (Stage) emp_btn.getScene().getWindow();
             stage.setScene(new Scene(root));
@@ -111,7 +111,7 @@ public class MenuController {
             Parent root = loader.load();
             Stage stage = (Stage) event_btn.getScene().getWindow();
             stage.setScene(new Scene(root));
-            System.out.println("Navigué vers la page hello-view avec succès !");
+            System.out.println("Navigué vers la page ajouter offre avec succès !");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -124,32 +124,6 @@ public class MenuController {
             Parent root = loader.load();
             Stage stage = (Stage) event_btn.getScene().getWindow();
             stage.setScene(new Scene(root));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
-    private void handleViewProductButtonAction(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/offre-view.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) emp_btn.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            System.out.println("Navigué vers la page View Product avec succès !");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
-    private void handleAddProductButtonAction(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/offre-view.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) event_btn.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            System.out.println("Navigué vers la page Add Product avec succès !");
         } catch (IOException e) {
             e.printStackTrace();
         }

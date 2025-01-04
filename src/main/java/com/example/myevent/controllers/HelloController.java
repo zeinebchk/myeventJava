@@ -1,8 +1,13 @@
 package com.example.myevent.controllers;
 
+
 import com.example.myevent.Services.OffreService;
-import com.example.myevent.entities.*;
+import com.example.myevent.entities.Offre;
+
+import com.example.myevent.entities.Image;
+import com.example.myevent.entities.SalleFete;
 import com.example.myevent.tools.Connexion;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,23 +18,26 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
+import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-
-
 public class HelloController implements Initializable {
+
     @FXML
     private TableView<Offre> TableViewOffres;
 
@@ -46,66 +54,51 @@ public class HelloController implements Initializable {
     private TableColumn<Offre, Double> C_CNIC;
 
     @FXML
-    private TableColumn<Offre, String> C_DOB;
-
-    @FXML
     private TableColumn<Offre, Void> C_ACTIONS;
+
     @FXML
     private Button retour;
 
-    private Connection connection;
-    int surface;
-    int capacitePersonne;
-    String gouvernerat;
-    String ville;
-    Evennement offre;
-    String optionInclus;
-    String adresseExacte;
     OffreService offreDAO=new OffreService();
+    private int surface;
+    private int capacitePersonne;
+    private String gouvernerat;
+    private String ville;
+    private Connection connection;
+    private String optionInclus;
+    private String adresseExacte;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
-        // Initialize the columns of the TableView with the properties of the Offers
         C_ID.setCellValueFactory(new PropertyValueFactory<>("id"));
         C_FN.setCellValueFactory(new PropertyValueFactory<>("titre"));
-        C_LN.setCellValueFactory(new PropertyValueFactory<>("prixInitial"));
-        C_CNIC.setCellValueFactory(new PropertyValueFactory<>("prixRemise"));
-        C_DOB.setCellValueFactory(new PropertyValueFactory<>("dateFinRemise"));
+        C_LN.setCellValueFactory(new PropertyValueFactory<>("description"));
+        C_CNIC.setCellValueFactory(new PropertyValueFactory<>("prixInitial"));
 
-        // Create a connection to your database
         connection = Connexion.getInstance().getCnx();
-
-
-        // Load offer data into the TableView
         loadOffresData();
-
-        // Add action buttons
         addActionsButtons();
+
         Scene scene = TableViewOffres.getScene();
         if (scene != null) {
             scene.getStylesheets().add(getClass().getResource("/stylee.css").toExternalForm());
         }
     }
 
-
     private void loadOffresData() {
         try {
-            // Ensure the connection is valid before loading data
-            if (connection != null && !connection.isClosed()) {
-                TableViewOffres.setItems(offreDAO.getOffres());
-            } else {
-                System.err.println("The database connection is null or closed.");
-            }
+            ObservableList<Offre> offres = offreDAO.getOffres();
+            TableViewOffres.setItems(offres);
         } catch (SQLException e) {
-            System.err.println("Error loading offer data: " + e.getMessage());
+            System.err.println("Error loading offers data: " + e.getMessage());
         }
     }
 
     private void addActionsButtons() {
-        Callback<TableColumn<Offre, Void>, TableCell<Offre, Void>> cellFactory = new Callback<TableColumn<Offre, Void>, TableCell<Offre, Void>>() {
+        Callback<TableColumn<Offre, Void>, TableCell<Offre, Void>> cellFactory = new Callback<>() {
             @Override
             public TableCell<Offre, Void> call(final TableColumn<Offre, Void> param) {
-                final TableCell<Offre, Void> cell = new TableCell<Offre, Void>() {
+                return new TableCell<>() {
                     private final Button btnDelete = new Button("Delete");
                     private final Button btnUpdate = new Button("Update");
 
@@ -133,7 +126,6 @@ public class HelloController implements Initializable {
                         }
                     }
                 };
-                return cell;
             }
         };
 
@@ -145,7 +137,7 @@ public class HelloController implements Initializable {
         try {
             offreDAO.deleteOffre(offre);
             loadOffresData(); // Refresh the TableView
-            showAlert("L'offre " + offre.getTitre() + " est supprimée");
+            showAlert("Succès", "L'offre " + offre.getTitre() + " est supprimée");
         } catch (SQLException e) {
             System.err.println("Error deleting the offer: " + e.getMessage());
         }
@@ -156,108 +148,39 @@ public class HelloController implements Initializable {
         dialog.initModality(Modality.APPLICATION_MODAL);
         dialog.setTitle("Update Offre");
 
-        // Create the form fields with the data from the selected offer
         TextField titreField = new TextField(offre.getTitre());
         TextField descriptionField = new TextField(offre.getDescription());
         TextField prixInitialField = new TextField(String.valueOf(offre.getPrixInitial()));
         TextField prixRemiseField = new TextField(String.valueOf(offre.getPrixRemise()));
-        DatePicker dateFinRemisePicker = new DatePicker(offre.getDateFinRemise());
 
-        SalleFete salleFete = getSalleFeteByOffreId(offre.getId());
-        TextField capaciteField = new TextField(salleFete != null ? String.valueOf(salleFete.getCapacitePersonne()) : "");
-        TextField adresseField = new TextField(salleFete != null ? salleFete.getAdresseExacte() : "");
 
-        Image image = getImageByOffreId(offre.getId());
-        TextField imageURLField = new TextField(image != null ? image.getUrl() : "");
-// Apply styles to form elements
-        titreField.getStyleClass().add("dialog-textfield");
-        descriptionField.getStyleClass().add("dialog-textfield");
-        prixInitialField.getStyleClass().add("dialog-textfield");
-        prixRemiseField.getStyleClass().add("dialog-textfield");
-        dateFinRemisePicker.getStyleClass().add("dialog-textfield");
-        capaciteField.getStyleClass().add("dialog-textfield");
-        adresseField.getStyleClass().add("dialog-textfield");
-        imageURLField.getStyleClass().add("dialog-textfield");
-
-        Label titleLabel = new Label("Update Offre");
-        titleLabel.getStyleClass().add("dialog-title");
-        // Create the layout
-        VBox dialogVBox = new VBox();
-        dialogVBox.getChildren().addAll(
+        VBox dialogVBox = new VBox(
                 new Label("Titre: "), titreField,
                 new Label("Description: "), descriptionField,
                 new Label("Prix Initial: "), prixInitialField,
                 new Label("Prix Remise: "), prixRemiseField,
-                new Label("Date Fin Remise: "), dateFinRemisePicker,
-                new Label("Capacite: "), capaciteField,
-                new Label("Adresse: "), adresseField,
-                new Label("Image URL: "), imageURLField,
+
                 new Button("Save")
         );
 
-        // Handle save button action
-        Button saveButton = (Button) dialogVBox.getChildren().get(dialogVBox.getChildren().size() - 1);
-        saveButton.setOnAction(event -> {
-            try {
-                // Update the offer object with the new values
-                offre.setTitre(titreField.getText());
-                offre.setDescription(descriptionField.getText());
-                offre.setPrixInitial(Double.parseDouble(prixInitialField.getText()));
-                offre.setPrixRemise(Double.parseDouble(prixRemiseField.getText()));
-                offre.setDateFinRemise(dateFinRemisePicker.getValue());
-
-                // Update SalleFete if it exists
-                if (salleFete != null) {
-                    salleFete.setCapacitePersonne(Integer.parseInt(capaciteField.getText()));
-                    salleFete.setAdresseExacte(adresseField.getText());
-                }
-
-                // Update Image if it exists
-                if (image != null) {
-                    image.setUrl(imageURLField.getText());
-                }
-
-                // Call the update method of your DAO to update the offer in the database
-              //  offreDAO.updateOffre(offre, salleFete, image);
-                // Refresh the TableView
-                loadOffresData();
-                // Close the dialog
-                dialog.close();
-            } catch (NumberFormatException e) {
-                showAlert("Invalid number format: " + e.getMessage());
-            } /*catch (SQLException | IOException e) {
-                showAlert("SQL Error: " + e.getMessage());
-            }*/
-        });
-
-        Scene dialogScene = new Scene(dialogVBox, 300, 450); // Adjust the size as needed
-        dialogScene.getStylesheets().add(getClass().getResource("/stylee.css").toExternalForm());
+        Scene dialogScene = new Scene(dialogVBox, 300, 450);
         dialog.setScene(dialogScene);
         dialog.show();
     }
 
-    private void showAlert(String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Information");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
     private SalleFete getSalleFeteByOffreId(BigInteger offreId) {
-        connection = Connexion.getInstance().getCnx();
+        Connection connection = Connexion.getInstance().getCnx();
         String query = "SELECT * FROM sallefete WHERE offre_id = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setBigDecimal(1, new BigDecimal(offreId));
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    SalleFete salleFete = new SalleFete(surface, capacitePersonne, gouvernerat, ville, adresseExacte, optionInclus, offre.getId());
+                    SalleFete salleFete = new SalleFete(surface, capacitePersonne, gouvernerat, ville, adresseExacte, optionInclus, offreId);
                     salleFete.setSurface(resultSet.getInt("surface"));
                     salleFete.setCapacitePersonne(resultSet.getInt("capacitePersonne"));
                     salleFete.setGouvernerat(resultSet.getString("gouvernerat"));
                     salleFete.setVille(resultSet.getString("ville"));
                     salleFete.setAdresseExacte(resultSet.getString("adresseExacte"));
-                    salleFete.setLatitude(resultSet.getDouble("latitude"));
-                    salleFete.setLongitude(resultSet.getDouble("longitude"));
                     salleFete.setOptionInclus(resultSet.getString("optionInclus"));
                     return salleFete;
                 }
@@ -268,25 +191,19 @@ public class HelloController implements Initializable {
         return null;
     }
 
-    private Image getImageByOffreId(BigInteger offreId) {
-        connection = Connexion.getInstance().getCnx();
-        String query = "SELECT * FROM image WHERE offre_id = ?";
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setBigDecimal(1, new BigDecimal(offreId));
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    Image image = new Image();
-                    image.setUrl(resultSet.getString("url"));
-                    return image;
-                }
-            }
-        } catch (SQLException e) {
-            System.err.println("Error fetching Image data: " + e.getMessage());
-        }
-        return null;
+
+
+
+    private void showAlert(String succès, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
+
     @FXML
-    private void handleRetourButtonAction(ActionEvent event) throws IOException {
+    private void handleRetourButtonAction(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Menu.fxml"));
             Parent root = loader.load();
@@ -296,6 +213,4 @@ public class HelloController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-}
+    }}
